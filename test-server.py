@@ -25,11 +25,11 @@ class InvestableServerTest(unittest.TestCase):
         # add assertIn
 
 
-    def test_login(self):
-        """ Test that the user is able to login. """
-        result = self.client.post('/login')
-        self.assertEqual(result.status_code, 200)
-        # add assertIn
+    # def test_login(self):
+    #     """ Test that the user is able to login. """
+    #     result = self.client.post('/login')
+    #     self.assertEqual(result.status_code, 200)
+    #     # add assertIn
 
 
     def test_register(self):
@@ -39,18 +39,18 @@ class InvestableServerTest(unittest.TestCase):
         # add assertIn
 
 
-    def test_registration_success(self):
-        """ Test that the user is able to successfully register. """
-        result = self.client.post('/register')
-        self.assertEqual(result.status_code, 200)
-        # add assertIn
+    # def test_registration_success(self):
+    #     """ Test that the user is able to successfully register. """
+    #     result = self.client.post('/register')
+    #     self.assertEqual(result.status_code, 200)
+    #     # add assertIn
 
 
-    def test_registration_invalid(self):
-        """ Test that the user cannot create an account if it already exists in the database. """
-        result = self.client.post('/register')
-        self.assertEqual(result.status_code, 200)
-        # add assertIn
+    # def test_registration_invalid(self):
+    #     """ Test that the user cannot create an account if it already exists in the database. """
+    #     result = self.client.post('/register')
+    #     self.assertEqual(result.status_code, 200)
+    #     # add assertIn
 
 
     def test_account_details(self):
@@ -60,5 +60,5 @@ class InvestableServerTest(unittest.TestCase):
         # add assertIn
 
 
-if __name__ = '__main__':
+if __name__ == '__main__':
     unittest.main()
