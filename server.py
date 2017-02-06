@@ -1,11 +1,14 @@
 """ Investable Server """
 
 from flask import Flask, render_template, flash
-# from flask_debugtoolbar import DebugToolbarExtension
+from flask_debugtoolbar import DebugToolbarExtension
 import jinja2
+import os
 
 
 app = Flask(__name__)
+
+app.secret_key = os.environ['APP_KEY']
 
 # jinja debugger
 app.jinja_env.undefined = jinja2.StrictUndefined
@@ -64,6 +67,6 @@ if __name__ == "__main__":
     app.debug = True
 
     # Use the DebugToolbar
-    # DebugToolbarExtension(app)
+    DebugToolbarExtension(app)
 
     app.run(host="0.0.0.0", port=5000)
