@@ -1,8 +1,13 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<!-- centered on fullscreen page -->
+<!-- large, centered on fullscreen page -->
 <p>Search a property by location, neighborhood, or city:</p>
+<form action="/search" method="GET">
+  <input type="textbox" name="search">
+<!--   change this to a keyboard stroke of 'enter' instead of having submit button -->
+  <input type="submit" name="submit" value="Search">
+</form>
 <!-- search bar goes here -->
 
 

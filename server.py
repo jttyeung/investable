@@ -15,18 +15,29 @@ app.jinja_env.auto_reload = True
 @app.route('/')
 def homepage():
     """ Brings user to the homepage. """
+
     return render_template('index.html')
+
+
+@app.route('/search')
+def search():
+    """ Returns user search results. """
+
+    # need to determine where search lands user - same page, refreshed page, etc.
+    return render_template('/')
 
 
 @app.route('/login')
 def login():
     """ Brings user to the login page. """
+
     return render_template('login.html')
 
 
 @app.route('/register', methods=['GET'])
 def register():
     """ Brings user to the registration page. """
+
     return render_template('registration.html')
 
 
