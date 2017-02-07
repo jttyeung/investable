@@ -18,6 +18,14 @@ class InvestableServerTest(unittest.TestCase):
         # add assertIn
 
 
+    # what should this test?
+    def test_search(self):
+        """ Test that the search element returns a response. """
+        result = self.client.get('/search')
+        self.assertEqual(result.status_code, 200)
+        # add assertIn
+
+
     def test_login(self):
         """ Test that the login page loads. """
         result = self.client.get('/login')
