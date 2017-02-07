@@ -6,6 +6,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 import jinja2
 import os
 import urllib
+from bs4 import BeautifulSoup
 
 
 app = Flask(__name__)
@@ -28,12 +29,37 @@ def homepage():
 @app.route('/search')
 def search():
     """ Returns user search results. """
+
+    # Uses user search to query Zillow's API and returns API response
     address = request.args.get('address-search')
     citystatezip = request.args.get('citystatezip-search')
+    formatted_full_address = address.replace(' ','-') + '+' + citystatezip.replace(' ','-')
     search_location = {'address': address, 'citystatezip': citystatezip}
     result = 'http://www.zillow.com/webservice/GetSearchResults.htm?zws-id=' + app.zwsid + '&' + urllib.urlencode(search_location)
+
+    # Scrapes unit_id from API response using BeautifulSoup
+    html = urllib.urlopen(result).read()
+    soup = BeautifulSoup(html, "html.parser")
+    unit_id = soup.find('zpid').getText()
+
+    # Using unit_id, finds unit's page on Zillow and scrapes unit's listing price
+    zillow_page = 'http://www.zillow.com/homedetails/{}/{}_zpid/'.format(formatted_full_address, unit_id)
+    zillow_html = urllib.urlopen(zillow_page).read()
+    zillow_soup = BeautifulSoup(zillow_html, "html.parser")
+
+    def get_unit_price():
+        """Gets listing price of unit on Zillow"""
+
+        unit_price_string = str(zillow_soup.find('div', class_='main-row home-summary-row').find('span'))
+        unit_price = unit_price_string[unit_price_string.index('$') : unit_price_string.index(' <span class="value-suffix">')]
+
+        return unit_price
+
+    unit_price = get_unit_price()
+
+
     # need to determine where search lands user - same page, refreshed page, etc.
-    return result
+    # return result
 
     # try to figure out how to get XML <message><code> from resulting api call. '0' means 'Request successfully processed', but what if call returns no results?
     # code 508 is 'Error: no exact match found for input address'
