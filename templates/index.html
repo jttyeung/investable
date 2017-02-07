@@ -8,7 +8,8 @@
     <p>Search a property by location, neighborhood, or city:</p>
     <form action="/search" method="GET">
       <input type="textbox" name="address-search" placeholder="Address">
-      <input type="textbox" name="citystatezip-search" placeholder="City, State or Zipcode">
+      <input type="textbox" name="citystatezip-search" placeholder="City, State or Zipcode" required>
+      <!-- modify required text warning to "a city, state, or zipcode is required to search" -->
       <!--   change this to a keyboard stroke of 'enter' instead of having submit button -->
       <input type="submit" name="submit" value="Search">
     </form>
@@ -21,7 +22,7 @@
     Propery Price: <br>
     Your Mortgage Rate: <br>
     Monthly Mortgage Payment: <br>
-    Average Rent Per Month:
+    Average Rent Per Month: <br>
   </div>
 </div>
 
