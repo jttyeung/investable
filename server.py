@@ -31,9 +31,10 @@ def search():
     """ Returns user search results. """
 
     # Uses user search to query Zillow's API and returns API response
-    address = request.args.get('address-search')
-    citystatezip = request.args.get('citystatezip-search')
-    formatted_full_address = address.replace(' ','-') + '+' + citystatezip.replace(' ','-')
+    address = request.args.get('street')
+    citystatezip = request.args.get('citystatezip')
+    formatted_full_address = address.replace(' ','-') + '-' + citystatezip.replace(' ','-')
+    print '-------------'+ formatted_full_address + '-------------------'
     search_location = {'address': address, 'citystatezip': citystatezip}
     result = 'http://www.zillow.com/webservice/GetSearchResults.htm?zws-id=' + app.zwsid + '&' + urllib.urlencode(search_location)
 
@@ -41,6 +42,8 @@ def search():
     html = urllib.urlopen(result).read()
     soup = BeautifulSoup(html, "html.parser")
     unit_id = soup.find('zpid').getText()
+
+    print '-------------'+ unit_id + '-------------------'
 
     # Using unit_id, finds unit's page on Zillow and scrapes unit's listing price
     zillow_page = 'http://www.zillow.com/homedetails/{}/{}_zpid/'.format(formatted_full_address, unit_id)
@@ -55,9 +58,7 @@ def search():
 
         return unit_price
 
-    unit_price = get_unit_price()
-
-
+    return get_unit_price()
     # need to determine where search lands user - same page, refreshed page, etc.
     # return result
 

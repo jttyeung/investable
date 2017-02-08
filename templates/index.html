@@ -6,9 +6,9 @@
   <div id="search-page" class="page col-xs-12">
     <!-- large, centered on fullscreen page -->
     <p>Search a property by location, neighborhood, or city:</p>
-    <form action="/search" method="GET">
-      <input type="textbox" name="address-search" placeholder="Address">
-      <input type="textbox" name="citystatezip-search" placeholder="City, State or Zipcode" required>
+    <form id="search-bar">
+      <input type="textbox" id="address-search" placeholder="Address">
+      <input type="textbox" id="citystatezip-search" placeholder="City, State or Zipcode" required>
       <!-- modify required text warning to "a city, state, or zipcode is required to search" -->
       <!--   change this to a keyboard stroke of 'enter' instead of having submit button -->
       <input type="submit" name="submit" value="Search">
@@ -19,13 +19,12 @@
 </div>
 <div class="row">
   <div id="property-details-page" class="page col-xs-12">
-    Property Price: <span class=""></span><br>
-    Your Mortgage Rate: <span class=""></span><br>
-    Monthly Mortgage Payment: <span class=""></span><br>
-    Average Rent Per Month: <span class=""></span><br>
+    Property Price: <span id="list-price"></span><br>
+    Your Mortgage Rate: <span id="mortgage-rate"></span><br>
+    Monthly Mortgage Payment: <span id="monthly-payment"></span><br>
+    Average Rent Per Month: <span id="avg-rent"></span><br>
   </div>
 </div>
-
 
 
 {% endblock %}
