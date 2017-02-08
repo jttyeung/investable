@@ -5,8 +5,9 @@ from flask_debugtoolbar import DebugToolbarExtension
 
 import jinja2
 import os
-import urllib
-from bs4 import BeautifulSoup
+
+from zillow_utilities import *
+
 
 
 app = Flask(__name__)
@@ -31,34 +32,11 @@ def search():
     """ Returns user search results. """
 
     # Uses user search to query Zillow's API and returns API response
-    address = request.args.get('street')
-    citystatezip = request.args.get('citystatezip')
-    formatted_full_address = address.replace(' ','-') + '-' + citystatezip.replace(' ','-')
-    print '-------------'+ formatted_full_address + '-------------------'
-    search_location = {'address': address, 'citystatezip': citystatezip}
-    result = 'http://www.zillow.com/webservice/GetSearchResults.htm?zws-id=' + app.zwsid + '&' + urllib.urlencode(search_location)
+    full_address = {}
+    full_address.update(request.args.items())
 
-    # Scrapes unit_id from API response using BeautifulSoup
-    html = urllib.urlopen(result).read()
-    soup = BeautifulSoup(html, "html.parser")
-    unit_id = soup.find('zpid').getText()
 
-    print '-------------'+ unit_id + '-------------------'
-
-    # Using unit_id, finds unit's page on Zillow and scrapes unit's listing price
-    zillow_page = 'http://www.zillow.com/homedetails/{}/{}_zpid/'.format(formatted_full_address, unit_id)
-    zillow_html = urllib.urlopen(zillow_page).read()
-    zillow_soup = BeautifulSoup(zillow_html, "html.parser")
-
-    def get_unit_price():
-        """Gets listing price of unit on Zillow"""
-
-        unit_price_string = str(zillow_soup.find('div', class_='main-row home-summary-row').find('span'))
-        unit_price = unit_price_string[unit_price_string.index('$') : unit_price_string.index(' <span class="value-suffix">')]
-
-        return unit_price
-
-    return get_unit_price()
+    return get_unit_price(full_address)
     # need to determine where search lands user - same page, refreshed page, etc.
     # return result
 
