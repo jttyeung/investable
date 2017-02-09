@@ -6,6 +6,10 @@
 </head>
 <body>
   <div class="container-fluid">
+  {% for message in get_flashed_messages() %}
+    {{ message }}
+  {% endfor %}
+
   {% block body %}
 <!--   navigation bar at the top
   left: Home Search / Mortgage vs. Rent / Historical Prices

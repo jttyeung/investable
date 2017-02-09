@@ -1,6 +1,6 @@
 """ Investable Server """
 
-from flask import Flask, render_template, redirect, flash, request
+from flask import Flask, render_template, redirect, flash, request, jsonify
 from flask_debugtoolbar import DebugToolbarExtension
 
 import jinja2
@@ -27,16 +27,24 @@ def homepage():
     return render_template('index.html')
 
 
-@app.route('/search')
+@app.route('/search.json')
 def search():
     """ Returns user search results. """
 
-    # Uses user search to query Zillow's API and returns API response
+    # Takes user search to query Zillow's API and returns API response
     full_address = {}
     full_address.update(request.args.items())
+    listing = { 'price': get_unit_price(full_address) }
 
+    try:
+        int(listing['price'])
+        return jsonify(listing)
 
-    return get_unit_price(full_address)
+    except ValueError:
+        flash('Sorry, we are unable to find a matching home with that address. Please try searching again.')
+        return ""
+
+    # return get_unit_price(full_address)
     # need to determine where search lands user - same page, refreshed page, etc.
     # return result
 

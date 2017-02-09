@@ -9,9 +9,10 @@ function getPrice(evt) {
     var fullAddress = { 'address': $('#address-search').val(),
                         'citystatezip': $('#citystatezip-search').val()
                       };
-    $.get('/search', fullAddress, updatePrice);
+    $.get('/search.json', fullAddress, updatePrice);
 }
 
-function updatePrice(price) {
+function updatePrice(listing) {
+    var price = listing.price;
     $('#list-price').html(price);
 }
