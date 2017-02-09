@@ -1,26 +1,24 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Investable: Find out if a property may be worth investing in.</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-</head>
-<body>
-  <div class="container-fluid">
-  {% for message in get_flashed_messages() %}
-    {{ message }}
-  {% endfor %}
+  <head>
+    <title>Investable: Find out if a property may be worth investing in.</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container-fluid">
+    <div class="alert" id="div-message" hidden></div>
 
-  {% block body %}
-<!--   navigation bar at the top
-  left: Home Search / Mortgage vs. Rent / Historical Prices
-  right: Login or Register / Account Details and Logout -->
-  {% endblock %}
-  </div>
+    {% block body %}
+  <!--   navigation bar at the top
+    left: Home Search / Mortgage vs. Rent / Historical Prices
+    right: Login or Register / Account Details and Logout -->
+    {% endblock %}
+    </div>
 
-  <script
-  src="https://code.jquery.com/jquery-3.1.1.min.js"
-  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-  crossorigin="anonymous"></script>
-  <script src="/static/js/scripts.js"></script>
-</body>
+    <script
+    src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous"></script>
+    <script src="/static/js/scripts.js"></script>
+  </body>
 </html>

@@ -33,27 +33,15 @@ def homepage():
 def search():
     """ Returns user search results. """
 
-    # Takes user search to query Zillow's API and returns API response
+    # Takes user search, queries Zillow's API/page and returns appropriate response and price
     full_address = {}
     full_address.update(request.args.items())
-    listing = { 'price': get_unit_price(full_address) }
+    response_code, price = get_unit_price(full_address)
+    listing = { 'response': response_code, 'price': price }
 
     return jsonify(listing)
 
-    # try:
-    #     int(listing['price'])
-    #     return jsonify(listing)
-
-    # except ValueError:
-    #     flash('Sorry, we are unable to find a matching home with that address. Please try searching again.')
-    #     return ""
-
-    # return get_unit_price(full_address)
     # need to determine where search lands user - same page, refreshed page, etc.
-    # return result
-
-    # try to figure out how to get XML <message><code> from resulting api call. '0' means 'Request successfully processed', but what if call returns no results?
-    # code 508 is 'Error: no exact match found for input address'
 
 
 @app.route('/login')

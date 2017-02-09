@@ -14,21 +14,26 @@ def return_api_xml_parsed(full_address):
 
     api_url = format_api_url(full_address)
     api_xml = urllib.urlopen(api_url).read()
+    api_xml_parsed = BeautifulSoup(api_xml, 'lxml-xml')
+    api_response_code = api_xml_parsed.find('code').getText()
 
-    return BeautifulSoup(api_xml, 'lxml-xml')
+    return { 'api_response_code': api_response_code,
+             'api_parsed_data': api_xml_parsed
+           }
 
 
 def get_unit_id(full_address):
     """ Scrapes unit_id from API response using BeautifulSoup. """
 
     api_xml_parsed = return_api_xml_parsed(full_address)
-    return api_xml_parsed.find('zpid').getText()
+    api_xml_data = api_xml_parsed['api_parsed_data']
 
-    # Checks for a valid xml response
-    # if api_xml_parsed == 0:
-    #     return api_xml_parsed.find('zpid').getText()
-    # else:
-    #     return 'Unit ID not found.'
+    # Checks for a valid xml response code
+    if api_xml_parsed['api_response_code'] == 0:
+        unit_id = api_xml_data.find('zpid').getText()
+        return unit_id
+    else:
+        return None
 
 
 def format_address(full_address):
@@ -60,36 +65,28 @@ def get_unit_price(full_address):
     zillow_html_parsed = return_html_parsed(full_address)
 
     try:
+        # Check if there is a listing price on Zillow
         unit_price_string = str(zillow_html_parsed.find('div', class_='main-row home-summary-row').find('span'))
         unit_price = unit_price_string[unit_price_string.index('$') : unit_price_string.index(' <span class="value-suffix">')]
-
-        return unit_price
+        return (100, unit_price)
 
     except AttributeError:
-        zillow_price_estimate = int(get_zillow_price_estimate(full_address))
-
-        flash( 'We found that unit on the market, but it\'s currently not for sale. Zillow\'s estimated current market value of that unit is ${:,}'.format(zillow_price_estimate) )
-
-        # try:
-        #     zillow_price_estimate = int(get_zillow_price_estimate(full_address))
-        #     return 'We found that unit on the market, but it\'s currently not for sale. Zillow\'s estimated current market value of that unit is ${:,}'.format(zillow_price_estimate)
-        # except ValueError:
-        #     return 'No unit price found because no unit ID exists.'
+        # If unit is found off-market, look for a price estimate
+        if get_zillow_price_estimate(full_address):
+            zillow_price_estimate = int(get_zillow_price_estimate(full_address))
+            return (200, 'We found that unit on the market, but it\'s currently not for sale. Zillow\'s estimated current market value of that unit is ${:,}'.format(zillow_price_estimate))
+        # Otherwise unit is not found/address entered is incorrect
+        else:
+            return (300, 'Sorry, we couldn\'t find a unit with that listing address. Please try your search again.')
 
 
 def get_zillow_price_estimate(full_address):
     """ Scrapes the Zillow price estimate if unit is not on the market. """
 
     api_xml_parsed = return_api_xml_parsed(full_address)
-    zillow_price_estimate = api_xml_parsed.find('amount').getText()
 
-    return zillow_price_estimate
+    # Checks for a valid xml response code
+    if api_xml_parsed['api_response_code'] == 0:
+        zillow_price_estimate = api_xml_parsed.find('amount').getText()
 
-    # Checks for a valid xml response
-    # if api_xml_parsed == 0:
-    #     zillow_price_estimate = api_xml_parsed.find('amount').getText()
-    #     return zillow_price_estimate
-    # else:
-    #     return 'Price estimate not found because no unit ID exists.'
-
-
+        return zillow_price_estimate
