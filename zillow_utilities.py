@@ -22,12 +22,13 @@ def get_unit_id(full_address):
     """ Scrapes unit_id from API response using BeautifulSoup. """
 
     api_xml_parsed = return_api_xml_parsed(full_address)
+    return api_xml_parsed.find('zpid').getText()
 
     # Checks for a valid xml response
-    if api_xml_parsed == 0:
-        return api_xml_parsed.find('zpid').getText()
-    else:
-        return 'Unit ID not found.'
+    # if api_xml_parsed == 0:
+    #     return api_xml_parsed.find('zpid').getText()
+    # else:
+    #     return 'Unit ID not found.'
 
 
 def format_address(full_address):
@@ -65,22 +66,30 @@ def get_unit_price(full_address):
         return unit_price
 
     except AttributeError:
-        try:
-            zillow_price_estimate = int(get_zillow_price_estimate(full_address))
-            return 'We found that unit on the market, but it\'s currently not for sale. Zillow\'s estimated current market value of that unit is ${:,}'.format(zillow_price_estimate)
-        except ValueError:
-            return 'No unit price found because no unit ID exists.'
+        zillow_price_estimate = int(get_zillow_price_estimate(full_address))
+
+        return 'We found that unit on the market, but it\'s currently not for sale. Zillow\'s estimated current market value of that unit is ${:,}'.format(zillow_price_estimate)
+
+        # try:
+        #     zillow_price_estimate = int(get_zillow_price_estimate(full_address))
+        #     return 'We found that unit on the market, but it\'s currently not for sale. Zillow\'s estimated current market value of that unit is ${:,}'.format(zillow_price_estimate)
+        # except ValueError:
+        #     return 'No unit price found because no unit ID exists.'
 
 
 def get_zillow_price_estimate(full_address):
     """ Scrapes the Zillow price estimate if unit is not on the market. """
 
     api_xml_parsed = return_api_xml_parsed(full_address)
+    zillow_price_estimate = api_xml_parsed.find('amount').getText()
+
+    return zillow_price_estimate
+
     # Checks for a valid xml response
-    if api_xml_parsed == 0:
-        zillow_price_estimate = api_xml_parsed.find('amount').getText()
-        return zillow_price_estimate
-    else:
-        return 'Price estimate not found because no unit ID exists.'
+    # if api_xml_parsed == 0:
+    #     zillow_price_estimate = api_xml_parsed.find('amount').getText()
+    #     return zillow_price_estimate
+    # else:
+    #     return 'Price estimate not found because no unit ID exists.'
 
 

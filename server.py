@@ -36,13 +36,15 @@ def search():
     full_address.update(request.args.items())
     listing = { 'price': get_unit_price(full_address) }
 
-    try:
-        int(listing['price'])
-        return jsonify(listing)
+    return jsonify(listing)
 
-    except ValueError:
-        flash('Sorry, we are unable to find a matching home with that address. Please try searching again.')
-        return ""
+    # try:
+    #     int(listing['price'])
+    #     return jsonify(listing)
+
+    # except ValueError:
+    #     flash('Sorry, we are unable to find a matching home with that address. Please try searching again.')
+    #     return ""
 
     # return get_unit_price(full_address)
     # need to determine where search lands user - same page, refreshed page, etc.
