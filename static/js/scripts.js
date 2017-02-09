@@ -12,6 +12,9 @@ function getPrice(evt) {
 }
 
 function updatePrice(listing) {
+    // Updates page with a price if list price is available,
+    // Zillow price estimate if unit is off-market,
+    // or error message if unit address is not found
     var price = listing.price;
 
     if (listing.response === 100){
@@ -22,21 +25,18 @@ function updatePrice(listing) {
         $('#div-message').addClass('btn-info');
         $('#div-message').removeAttr('hidden');
         console.log('second');
-    } else if (listing.response === 300){
+    } else {
         $('#div-message').html('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + price);
         $('#div-message').addClass('btn-danger');
         $('#div-message').removeAttr('hidden');
         console.log('everything else');
-    } else {
-        console.log('something went terribly wrong')
     }
 }
 
 // Closes alerts on click
-
 $('#div-message').on('click', function() {
     $('#div-message').html('')
     $('#div-message').removeClass('btn-info');
     $('#div-message').attr('hidden', 'hidden')
     console.log('whatever');
-})
+});
