@@ -9,7 +9,6 @@ import os
 from zillow_utilities import *
 
 
-
 app = Flask(__name__)
 
 app.secret_key = os.environ['APP_KEY']
@@ -19,6 +18,9 @@ app.zwsid = os.environ['ZWSID']
 app.jinja_env.undefined = jinja2.StrictUndefined
 app.jinja_env.auto_reload = True
 
+
+##############################################################################
+# Route definitions
 
 @app.route('/')
 def homepage():
@@ -87,6 +89,9 @@ def account_details():
 
     return render_template('account.html')
 
+
+##############################################################################
+# Helper functions
 
 if __name__ == "__main__":
     app.debug = True

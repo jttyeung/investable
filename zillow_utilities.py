@@ -68,7 +68,7 @@ def get_unit_price(full_address):
     except AttributeError:
         zillow_price_estimate = int(get_zillow_price_estimate(full_address))
 
-        return 'We found that unit on the market, but it\'s currently not for sale. Zillow\'s estimated current market value of that unit is ${:,}'.format(zillow_price_estimate)
+        flash( 'We found that unit on the market, but it\'s currently not for sale. Zillow\'s estimated current market value of that unit is ${:,}'.format(zillow_price_estimate) )
 
         # try:
         #     zillow_price_estimate = int(get_zillow_price_estimate(full_address))
