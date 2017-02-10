@@ -1,0 +1,50 @@
+.input-box {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.input-box .currency {
+  font-size: 16px;
+  padding: 0 10px;
+  color: #999;
+  border: 2px solid #ccc;
+  border-right: 0;
+  line-height: 2;
+  border-radius: 7px 0 0 7px;
+  background: white;
+}
+
+.input-box .percent {
+  font-size: 16px;
+  padding: 0 10px;
+  color: #999;
+  border: 2px solid #ccc;
+  border-left: 0;
+  line-height: 2;
+  border-radius: 0 7px 7px 0;
+  background: white;
+}
+
+form input[type=number] {
+  font-size: 16px;
+  width: 130px;
+  padding: 0;
+  border: 2px solid #ccc;
+  border-left: 0;
+  color: #666;
+  border-radius: 0 7px 7px 0;
+  font-family: 'PT Sans', sans-serif;
+  font-weight: bold;
+}
+
+form input[type=percent] {
+  font-size: 16px;
+  width: 80px;
+  padding: 0 10px;
+  border: 2px solid #ccc;
+  border-right: 0;
+  color: #666;
+  border-radius: 7px 0 0 7px;
+  font-family: 'PT Sans', sans-serif;
+  font-weight: bold;
+}
