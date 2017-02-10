@@ -21,17 +21,22 @@
   <div id="property-details-page" class="page col-xs-12">
     Property Price: <span id="list-price"></span><br>
     <form id="mortgage-calculator">
-      Your Mortgage Rate: <input type="textbox" id="mortgage-rate"><br>
-      Your Downpayment: <input type="textbox" id="mortgage-downpayment"><br>
+      Your Annual Interest Rate: <input type="textbox" id="mortgage-rate" step="0.01" placeholder="5.00" required="">%<br>
+      Your Downpayment: $<input type="textbox" id="mortgage-downpayment" placeholder="20,000"required=""><br>
       Your Loan Type:
         <select id="mortgage-loan-type">
-          <option value="30-fixed">30-Year Fixed</option>
+          <option value="20-fixed">40-Year Fixed</option>
+          <option value="30-fixed" selected="selected">30-Year Fixed</option>
+          <option value="20-fixed">25-Year Fixed</option>
+          <option value="20-fixed">20-Year Fixed</option>
           <option value="15-fixed">15-Year Fixed</option>
+          <option value="15-fixed">10-Year Fixed</option>
         </select>
       <br>
       <input type="submit" value="Calculate">
     </form>
       Monthly Mortgage Payment: <span id="monthly-payment"></span><br>
+      Total Mortgage Payment: <span id="total-payment"></span><br>
       Average Rent Per Month: <span id="avg-rent"></span><br>
   </div>
 </div>

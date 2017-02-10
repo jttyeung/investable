@@ -75,7 +75,7 @@ def get_unit_price(full_address):
             # If unit is found off-market, look for a price estimate
             zillow_price_estimate = int(get_zillow_price_estimate(full_address))
 
-            return (200, 'We found that unit on the market, but it\'s currently not for sale. Zillow\'s estimated current market value of that unit is ${:,}'.format(zillow_price_estimate))
+            return (200, 'We found the unit you were searching for, but it\'s not currently for sale. Zillow\'s estimated current market value of that unit is ${:,}'.format(zillow_price_estimate))
         else:
             # Otherwise unit is not found/address entered is incorrect
             return (300, 'Sorry, we couldn\'t find a unit with that listing address. Please try your search again.')
