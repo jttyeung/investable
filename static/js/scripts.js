@@ -1,6 +1,6 @@
 "use strict";
 
-// Returns price of listing to the page
+// Returns price of listing
 $('#search-bar').on('submit', getPrice);
 
 function getPrice(evt) {
@@ -8,6 +8,7 @@ function getPrice(evt) {
     var fullAddress = { 'address': $('#address-search').val(),
                         'citystatezip': $('#citystatezip-search').val()
                       };
+    $('#list-price').html("");
     $.get('/search.json', fullAddress, updatePrice);
 }
 
@@ -19,17 +20,14 @@ function updatePrice(listing) {
 
     if (listing.response === 100){
         $('#list-price').html(price);
-        console.log('hello');
     } else if (listing.response === 200) {
         $('#div-message').html('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + price);
         $('#div-message').addClass('btn-info');
         $('#div-message').removeAttr('hidden');
-        console.log('second');
     } else {
         $('#div-message').html('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + price);
         $('#div-message').addClass('btn-danger');
         $('#div-message').removeAttr('hidden');
-        console.log('everything else');
     }
 }
 
@@ -38,5 +36,23 @@ $('#div-message').on('click', function() {
     $('#div-message').html('')
     $('#div-message').removeClass('btn-info');
     $('#div-message').attr('hidden', 'hidden')
-    console.log('whatever');
 });
+
+// Returns mortgage rate
+$('#mortgage-calculator').on('submit', getMonthlyPayment);
+
+function getMonthlyPayment(evt){
+    evt.preventDefault();
+
+    var mortgageDetails = {
+        'price': $('#list-price').val(),
+        'rate': $('#mortgage-rate').val(),
+        'downpayment': $('#mortgage-downpayment').val(),
+        'loan': $('#mortgage-loan-type').val()
+    };
+    $.get('/calculator', mortgageDetails, updateMortgageRate);
+}
+
+function updateMonthlyPayment(rate){
+    $('#monthly-payment').html(rate);
+}

@@ -7,6 +7,7 @@ import jinja2
 import os
 
 from zillow_utilities import *
+from mortgage_calculator import *
 
 
 app = Flask(__name__)
@@ -33,15 +34,27 @@ def homepage():
 def search():
     """ Returns user search results. """
 
-    # Takes user search, queries Zillow's API/page and returns appropriate response and price
+    # Search data pulled from AJAX
     full_address = {}
     full_address.update(request.args.items())
+    # Response data from zillow_utilities
     response_code, price = get_unit_price(full_address)
     listing = { 'response': response_code, 'price': price }
 
     return jsonify(listing)
 
     # need to determine where search lands user - same page, refreshed page, etc.
+
+
+@app.route('/calculator')
+def calculate_monthly_payment():
+    """ Calculates the monthly mortgage payment based on user's details. """
+
+    # User data pulled from AJAX
+    mortgage_details = {}
+    mortgage_details.update(request.args.items())
+
+    return calculate_mortgage()
 
 
 @app.route('/login')
