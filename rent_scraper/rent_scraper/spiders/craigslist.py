@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from scrapy.spiders import Spider, Request
-from scrapy_craigslist.items import CraigslistRental
+from rent_scraper.items import CraigslistRental
 
 
 class CraigslistSpider(Spider):
