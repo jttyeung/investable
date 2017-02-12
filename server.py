@@ -40,7 +40,8 @@ def search():
 
     # Response data from zillow_utilities
     response_code, price = get_unit_price(full_address)
-    listing = { 'response': response_code, 'price': price }
+    neighborhood = get_neighborhood(full_address)
+    listing = { 'response': response_code, 'price': price, 'neighborhood': neighborhood }
 
     return jsonify(listing)
 
@@ -54,10 +55,8 @@ def calculate_monthly_payment():
     # User data pulled from AJAX
     mortgage_details = {}
     mortgage_details.update(request.args.items())
-    print mortgage_details
-
     mortgage, total_mortgage = calculate_mortgage(mortgage_details)
-    # print mortgage
+
     return jsonify({ 'mortgage': mortgage, 'total_mortgage': total_mortgage })
 
 

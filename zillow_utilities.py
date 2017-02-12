@@ -59,7 +59,7 @@ def return_html_parsed(full_address):
 
 
 def get_unit_price(full_address):
-    """ Extracts listing price of unit from Zillow. """
+    """ Extracts listing price of unit from Zillow's listing page. """
 
     zillow_html_parsed = return_html_parsed(full_address)
 
@@ -82,7 +82,7 @@ def get_unit_price(full_address):
 
 
 def get_zillow_price_estimate(full_address):
-    """ Scrapes the Zillow price estimate if unit is not on the market. """
+    """ Scrapes the Zillow price estimate from API if unit is not on the market. """
 
     api_xml_parsed = return_api_xml_parsed(full_address)
     api_response_code = api_xml_parsed['api_response_code']
@@ -93,3 +93,13 @@ def get_zillow_price_estimate(full_address):
         zillow_price_estimate = api_xml_data.find('amount').getText()
 
         return zillow_price_estimate
+
+
+def get_neighborhood(full_address):
+    """ Scrapes neighborhood name from Zillow API. """
+
+    api_xml_parsed = return_api_xml_parsed(full_address)
+    api_xml_data = api_xml_parsed['api_parsed_data']
+    neighborhood = api_xml_data.find('region').get('name')
+
+    return neighborhood

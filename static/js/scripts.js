@@ -11,6 +11,7 @@ function getPrice(evt) {
     $('#list-price').html("");
     $('#mortgage-rate').val("");
     $('#mortgage-downpayment').val("");
+    $('#neighborhood').html("");
     $.get('/search.json', fullAddress, updatePrice);
 }
 
@@ -19,11 +20,14 @@ function updatePrice(listing) {
     // Zillow price estimate if unit is off-market,
     // or error message if unit address is not found
     var price = listing.price;
-    var twenty_percent_downpayment = Math.round(parseInt(price.replace(/\D/g,''))*0.20).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    var twenty_percent_downpayment = Math.round(parseInt(price.replace(/\D/g,''))*0.20)
+    //.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    var neighborhood = listing.neighborhood
 
     if (listing.response === 100){
         $('#list-price').html(price);
         $('#mortgage-downpayment').val(twenty_percent_downpayment);
+        $('#neighborhood').html(neighborhood);
     } else if (listing.response === 200) {
         $('#div-message').html('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + price);
         $('#div-message').addClass('btn-info');

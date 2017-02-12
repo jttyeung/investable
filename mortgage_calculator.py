@@ -21,5 +21,3 @@ def calculate_mortgage(mortgage_details):
     total_mortgage_payment = '${:,}'.format(int(round(price + total_interest_paid)))
 
     return (formatted_monthly_payment, total_mortgage_payment)
-
-
