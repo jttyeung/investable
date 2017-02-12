@@ -1,14 +1,12 @@
+""" Defines the scraped items dictionary model. """
 # -*- coding: utf-8 -*-
-
-# Define here the models for your scraped items
-#
-# See documentation in:
-# http://doc.scrapy.org/en/latest/topics/items.html
 
 import scrapy
 
 
-class RentScraperItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
-    pass
+class CraigslistRental(scrapy.Item):
+    cl_id = scrapy.Field()
+    price = scrapy.Field()
+    bedrooms = scrapy.Field()
+    neighborhood = scrapy.Field()
+    date = scrapy.Field()
