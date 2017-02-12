@@ -1,4 +1,5 @@
 """ Defines the scraped items dictionary model. """
+
 # -*- coding: utf-8 -*-
 
 import scrapy

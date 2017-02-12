@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 from scrapy.spiders import Spider, Request
 from scrapy_craigslist.items import CraigslistRental
 
@@ -26,7 +27,7 @@ class CraigslistSpider(Spider):
             yield item
 
         # Follows subsequent listing pages
-        next_page = response.xpath('//a[contains(@class, "button next")]/@href').extract_first()
-        if next_page is not None:
-            next_page = response.urljoin(next_page)
-            yield Request(next_page, callback=self.parse)
+        # next_page = response.xpath('//a[contains(@class, "button next")]/@href').extract_first()
+        # if next_page is not None:
+        #     next_page = response.urljoin(next_page)
+        #     yield Request(next_page, callback=self.parse)
