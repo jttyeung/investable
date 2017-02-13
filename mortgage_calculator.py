@@ -3,11 +3,14 @@ import re
 def calculate_mortgage(mortgage_details):
     """ Calculates mortgage monthly payment rate. """
 
+    MONTHS_IN_YEAR = 12
+    PERCENT_CONVERSION = 100
+
     price = int(mortgage_details['price'].replace('$','').replace(',',''))
-    rate = ((int(mortgage_details['rate'])/100.00)/12)
+    rate = ((int(mortgage_details['rate'])/PERCENT_CONVERSION)/MONTHS_IN_YEAR)
     downpayment = int(re.sub('[^\d.]+', '', mortgage_details['downpayment']))
     loan = mortgage_details['loan']
-    loan_payments = int(loan[0:2]) * 12
+    loan_payments = int(loan[0:2]) * MONTHS_IN_YEAR
 
     if rate == 0:
         monthly_payment = float(price)/loan_payments
