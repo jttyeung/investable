@@ -9,5 +9,6 @@ class CraigslistRental(scrapy.Item):
     cl_id = scrapy.Field()
     price = scrapy.Field()
     bedrooms = scrapy.Field()
+    sqft = scrapy.Field()
     neighborhood = scrapy.Field()
     date = scrapy.Field()
