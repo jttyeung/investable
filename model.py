@@ -3,6 +3,7 @@ from datetime import datetime
 
 db = SQLAlchemy()
 
+
 ##############################################################################
 # Model definitions
 
@@ -44,6 +45,18 @@ class Home(db.Model):
         return '<Home id=%s description=%s price=%s>' % (self.home_id, self.description, self.price)
 
 
+class Rental(db.Model):
+    """ Rental listings. """
+
+    __tablename__ = 'rentals'
+
+    cl_id = db.Column(db.String(150), primary_key=True)
+    price = db.Column(db.Integer, nullable=False)
+    date_saved = db.Column(db.DateTime, nullable=False)
+    # neighborhood_id = db.Column(db.Integer, db.ForeignKey(neighborhoods.neighborhood_id), nullable=False)
+    # size_id = db.Column(db.Integer, db.ForeignKey(sizes.size_id), nullable=False)
+
+
 class Neighborhood(db.Model):
     """ Neighborhoods defined on Craigslist. """
 
@@ -59,23 +72,23 @@ class Neighborhood(db.Model):
         return '<Neighborhood id=%s name=%s>' % (self.neighborhood_id, self.name)
 
 
-class Rent(db.Model):
-    """ Rental listings. """
+# class Rent(db.Model):
+#     """ Rental listings. """
 
-    __tablename__ = 'rents'
+#     __tablename__ = 'rents'
 
-    rental_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+#     rental_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 
 
-    def __repr__(self):
-        """ Shows average rent information. """
+#     def __repr__(self):
+#         """ Shows average rent information. """
 
-        rent_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-        neighborhood_id = db.Column(db.Integer, db.ForeignKey(neighborhoods.neighborhood_id), nullable=False)
-        size_id = db.Column(db.Integer, db.ForeignKey(sizes.size_id), nullable=False)
-        avg_rent = db.Column(db.Integer, nullable=False)
+#         rent_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+#         neighborhood_id = db.Column(db.Integer, db.ForeignKey(neighborhoods.neighborhood_id), nullable=False)
+#         size_id = db.Column(db.Integer, db.ForeignKey(sizes.size_id), nullable=False)
+#         avg_rent = db.Column(db.Integer, nullable=False)
 
-        return '<Rental id=%s avg_rent=%s size=%s neighborhood=%s>' % (self.rent_id, self.avg_rent, self.size_id, self.neighborhood_id)
+#         return '<Rental id=%s avg_rent=%s size=%s neighborhood=%s>' % (self.rent_id, self.avg_rent, self.size_id, self.neighborhood_id)
 
 
 class Favorite(db.Model):
