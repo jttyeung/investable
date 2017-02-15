@@ -4,7 +4,7 @@ from scrapy.spiders import Spider, Request
 from rent_scraper.items import CraigslistRental
 
 
-class CraigslistSpider(CrawlSpider):
+class CraigslistSpider(Spider):
     """ A spider built for Craigslist that will extract the URL page extension, price, bedrooms, neighborhood, and date of each rental posting on the start_url and subsequent pages. """
 
     # Spider name
@@ -35,10 +35,10 @@ class CraigslistSpider(CrawlSpider):
             print {'url': rental_full_url}
 
             if rental_full_url is not None:
-                yield Request(url=rental_full_url, callback=self.parse)
+                yield Request(url=rental_full_url, callback=self.parse_item)
 
 
-    def parse(self, response):
+    def parse_item(self, response):
         """
         Parses each posting for any of the following rental details available and creates dictionary items of each posting:
             - Posting ID (cl_id)
