@@ -1,42 +1,25 @@
 # -*- coding: utf-8 -*-
 
-from scrapy.spiders import Spider, Request
+from scrapy.spiders import CrawlSpider, Spider, Request, Rule
+from scrapy.linkextractors import LinkExtractor
 from rent_scraper.items import CraigslistRental
 
 
-class CraigslistSpider(Spider):
+class CraigslistSpider(CrawlSpider):
     """ A spider built for Craigslist that will extract the URL page extension, price, bedrooms, neighborhood, and date of each rental posting on the start_url and subsequent pages. """
 
     # Spider name
     name = 'craigslist'
 
-    # Restricts crawler to domain
-    allowed_domains = ['https://craigslist.org']
+    # Start crawling from these URLs
+    start_urls = ['https://sfbay.craigslist.org/search/sfc/apa']
 
-
-    def start_requests(self):
-        """ Creates a starting request for initial search page(s). """
-
-        urls = ['https://sfbay.craigslist.org/search/sfc/apa']
-
-        for url in urls:
-            yield Request(url=url, callback=self.get_rental_links)
-
-
-    def get_rental_links(self, response):
-        """ Extracts Craigslist links for each rental posting from from the initial search, creates a URL request, and adds them to the data parsing queue. """
-
-        rentals = response.xpath('//li[contains(@class,"result-row")]')
-
-        for rental in rentals:
-            rental_partial_url = rental.xpath('a[contains(@href,"/sfc")]/@href').extract_first()
-            rental_full_url = response.urljoin(rental_partial_url)
-
-            print {'url': rental_full_url}
-
-            if rental_full_url is not None:
-                yield Request(url=rental_full_url, callback=self.parse_item)
-
+    # Extracts links out of the start URL with the class restriction specified (refers to the rental posting link)
+    # Follows the links, returning the response to the callback function
+    rules = (
+        Rule(LinkExtractor(allow=(), restrict_xpaths=('//a[@class="result-title hdrlnk"]')), follow=True, callback='parse_item'),
+        Rule(LinkExtractor(allow=(), restrict_xpaths=('//a[contains(@class, "button next")]')), follow=True, callback='parse_item'),
+    )
 
     def parse_item(self, response):
         """
@@ -49,7 +32,7 @@ class CraigslistSpider(Spider):
             - Date Posted
             - Google Maps Location
         """
-        print '-------------------------------------'
+
         item = CraigslistRental()
 
         item['cl_id'] = response.xpath('//div/p[@class="postinginfo"]/text()').extract()
@@ -60,11 +43,4 @@ class CraigslistSpider(Spider):
         item['date'] = response.xpath('//time[contains(@class, "timeago")]/@datetime').extract_first()
         item['location'] = response.xpath('//a[contains(@href, "https://maps.google.com/")]/@href').extract()
 
-        print item
-
-
-        # Follows subsequent listing pages
-        # next_page = response.xpath('//a[contains(@class, "button next")]/@href').extract_first()
-        # if next_page is not None:
-        #     next_page = response.urljoin(next_page)
-        #     yield Request(next_page, callback=self.parse)
+        yield item

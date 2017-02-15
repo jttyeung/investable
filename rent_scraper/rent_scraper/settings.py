@@ -27,7 +27,7 @@ ROBOTSTXT_OBEY = True
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-#DOWNLOAD_DELAY = 3
+# DOWNLOAD_DELAY = 3
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
@@ -95,5 +95,5 @@ ROBOTSTXT_OBEY = True
 # Close Spider after number of items scraped
 # CLOSESPIDER_ITEMCOUNT = 15
 
-# Close spider after number of page responses to crawl
-# CLOSESPIDER_PAGECOUNT = 50
+# Close spider after number of crawled page responses have been requested
+CLOSESPIDER_PAGECOUNT = 202
