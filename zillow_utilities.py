@@ -103,3 +103,14 @@ def get_neighborhood(full_address):
     neighborhood = api_xml_data.find('region').get('name')
 
     return neighborhood
+
+
+def get_neighborhood(full_address):
+    """ Scrapes geolocation: latitude and longitude from Zillow API. """
+
+    api_xml_parsed = return_api_xml_parsed(full_address)
+    api_xml_data = api_xml_parsed['api_parsed_data']
+    latitude = api_xml_data.find('latitude').getText()
+    longitude = api_xml_data.find('longitude').getText()
+
+    return {'latitude': latitude, 'longitude': longitude}

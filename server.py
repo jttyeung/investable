@@ -41,7 +41,7 @@ def search():
     # Response data from zillow_utilities
     response_code, price = get_unit_price(full_address)
     neighborhood = get_neighborhood(full_address)
-    listing = { 'response': response_code, 'price': price, 'neighborhood': neighborhood }
+    listing = { 'response': response_code, 'price': price, 'neighborhood': neighborhood, 'latitude': latitude, 'longitude': longitude }
 
     return jsonify(listing)
 
