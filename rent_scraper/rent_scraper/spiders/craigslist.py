@@ -14,10 +14,10 @@ class CraigslistSpider(CrawlSpider):
     # Start crawling from these URLs
     start_urls = ['https://sfbay.craigslist.org/search/sfc/apa']
 
-    # Extracts links out of the start URL with the class restriction specified (refers to the rental posting link)
-    # Follows the links, returning the response to the callback function
     rules = (
+        # Extracts links out of the start URL with the class restriction specified (refers to the rental posting link)
         Rule(LinkExtractor(allow=(), restrict_xpaths=('//a[@class="result-title hdrlnk"]')), follow=True, callback='parse_item'),
+        # Follows the links, returning the response to the callback function
         Rule(LinkExtractor(allow=(), restrict_xpaths=('//a[contains(@class, "button next")]')), follow=True, callback='parse_item'),
     )
 
