@@ -59,7 +59,14 @@ def return_html_parsed(full_address):
 
 
 def get_unit_price(full_address):
-    """ Extracts listing price of unit from Zillow's listing page. """
+    """
+    Extracts listing price of unit from Zillow's listing page.
+
+    Returns tuple of code and price and/or message. Codes are defined:
+        100: Successful unit price received from Zillow page
+        200: Found unit on Zillow's API, but unit is not listed for sale
+        300: Could not match address location to API results
+    """
 
     zillow_html_parsed = return_html_parsed(full_address)
 
