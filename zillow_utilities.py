@@ -112,7 +112,7 @@ def get_neighborhood(full_address):
     return neighborhood
 
 
-def get_neighborhood(full_address):
+def get_latlong(full_address):
     """ Scrapes geolocation: latitude and longitude from Zillow API. """
 
     api_xml_parsed = return_api_xml_parsed(full_address)
