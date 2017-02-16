@@ -3,10 +3,8 @@ from sqlalchemy.orm import sessionmaker
 from flask import Flask
 from datetime import datetime
 
-# from server import app
 from sqlalchemy import create_engine
 from sqlalchemy.engine.url import URL
-import settings
 
 
 db = SQLAlchemy()
@@ -137,7 +135,10 @@ def connect_to_db_flask(app):
 
 if __name__ == "__main__":
 
-    connect_to_db(app)
+    # Import app from server if opening from this file
+    from server import app
+
+    connect_to_db_flask(app)
     print "Connected to DB."
 
     # In case tables haven't been created, create them

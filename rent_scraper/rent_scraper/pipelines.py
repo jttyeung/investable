@@ -4,7 +4,7 @@ from scrapy.exceptions import DropItem
 import re
 import urllib
 import geocoder
-import json
+# import json
 
 from model import connect_to_db_scrapy, Rental, UnitDetails
 
