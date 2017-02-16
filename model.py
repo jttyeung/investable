@@ -1,10 +1,10 @@
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import sessionmaker
-from flask import Flask
-from datetime import datetime
-
 from sqlalchemy import create_engine
 from sqlalchemy.engine.url import URL
+
+from datetime import datetime
 
 
 db = SQLAlchemy()
