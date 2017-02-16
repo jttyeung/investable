@@ -54,7 +54,7 @@ class RentScraperPipeline(object):
             find_location = location_url.split('loc:')
 
             # If location on map is found convert to geolocation; if none exists drop record
-            if find_location[1]:
+            if len(find_location) > 0:
                 location = find_location[1]
                 geo_location = geocoder.google(location)
 
@@ -107,34 +107,43 @@ class PostgresqlPipeline(object):
         sqft = item.get('sqft')
         latitude = item.get('latitude')
         longitude = item.get('longitude')
+        zipcode = item.get('zipcode')
 
-        # Add rental details to UnitDetails table
-        rental_details = UnitDetails(
-                            neighborhood=neighborhood,
-                            bedrooms=bedrooms,
-                            bathrooms=bathrooms,
-                            sqft=sqft,
-                            latitude=latitude,
-                            longitude=longitude
-                        )
+        try:
+            # Create rental details for unit
+            rental_details = UnitDetails(
+                                neighborhood=neighborhood,
+                                bedrooms=bedrooms,
+                                bathrooms=bathrooms,
+                                sqft=sqft,
+                                latitude=latitude,
+                                longitude=longitude,
+                                zipcode=zipcode
+                            )
 
-        self.session.add(rental_details)
+            # Add rental details to UnitDetails table
+            self.session.add(rental_details)
 
-        # Add rental unit to Rentals table
-        rental = Rental(
-                    cl_id=cl_id,
-                    price=price,
-                    date_posted=date,
-                    unitdetails=rental_details
-                )
+            # Create rental unit
+            rental = Rental(
+                        cl_id=cl_id,
+                        price=price,
+                        date_posted=date,
+                        unitdetails=rental_details
+                    )
 
-        self.session.add(rental)
+            # Add rental unit to Rental table
+            self.session.add(rental)
 
+            self.session.commit()
 
+        except:
+            # If the unit already exists in db or if data does not fit db construct
+            self.session.rollback()
+            raise
 
-        self.session.commit()
-
-
+        finally:
+            self.session.close()
 
 
     # def load_seed_file(self):
