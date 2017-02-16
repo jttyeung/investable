@@ -5,6 +5,9 @@ import re
 import urllib
 import geocoder
 import json
+import os
+import json
+import requests
 
 from model import connect_to_db_scrapy, Rental, UnitDetails
 
@@ -54,7 +57,7 @@ class RentScraperPipeline(object):
             find_location = location_url.split('loc:')
 
             # If location on map is found convert to geolocation; if none exists drop record
-            if find_location[1]:
+            if len(find_location) > 0:
                 location = find_location[1]
                 geo_location = geocoder.google(location)
 
@@ -62,6 +65,16 @@ class RentScraperPipeline(object):
             if geo_location:
                 item['latitude'] = geo_location.lat
                 item['longitude'] = geo_location.lng
+
+                # Reverse geocode the latitude and longitude and return the zipcode
+                reverse_geocode = requests.get('https://maps.googleapis.com/maps/api/geocode/json?latlng=geo_location.lat,geo_location.lng&key='+os.environ['GMAPS_GEO'])
+                json_reverse_geocode = reverse_geocode.json()
+
+                # If a reverse geocode result exists
+                if len(json_reverse_geocode['results']) > 0:
+                    json_address = json_reverse_geocode['results'][0].get('address_components')
+                    item['zipcode'] = json_address[len(json_address)- 1].get('long_name')
+
             else:
                 raise DropItem('Missing location in %s' % item)
 
@@ -107,32 +120,44 @@ class PostgresqlPipeline(object):
         sqft = item.get('sqft')
         latitude = item.get('latitude')
         longitude = item.get('longitude')
-
-        # Add rental details to UnitDetails table
-        rental_details = UnitDetails(
-                            neighborhood=neighborhood,
-                            bedrooms=bedrooms,
-                            bathrooms=bathrooms,
-                            sqft=sqft,
-                            latitude=latitude,
-                            longitude=longitude
-                        )
-
-        self.session.add(rental_details)
-
-        # Add rental unit to Rentals table
-        rental = Rental(
-                    cl_id=cl_id,
-                    price=price,
-                    date_posted=date,
-                    unitdetails=rental_details
-                )
-
-        self.session.add(rental)
+        zipcode = item.get('zipcode')
 
 
+        try:
+            # Create rental details for unit
+            rental_details = UnitDetails(
+                                neighborhood=neighborhood,
+                                bedrooms=bedrooms,
+                                bathrooms=bathrooms,
+                                sqft=sqft,
+                                latitude=latitude,
+                                longitude=longitude,
+                                zipcode=zipcode
+                            )
 
-        self.session.commit()
+            # Add rental details to UnitDetails table
+            self.session.add(rental_details)
+
+            # Create rental unit
+            rental = Rental(
+                        cl_id=cl_id,
+                        price=price,
+                        date_posted=date,
+                        unitdetails=rental_details
+                    )
+
+            # Add rental unit to Rental table
+            self.session.add(rental)
+
+            self.session.commit()
+
+        except:
+            # If the unit already exists in db or if data does not fit db construct
+            self.session.rollback()
+            raise
+
+        finally:
+            self.session.close()
 
 
 
@@ -153,26 +178,38 @@ class PostgresqlPipeline(object):
     #         latitude = row['latitude']
     #         longitude = row['longitude']
 
-    #         # Add rental details to UnitDetails table
-    #         rental_details = UnitDetails(
-    #                             neighborhood=neighborhood,
-    #                             bedrooms=bedrooms,
-    #                             bathrooms=bathrooms,
-    #                             sqft=sqft,
-    #                             latitude=latitude,
-    #                             longitude=longitude
-    #                         )
 
-    #         db.session.add(rental_details)
+    #         try:
+    #             # Create rental details for unit
+    #             rental_details = UnitDetails(
+    #                                 neighborhood=neighborhood,
+    #                                 bedrooms=bedrooms,
+    #                                 bathrooms=bathrooms,
+    #                                 sqft=sqft,
+    #                                 latitude=latitude,
+    #                                 longitude=longitude
+    #                             )
 
-    #         # Add rental unit to Rentals table
-    #         rental = Rental(
-    #                     cl_id=cl_id,
-    #                     price=price,
-    #                     date_posted=date,
-    #                     unitdetails=rental_details
-    #                 )
+    #             # Add rental details to UnitDetails table
+    #             self.session.add(rental_details)
 
-    #         db.session.add(rental)
+    #             # Create rental unit
+    #             rental = Rental(
+    #                         cl_id=cl_id,
+    #                         price=price,
+    #                         date_posted=date,
+    #                         unitdetails=rental_details
+    #                     )
 
-    #         db.session.commit()
+    #             # Add rental unit to Rental table
+    #             self.session.add(rental)
+
+    #             self.session.commit()
+
+    #         except:
+    #             # If the unit already exists in db or if data does not fit db construct
+    #             session.rollback()
+    #             raise
+
+    #         finally:
+    #             session.close()

@@ -22,3 +22,4 @@ class CraigslistRental(scrapy.Item):
     sqft = scrapy.Field()
     latitude = scrapy.Field()
     longitude = scrapy.Field()
+    zipcode = scrapy.Field()

@@ -1,12 +1,11 @@
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import sessionmaker
-from flask import Flask
-from datetime import datetime
-
-# from server import app
 from sqlalchemy import create_engine
 from sqlalchemy.engine.url import URL
-import settings
+
+
+from datetime import datetime
 
 
 db = SQLAlchemy()
@@ -45,6 +44,7 @@ class UnitDetails(db.Model):
     sqft = db.Column(db.Integer, nullable=True)
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
+    zipcode = db.Column(db.Integer, nullable=True)
 
     def __repr__(self):
         """ Shows information on the unit details of the unit up for rent or for sale. """
@@ -55,7 +55,7 @@ class UnitDetails(db.Model):
 class Listing(db.Model):
     """ Unit sale listings. """
 
-    __tablename__ = 'selling'
+    __tablename__ = 'listings'
 
     home_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     price = db.Column(db.Integer, nullable=False)
@@ -63,7 +63,7 @@ class Listing(db.Model):
     photo_url = db.Column(db.String(2083), nullable=True)
     detail_id = db.Column(db.Integer, db.ForeignKey('unitdetails.detail_id'), nullable=False)
 
-    unitdetails = db.relationship('UnitDetails', backref='selling')
+    unitdetails = db.relationship('UnitDetails', backref='listings')
 
 
     def __repr__(self):
@@ -75,14 +75,14 @@ class Listing(db.Model):
 class Rental(db.Model):
     """ Unit rental listings. """
 
-    __tablename__ = 'renting'
+    __tablename__ = 'rentals'
 
     cl_id = db.Column(db.String(150), primary_key=True)
     price = db.Column(db.Integer, nullable=False)
     date_posted = db.Column(db.TIMESTAMP(timezone=True), nullable=False)
     detail_id = db.Column(db.Integer, db.ForeignKey('unitdetails.detail_id'), nullable=False)
 
-    unitdetails = db.relationship('UnitDetails', backref='renting')
+    unitdetails = db.relationship('UnitDetails', backref='rentals')
 
 
     def __repr__(self):
@@ -98,11 +98,11 @@ class Favorite(db.Model):
 
     favorite_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
-    home_id = db.Column(db.Integer, db.ForeignKey('selling.home_id'), nullable=False)
+    home_id = db.Column(db.Integer, db.ForeignKey('listings.home_id'), nullable=False)
     date_saved = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
     users = db.relationship('User', backref='favorites')
-    selling = db.relationship('Listing', backref='favorites')
+    listings = db.relationship('Listing', backref='favorites')
 
     def __repr__(self):
         """ Shows the user's favorite homes. """
@@ -137,7 +137,9 @@ def connect_to_db_flask(app):
 
 if __name__ == "__main__":
 
-    connect_to_db(app)
+    from server import app
+
+    connect_to_db_flask(app)
     print "Connected to DB."
 
     # In case tables haven't been created, create them
