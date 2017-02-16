@@ -66,9 +66,9 @@ ROBOTSTXT_OBEY = True
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    'rent_scraper.pipelines.RentScraperPipeline': 100,
-   'rent_scraper.pipelines.JsonWriterPipeline': 200
+   # 'rent_scraper.pipelines.JsonWriterPipeline': 200
 #    # ,
-#    # 'rent_scraper.pipelines.PostgresqlPipeline': 300
+   'rent_scraper.pipelines.PostgresqlPipeline': 300
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -93,7 +93,7 @@ ITEM_PIPELINES = {
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 # Close Spider after number of items scraped
-CLOSESPIDER_ITEMCOUNT = 15
+CLOSESPIDER_ITEMCOUNT = 2
 
 # Close spider after number of crawled page responses have been requested
-CLOSESPIDER_PAGECOUNT = 15
+CLOSESPIDER_PAGECOUNT = 3

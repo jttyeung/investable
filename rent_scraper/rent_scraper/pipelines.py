@@ -6,6 +6,8 @@ import urllib
 import geocoder
 import json
 
+import model
+
 
 class RentScraperPipeline(object):
     """ Scrubs scraped data of whitespaces and interesting characters and returns it as a data maintenance-friendly dictionary. """
@@ -65,38 +67,102 @@ class RentScraperPipeline(object):
         return item
 
 
-class JsonWriterPipeline(object):
-    """ Takes scrubbed data and outputs as JSON file. """
+# class JsonWriterPipeline(object):
+#     """ Takes scrubbed data and outputs as JSON Lines file. Only used for creating a seed file for test database. """
 
-    def open_spider(self, spider):
-        self.file = open('seed.jl', 'wb')
+#     def open_spider(self, spider):
+#         self.file = open('seed.jl', 'wb')
 
-    def close_spider(self, spider):
-        self.file.close()
+#     def close_spider(self, spider):
+#         self.file.close()
 
-    def process_item(self, item, spider):
-        line = json.dumps(dict(item)) + '\n'
-        self.file.write(line)
-        return item
+#     def process_item(self, item, spider):
+#         line = json.dumps(dict(item)) + '\n'
+#         self.file.write(line)
+#         return item
 
 
-# class PostgresqlPipeline(object):
-#     """ Writes data to PostgreSQL database. """
+class PostgresqlPipeline(object):
+    """ Writes data to PostgreSQL database. """
 
-#     def load_rent_data():
-#         for row in open('seed.jl'):
-#             row = row.rstrip()
+    def load_data_from_scraper():
+        """ Method used to write data to database directly from the scraper pipeline. """
 
-#             cl_id = row['cl_id']
-#             price = row['price']
-#             date = row['date']
+#         for rental in item:
 
-#             rental = Rental(cl_id=cl_id,
-#                             price=price,
-#                             date=date_saved)
+#             cl_id = rental['cl_id']
+#             price = rental['price']
+#             date = rental['date']
+#             neighborhood = rental['neighborhood']
+#             bedrooms = rental['bedrooms']
+#             bathrooms = rental['bathrooms']
+#             sqft = rental['sqft']
+#             latitude = rental['latitude']
+#             longitude = rental['longitude']
+
+#             # Add rental details to UnitDetails table
+#             rental_details = UnitDetails(
+#                                 neighborhood=neighborhood,
+#                                 bedrooms=bedrooms,
+#                                 bathrooms=bathrooms,
+#                                 sqft=sqft,
+#                                 latitude=latitude,
+#                                 longitude=longitude
+#                             )
+
+#             db.session.add(rental_details)
+
+#             # Add rental unit to Rentals table
+#             rental = Rental(
+#                         cl_id=cl_id,
+#                         price=price,
+#                         date=date_posted
+#                     )
 
 #             db.session.add(rental)
+# """
+# should i be committing after each added set of tables? (before instead of after the for loop)
+# why is this lined up so ugly
 
+# """
 #         db.session.commit()
 
 
+    def load_seed_file():
+        """ Method used to write JSON Lines file data to database, if necessary. Should prioritize use of load_data_from_scraper method instead for direct data handling. """
+
+        for row in open('seed.jl'):
+            row = row.rstrip()
+
+            cl_id = row['cl_id']
+            price = row['price']
+            date = row['date']
+            neighborhood = row['neighborhood']
+            bedrooms = row['bedrooms']
+            bathrooms = row['bathrooms']
+            sqft = row['sqft']
+            latitude = row['latitude']
+            longitude = row['longitude']
+
+            # Add rental details to UnitDetails table
+            rental_details = UnitDetails(
+                                neighborhood=neighborhood,
+                                bedrooms=bedrooms,
+                                bathrooms=bathrooms,
+                                sqft=sqft,
+                                latitude=latitude,
+                                longitude=longitude
+                            )
+
+            db.session.add(rental_details)
+
+            # Add rental unit to Rentals table
+            rental = Rental(
+                        cl_id=cl_id,
+                        price=price,
+                        date=date_posted
+                    )
+
+            db.session.add(rental)
+
+        db.session.commit()
