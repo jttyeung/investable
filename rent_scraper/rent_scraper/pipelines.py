@@ -1,18 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from scrapy.exceptions import DropItem
-from sqlalchemy.orm import sessionmaker
 import re
 import urllib
 import geocoder
 import json
 
-from model import db, db_connect_scrapy, connect_to_db, Rental, UnitDetails
-
-# from server import app
-
-
-# connect_to_db(app)
+from model import connect_to_db_scrapy, Rental, UnitDetails
 
 
 class RentScraperPipeline(object):
@@ -54,13 +48,17 @@ class RentScraperPipeline(object):
         if item['date']:
             item['date'] = ''.join(item['date'])
 
-        # Find Google maps web address and convert to geolocation; if none exists drop record
+        # Find Google maps web address; if none exists drop record
         if item['location']:
             location_url = urllib.unquote(''.join(item['location'])).decode('utf8')
-            location = location_url.split('loc:')[1]
-            geo_location = geocoder.google(location)
+            find_location = location_url.split('loc:')
 
-            # If a geocoded location exists, get latitude and longitude, otherwise drop record
+            # If location on map is found convert to geolocation; if none exists drop record
+            if find_location[1]:
+                location = find_location[1]
+                geo_location = geocoder.google(location)
+
+            # If a geocoded location exists get latitude and longitude, otherwise drop record
             if geo_location:
                 item['latitude'] = geo_location.lat
                 item['longitude'] = geo_location.lng
@@ -94,20 +92,7 @@ class PostgresqlPipeline(object):
     def __init__(self):
         """ Initializes database connection. """
 
-        engine = db_connect()
-        self.Session = sessionmaker(bind=engine)
-
-
-    # def init_app():
-    #     """ Create an app to use Flask-SQLAlchemy. """
-
-    #     from flask import Flask
-    #     app = Flask(__name__)
-
-    #     connect_to_db(app)
-    #     print "Connected to DB."
-
-    #     return app
+        self.session = connect_to_db_scrapy()
 
 
     def process_item(self, item, spider):
@@ -133,7 +118,7 @@ class PostgresqlPipeline(object):
                             longitude=longitude
                         )
 
-        db.session.add(rental_details)
+        self.session.add(rental_details)
 
         # Add rental unit to Rentals table
         rental = Rental(
@@ -143,11 +128,11 @@ class PostgresqlPipeline(object):
                     unitdetails=rental_details
                 )
 
-        db.session.add(rental)
+        self.session.add(rental)
 
 
 
-        db.session.commit()
+        self.session.commit()
 
 
 

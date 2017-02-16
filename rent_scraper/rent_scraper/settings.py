@@ -14,7 +14,6 @@ BOT_NAME = 'rent_scraper'
 SPIDER_MODULES = ['rent_scraper.spiders']
 NEWSPIDER_MODULE = 'rent_scraper.spiders'
 
-
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'rent_scraper (+http://www.yourdomain.com)'
 
@@ -66,8 +65,7 @@ ROBOTSTXT_OBEY = True
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
    'rent_scraper.pipelines.RentScraperPipeline': 100,
-   # 'rent_scraper.pipelines.JsonWriterPipeline': 200
-#    # ,
+   # 'rent_scraper.pipelines.JsonWriterPipeline': 200,
    'rent_scraper.pipelines.PostgresqlPipeline': 300
 }
 

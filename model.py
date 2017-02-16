@@ -1,5 +1,13 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import sessionmaker
+from flask import Flask
 from datetime import datetime
+
+# from server import app
+from sqlalchemy import create_engine
+from sqlalchemy.engine.url import URL
+import settings
+
 
 db = SQLAlchemy()
 
@@ -32,19 +40,19 @@ class UnitDetails(db.Model):
 
     detail_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     neighborhood = db.Column(db.String(150), nullable=False)
-    bedrooms = db.Column(db.Integer, nullable=True)
-    bathrooms = db.Column(db.Integer, nullable=True)
+    bedrooms = db.Column(db.Float, nullable=True)
+    bathrooms = db.Column(db.Float, nullable=True)
     sqft = db.Column(db.Integer, nullable=True)
-    latitude = db.Column(db.Integer, nullable=False)
-    longitude = db.Column(db.Integer, nullable=False)
+    latitude = db.Column(db.Float, nullable=False)
+    longitude = db.Column(db.Float, nullable=False)
 
     def __repr__(self):
         """ Shows information on the unit details of the unit up for rent or for sale. """
 
-        return '<Home id=%s description=%s price=%s>' % (self.home_id, self.description, self.price)
+        return '<UnitDetails id=%s description=%s price=%s>' % (self.home_id, self.description, self.price)
 
 
-class ForSale(db.Model):
+class Listing(db.Model):
     """ Unit sale listings. """
 
     __tablename__ = 'selling'
@@ -61,10 +69,10 @@ class ForSale(db.Model):
     def __repr__(self):
         """ Shows information about the unit up for sale. """
 
-        return '<ForSale id=%s price=%s hoa=%s detail_id=%s>' % (self.home_id, self.price, self.hoa, self.detail_id)
+        return '<Listing id=%s price=%s hoa=%s detail_id=%s>' % (self.home_id, self.price, self.hoa, self.detail_id)
 
 
-class ForRent(db.Model):
+class Rental(db.Model):
     """ Unit rental listings. """
 
     __tablename__ = 'renting'
@@ -80,7 +88,7 @@ class ForRent(db.Model):
     def __repr__(self):
         """ Shows information about the unit up for rent. """
 
-        return '<ForRent id=%s description=%s price=%s detail_id=%s>' % (self.cl_id, self.price, self.date_saved, self.detail_id)
+        return '<Rental id=%s description=%s price=%s detail_id=%s>' % (self.cl_id, self.price, self.date_saved, self.detail_id)
 
 
 class Favorite(db.Model):
@@ -94,7 +102,7 @@ class Favorite(db.Model):
     date_saved = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
     users = db.relationship('User', backref='favorites')
-    selling = db.relationship('ForSale', backref='favorites')
+    selling = db.relationship('Listing', backref='favorites')
 
     def __repr__(self):
         """ Shows the user's favorite homes. """
@@ -106,10 +114,20 @@ class Favorite(db.Model):
 ##############################################################################
 # Helper functions
 
-def connect_to_db(app):
-    """Connect the database to our Flask app."""
+def connect_to_db_scrapy():
+    """ Connects the database to Scrapy via a session. """
 
-    # Configure to use our PstgreSQL database
+    engine = create_engine('postgres:///investable', echo=False, encoding='utf8')
+    Session = sessionmaker(bind=engine)
+    session = Session()
+
+    return session
+
+
+def connect_to_db_flask(app):
+    """Connect the database to Flask app."""
+
+    # Configure to use PostgreSQL database
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///investable'
     app.config['SQLALCHEMY_ECHO'] = False
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -119,8 +137,8 @@ def connect_to_db(app):
 
 if __name__ == "__main__":
 
-    from server import app
-
-
     connect_to_db(app)
     print "Connected to DB."
+
+    # In case tables haven't been created, create them
+    db.create_all()
