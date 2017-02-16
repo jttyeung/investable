@@ -21,37 +21,19 @@ def return_api_xml_parsed(full_address):
              'api_parsed_data': api_xml_parsed }
 
 
-def get_unit_id(full_address):
-    """ Scrapes unit_id from API response using BeautifulSoup. """
+def get_zillow_html_page(full_address):
+    """ Takes the API response and returns the HTML web address of the unit. """
 
     api_xml_parsed = return_api_xml_parsed(full_address)
     api_xml_data = api_xml_parsed['api_parsed_data']
-    api_response_code = api_xml_parsed['api_response_code']
 
-    # Checks for a valid xml response code
-    if api_response_code == 0:
-        unit_id = api_xml_data.find('zpid').getText()
-
-        return unit_id
-
-
-def format_address(full_address):
-    """ Takes the address entered by user and returns a URL-ready address with dashes. """
-
-    address = full_address['address']
-    city_state_zip = full_address['citystatezip']
-
-    return address.replace(' ','-') + '-' + city_state_zip.replace(' ','-')
+    return api_xml_data.find('homedetails').getText()
 
 
 def return_html_parsed(full_address):
-    """ Uses the unit id and formatted address to load and parse the HTML response. """
+    """ Finds unit listing HTML page on Zillow and loads and parses the HTML response. """
 
-    unit_id = get_unit_id(full_address)
-    formatted_full_address = format_address(full_address)
-
-    # Using unit_id, finds unit listing page on Zillow
-    zillow_page = 'http://www.zillow.com/homedetails/{}/{}_zpid/'.format(formatted_full_address, unit_id)
+    zillow_page = get_zillow_html_page(full_address)
     zillow_url = urllib.urlopen(zillow_page).geturl()
     zillow_html = urllib.urlopen(zillow_url).read()
 
