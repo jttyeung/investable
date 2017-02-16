@@ -1,12 +1,18 @@
 # -*- coding: utf-8 -*-
 
 from scrapy.exceptions import DropItem
+from sqlalchemy.orm import sessionmaker
 import re
 import urllib
 import geocoder
 import json
 
-import model
+from model import db, db_connect_scrapy, connect_to_db, Rental, UnitDetails
+
+# from server import app
+
+
+# connect_to_db(app)
 
 
 class RentScraperPipeline(object):
@@ -34,9 +40,9 @@ class RentScraperPipeline(object):
 
             for i, attribute in enumerate(attrs):
                 if "BR" in attrs[i]:
-                    item['bedrooms'] = int(''.join(re.findall('\d+', attrs[i])))
+                    item['bedrooms'] = float(''.join(re.findall('\d+\.*\d*', attrs[i])))
                 if "Ba" in attrs[i]:
-                    item['bathrooms'] = int(''.join(re.findall('\d+', attrs[i])))
+                    item['bathrooms'] = float(''.join(re.findall('\d+\.*\d*', attrs[i])))
                 if "BR" not in attrs[i] and "Ba" not in attrs[i]:
                     item['sqft'] = int(attrs[i])
 
@@ -71,7 +77,7 @@ class RentScraperPipeline(object):
 #     """ Takes scrubbed data and outputs as JSON Lines file. Only used for creating a seed file for test database. """
 
 #     def open_spider(self, spider):
-#         self.file = open('seed.jl', 'wb')
+#         self.file = open('test.jl', 'wb')
 
 #     def close_spider(self, spider):
 #         self.file.close()
@@ -85,84 +91,103 @@ class RentScraperPipeline(object):
 class PostgresqlPipeline(object):
     """ Writes data to PostgreSQL database. """
 
-    def load_data_from_scraper():
+    def __init__(self):
+        """ Initializes database connection. """
+
+        engine = db_connect()
+        self.Session = sessionmaker(bind=engine)
+
+
+    # def init_app():
+    #     """ Create an app to use Flask-SQLAlchemy. """
+
+    #     from flask import Flask
+    #     app = Flask(__name__)
+
+    #     connect_to_db(app)
+    #     print "Connected to DB."
+
+    #     return app
+
+
+    def process_item(self, item, spider):
         """ Method used to write data to database directly from the scraper pipeline. """
 
-#         for rental in item:
+        cl_id = item.get('cl_id')
+        price = item.get('price')
+        date = item.get('date')
+        neighborhood = item.get('neighborhood')
+        bedrooms = item.get('bedrooms')
+        bathrooms = item.get('bathrooms')
+        sqft = item.get('sqft')
+        latitude = item.get('latitude')
+        longitude = item.get('longitude')
 
-#             cl_id = rental['cl_id']
-#             price = rental['price']
-#             date = rental['date']
-#             neighborhood = rental['neighborhood']
-#             bedrooms = rental['bedrooms']
-#             bathrooms = rental['bathrooms']
-#             sqft = rental['sqft']
-#             latitude = rental['latitude']
-#             longitude = rental['longitude']
+        # Add rental details to UnitDetails table
+        rental_details = UnitDetails(
+                            neighborhood=neighborhood,
+                            bedrooms=bedrooms,
+                            bathrooms=bathrooms,
+                            sqft=sqft,
+                            latitude=latitude,
+                            longitude=longitude
+                        )
 
-#             # Add rental details to UnitDetails table
-#             rental_details = UnitDetails(
-#                                 neighborhood=neighborhood,
-#                                 bedrooms=bedrooms,
-#                                 bathrooms=bathrooms,
-#                                 sqft=sqft,
-#                                 latitude=latitude,
-#                                 longitude=longitude
-#                             )
+        db.session.add(rental_details)
 
-#             db.session.add(rental_details)
+        # Add rental unit to Rentals table
+        rental = Rental(
+                    cl_id=cl_id,
+                    price=price,
+                    date_posted=date,
+                    unitdetails=rental_details
+                )
 
-#             # Add rental unit to Rentals table
-#             rental = Rental(
-#                         cl_id=cl_id,
-#                         price=price,
-#                         date=date_posted
-#                     )
-
-#             db.session.add(rental)
-# """
-# should i be committing after each added set of tables? (before instead of after the for loop)
-# why is this lined up so ugly
-
-# """
-#         db.session.commit()
+        db.session.add(rental)
 
 
-    def load_seed_file():
-        """ Method used to write JSON Lines file data to database, if necessary. Should prioritize use of load_data_from_scraper method instead for direct data handling. """
-
-        for row in open('seed.jl'):
-            row = row.rstrip()
-
-            cl_id = row['cl_id']
-            price = row['price']
-            date = row['date']
-            neighborhood = row['neighborhood']
-            bedrooms = row['bedrooms']
-            bathrooms = row['bathrooms']
-            sqft = row['sqft']
-            latitude = row['latitude']
-            longitude = row['longitude']
-
-            # Add rental details to UnitDetails table
-            rental_details = UnitDetails(
-                                neighborhood=neighborhood,
-                                bedrooms=bedrooms,
-                                bathrooms=bathrooms,
-                                sqft=sqft,
-                                latitude=latitude,
-                                longitude=longitude
-                            )
-
-            db.session.add(rental_details)
-
-            # Add rental unit to Rentals table
-            rental = Rental(
-                        cl_id=cl_id,
-                        price=price,
-                        date=date_posted
-                    )
-
-            db.session.add(rental)
 
         db.session.commit()
+
+
+
+
+    # def load_seed_file(self):
+    #     """ Method used to write JSON Lines file data to database, if necessary. Should prioritize use of load_data_from_scraper method instead for direct data handling. """
+
+    #     for row in open('test.jl'):
+    #         row = row.rstrip()
+
+    #         cl_id = row['cl_id']
+    #         price = row['price']
+    #         date = row['date']
+    #         neighborhood = row['neighborhood']
+    #         bedrooms = row['bedrooms']
+    #         bathrooms = row['bathrooms']
+    #         sqft = row['sqft']
+    #         latitude = row['latitude']
+    #         longitude = row['longitude']
+
+    #         # Add rental details to UnitDetails table
+    #         rental_details = UnitDetails(
+    #                             neighborhood=neighborhood,
+    #                             bedrooms=bedrooms,
+    #                             bathrooms=bathrooms,
+    #                             sqft=sqft,
+    #                             latitude=latitude,
+    #                             longitude=longitude
+    #                         )
+
+    #         db.session.add(rental_details)
+
+    #         # Add rental unit to Rentals table
+    #         rental = Rental(
+    #                     cl_id=cl_id,
+    #                     price=price,
+    #                     date_posted=date,
+    #                     unitdetails=rental_details
+    #                 )
+
+    #         db.session.add(rental)
+
+    #         db.session.commit()
