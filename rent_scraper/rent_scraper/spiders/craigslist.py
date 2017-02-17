@@ -6,7 +6,18 @@ from rent_scraper.items import CraigslistRental
 
 
 class CraigslistSpider(CrawlSpider):
-    """ A spider built for Craigslist that will extract the URL page extension, price, bedrooms, neighborhood, and date of each rental posting on the start_url and subsequent pages. """
+    """
+    A spider built for Craigslist that will extract the rental details of each rental posting on the start_url and subsequent subpages.
+
+    The following information is scraped:
+        - Posting ID (cl_id)
+        - Price
+        - Beds / Baths (attributes)
+        - Sqft (housing)
+        - Neighborhood
+        - Date Posted
+        - Google Maps Location
+    """
 
     # Spider name
     name = 'craigslist'
@@ -22,16 +33,7 @@ class CraigslistSpider(CrawlSpider):
     )
 
     def parse_item(self, response):
-        """
-        Parses each posting for any of the following rental details available and creates dictionary items of each posting:
-            - Posting ID (cl_id)
-            - Price
-            - Beds / Baths (attributes)
-            - Sqft (housing)
-            - Neighborhood
-            - Date Posted
-            - Google Maps Location
-        """
+        """ Using XPATH, parses data from the HTML responses and returns a dictionary-like item. """
 
         item = CraigslistRental()
 
