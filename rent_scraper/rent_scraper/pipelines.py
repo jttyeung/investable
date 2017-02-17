@@ -4,8 +4,10 @@ from scrapy.exceptions import DropItem
 import re
 import urllib
 import geocoder
+import imp
 # import json
 
+model = imp.load_source('model.py', '../../')
 from model import connect_to_db_scrapy, Rental, UnitDetails
 
 
