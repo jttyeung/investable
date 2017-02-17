@@ -44,10 +44,11 @@ class UnitDetails(db.Model):
     sqft = db.Column(db.Integer, nullable=True)
     latlng = db.Column(Geometry(geometry_type='POINT'), nullable=False)
 
-    def __repr__(self):
-        """ Shows information on the unit details of the unit up for rent or for sale. """
 
-        return '<UnitDetails id=%s neighborhood=%s>' % (self.detail_id, self.neighborhood)
+    def __repr__(self):
+        """ Shows unit details of the unit for rent or sale. """
+
+        return '<UnitDetails id=%s neighborhood=%s latlng=%s>' % (self.detail_id, self.neighborhood, self.latlng)
 
 
 class Listing(db.Model):
@@ -65,9 +66,9 @@ class Listing(db.Model):
 
 
     def __repr__(self):
-        """ Shows information about the unit up for sale. """
+        """ Shows information about the unit for sale. """
 
-        return '<Listing id=%s price=%s hoa=%s detail_id=%s>' % (self.home_id, self.price, self.hoa, self.detail_id)
+        return '<Listing id=%s price=%s detail_id=%s>' % (self.home_id, self.price, self.detail_id)
 
 
 class Rental(db.Model):
@@ -84,9 +85,9 @@ class Rental(db.Model):
 
 
     def __repr__(self):
-        """ Shows information about the unit up for rent. """
+        """ Shows information about the unit for rent. """
 
-        return '<Rental id=%s description=%s price=%s detail_id=%s>' % (self.cl_id, self.price, self.date_saved, self.detail_id)
+        return '<Rental id=%s price=%s data_posted=%s detail_id=%s>' % (self.cl_id, self.price, self.date_posted, self.detail_id)
 
 
 class Favorite(db.Model):
@@ -101,6 +102,7 @@ class Favorite(db.Model):
 
     users = db.relationship('User', backref='favorites')
     listings = db.relationship('Listing', backref='favorites')
+
 
     def __repr__(self):
         """ Shows the user's favorite homes. """
