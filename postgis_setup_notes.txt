@@ -13,13 +13,13 @@ sudo apt-get install postgis (https://www.digitalocean.com/community/tutorials/h
 2) pip install geoalchemy2
 
 3) setup model.py with postgis column in sqlalchemy
-from sqlalchemy import func
-from geoalchemy import Geometry
 example: latlng = db.Column(Geometry(geometry_type='POINT'), nullable=False)
+from sqlalchemy import func
+from geoalchemy2 import Geometry
 
 4) createdb
 
-5) psql [table]
+5) psql [database]
 CREATE EXTENSION postgis;
 
 6) create/seed your database tables
