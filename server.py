@@ -8,6 +8,7 @@ import os
 
 from zillow_utilities import *
 from mortgage_calculator import *
+from db_queries import *
 
 
 app = Flask(__name__)
@@ -41,11 +42,13 @@ def search():
     # Response data from zillow_utilities
     response_code, price = get_unit_price(full_address)
     neighborhood = get_neighborhood(full_address)
-    latlong = get_latlong(full_address)
-    latitude = latlong['latitude']
-    longitude = latlong['longitude']
+    latlng_point = get_latlong(full_address)
 
-    listing = { 'response': response_code, 'price': price, 'neighborhood': neighborhood, 'latitude': latitude, 'longitude': longitude }
+    # Response data from db_queries
+    rent_avg = get_rent_avg(latlng_point)
+
+    # Returns to page the response code, list price, neighborhood, and rent average
+    listing = { 'response': response_code, 'price': price, 'neighborhood': neighborhood, 'rent_avg': rent_avg }
 
     return jsonify(listing)
 
