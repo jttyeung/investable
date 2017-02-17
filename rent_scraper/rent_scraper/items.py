@@ -21,5 +21,3 @@ class CraigslistRental(scrapy.Item):
     bathrooms = scrapy.Field()
     sqft = scrapy.Field()
     latlng = scrapy.Field()
-    # latitude = scrapy.Field()
-    # longitude = scrapy.Field()
