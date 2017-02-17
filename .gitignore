@@ -2,6 +2,3 @@ env/
 *.sh
 *.pyc
 .DS_Store
-
-# Link to copy of model.py
-rent_scraper/rent_scraper/model.py
