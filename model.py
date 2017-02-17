@@ -1,10 +1,11 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import sessionmaker
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, func
 from sqlalchemy.engine.url import URL
 
 from datetime import datetime
+from geoalchemy2 import Geometry
 
 
 db = SQLAlchemy()
@@ -41,13 +42,12 @@ class UnitDetails(db.Model):
     bedrooms = db.Column(db.Float, nullable=True)
     bathrooms = db.Column(db.Float, nullable=True)
     sqft = db.Column(db.Integer, nullable=True)
-    latitude = db.Column(db.Float, nullable=False)
-    longitude = db.Column(db.Float, nullable=False)
+    latlng = db.Column(Geometry(geometry_type='POINT'), nullable=False)
 
     def __repr__(self):
         """ Shows information on the unit details of the unit up for rent or for sale. """
 
-        return '<UnitDetails id=%s description=%s price=%s>' % (self.home_id, self.description, self.price)
+        return '<UnitDetails id=%s neighborhood=%s>' % (self.detail_id, self.neighborhood)
 
 
 class Listing(db.Model):

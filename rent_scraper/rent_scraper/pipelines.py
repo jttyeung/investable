@@ -57,11 +57,9 @@ class RentScraperPipeline(object):
             if len(find_location) > 0:
                 location = find_location[1]
                 geo_location = geocoder.google(location)
-
-            # If a geocoded location exists get latitude and longitude, otherwise drop record
-            if geo_location:
-                item['latitude'] = geo_location.lat
-                item['longitude'] = geo_location.lng
+                latitude = geo_location.lat
+                longitude = geo_location.lng
+                item['latlng'] = 'POINT(%s %s)' % (latitude, longitude)
             else:
                 raise DropItem('Missing location in %s' % item)
 
@@ -105,9 +103,7 @@ class PostgresqlPipeline(object):
         bedrooms = item.get('bedrooms')
         bathrooms = item.get('bathrooms')
         sqft = item.get('sqft')
-        latitude = item.get('latitude')
-        longitude = item.get('longitude')
-        zipcode = item.get('zipcode')
+        latlng = item.get('latlng')
 
         try:
             # Create rental details for unit
@@ -116,9 +112,7 @@ class PostgresqlPipeline(object):
                                 bedrooms=bedrooms,
                                 bathrooms=bathrooms,
                                 sqft=sqft,
-                                latitude=latitude,
-                                longitude=longitude,
-                                zipcode=zipcode
+                                latlng=latlng
                             )
 
             # Add rental details to UnitDetails table
@@ -159,8 +153,7 @@ class PostgresqlPipeline(object):
     #         bedrooms = row['bedrooms']
     #         bathrooms = row['bathrooms']
     #         sqft = row['sqft']
-    #         latitude = row['latitude']
-    #         longitude = row['longitude']
+    #         latlng = row['latlng']
 
     #         # Add rental details to UnitDetails table
     #         rental_details = UnitDetails(
@@ -168,8 +161,7 @@ class PostgresqlPipeline(object):
     #                             bedrooms=bedrooms,
     #                             bathrooms=bathrooms,
     #                             sqft=sqft,
-    #                             latitude=latitude,
-    #                             longitude=longitude
+    #                             latlng=latlng
     #                         )
 
     #         db.session.add(rental_details)

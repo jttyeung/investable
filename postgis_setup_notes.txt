@@ -1,0 +1,36 @@
+--------------------------------------------------
+
+POSTGIS SETUP NOTES
+
+Works with SQLAlchemy and PostgreSQL
+
+--------------------------------------------------
+
+1) install in vagrant
+sudo apt-get update (http://technobytz.com/install-postgis-postgresql-9-3-ubuntu.html)
+sudo apt-get install postgis (https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-postgis-on-ubuntu-14-04)
+
+2) pip install geoalchemy2
+
+3) setup model.py with postgis column in sqlalchemy
+from sqlalchemy import func
+from geoalchemy import Geometry
+example: latlng = db.Column(Geometry(geometry_type='POINT'), nullable=False)
+
+4) createdb
+
+5) psql [table]
+CREATE EXTENSION postgis;
+
+6) create/seed your database tables
+seeding data must contain formatting like this:
+'POINT(%s %s)' % (latitude, longitude)
+
+7) query using:
+for approximations of nearby distances using spherical distance, search units nearby by meters; example below searches within 1000m
+db.session.query(UnitDetails).filter(func.ST_Distance_Sphere("POINT(37.776164 -122.423355)",UnitDetails.latlng) < 1000).all()
+
+
+--------------------------------------------------
+
+3219 meters ~ 2 miles

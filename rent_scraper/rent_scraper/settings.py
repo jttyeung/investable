@@ -91,7 +91,7 @@ ITEM_PIPELINES = {
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 # Close Spider after number of items scraped
-CLOSESPIDER_ITEMCOUNT = 3
+CLOSESPIDER_ITEMCOUNT = 5
 
 # Close spider after number of crawled page responses have been requested
-CLOSESPIDER_PAGECOUNT = 3
+CLOSESPIDER_PAGECOUNT = 5
