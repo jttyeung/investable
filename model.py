@@ -42,13 +42,15 @@ class UnitDetails(db.Model):
     bedrooms = db.Column(db.Float, nullable=True)
     bathrooms = db.Column(db.Float, nullable=True)
     sqft = db.Column(db.Integer, nullable=True)
+    latitude = db.Column(db.Float, nullable=False)
+    longitude = db.Column(db.Float, nullable=False)
     latlng = db.Column(Geometry(geometry_type='POINT'), nullable=False)
 
 
     def __repr__(self):
         """ Shows unit details of the unit for rent or sale. """
 
-        return '<UnitDetails id=%s neighborhood=%s latlng=%s>' % (self.detail_id, self.neighborhood, self.latlng)
+        return '<UnitDetails id=%s neighborhood=%s latitude=%s longitude=%s latlng=%s>' % (self.detail_id, self.neighborhood, self.latitude, self.longitude, self.latlng)
 
 
 class Listing(db.Model):

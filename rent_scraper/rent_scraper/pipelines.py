@@ -4,10 +4,10 @@ from scrapy.exceptions import DropItem
 import re
 import urllib
 import geocoder
-import imp
+# import imp
 # import json
 
-model = imp.load_source('model.py', '../../')
+# model = imp.load_source('model.py', '../../')
 from model import connect_to_db_scrapy, Rental, UnitDetails
 
 
@@ -56,17 +56,25 @@ class RentScraperPipeline(object):
             find_location = location_url.split('loc:')
 
             # If location on map is found convert to geolocation; if none exists drop record
-            if len(find_location) > 0:
+            if len(find_location) > 1:
                 location = find_location[1]
                 geo_location = geocoder.google(location)
-                latitude = geo_location.lat
-                longitude = geo_location.lng
-                item['latlng'] = 'POINT(%s %s)' % (latitude, longitude)
+
+            # If a geocoded location exists get latitude and longitude, otherwise drop record
+                if geo_location:
+                    latitude = geo_location.lat
+                    longitude = geo_location.lng
+                    item['latitude'] = latitude
+                    item['longitude'] = longitude
+                    item['latlng'] = 'POINT(%s %s)' % (latitude, longitude)
+                else:
+                    raise DropItem('Missing geolocation in %s' % item)
+
             else:
-                raise DropItem('Missing location in %s' % item)
+                raise DropItem('Missing google maps location in %s' % item)
 
         else:
-            raise DropItem('Missing location in %s' % item)
+            raise DropItem('Missing google maps web address in %s' % item)
 
         return item
 
@@ -105,6 +113,8 @@ class PostgresqlPipeline(object):
         bedrooms = item.get('bedrooms')
         bathrooms = item.get('bathrooms')
         sqft = item.get('sqft')
+        latitude = item.get('latitude')
+        longitude = item.get('longitude')
         latlng = item.get('latlng')
 
         try:
@@ -114,6 +124,8 @@ class PostgresqlPipeline(object):
                                 bedrooms=bedrooms,
                                 bathrooms=bathrooms,
                                 sqft=sqft,
+                                latitude=latitude,
+                                longitude=longitude,
                                 latlng=latlng
                             )
 
