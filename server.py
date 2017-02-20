@@ -9,6 +9,7 @@ import os
 from zillow_utilities import *
 from mortgage_calculator import *
 from db_queries import *
+from model import *
 
 
 app = Flask(__name__)
@@ -135,5 +136,8 @@ if __name__ == "__main__":
 
     # Use the DebugToolbar
     DebugToolbarExtension(app)
+
+    # Connect DB to Flask before running app
+    connect_to_db_flask(app)
 
     app.run(host="0.0.0.0", port=5000)

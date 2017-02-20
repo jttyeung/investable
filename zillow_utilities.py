@@ -3,21 +3,25 @@ from bs4 import BeautifulSoup
 from server import *
 
 
-def format_api_url(full_address):
-    """ Takes the address entered by user and returns a Zillow API encoded URL.
+##############################################################################
+# Formatting, Getting, and Parsing Results from Zillow
 
-    >>> format_api_url({'address': '151 Bacardi Ave.', 'citystatezip': 'san francisco ca' })
-    'http://www.zillow.com/webservice/GetSearchResults.htm?zws-id=X1-ZWz19eq3jjtsln_2ox88&citystatezip=san+francisco+ca&address=151+Bacardi+Ave.'
-
-    """
+def format_valuation_api_url(full_address):
+    """ Takes the address entered by user and returns a Zillow Valuation API encoded URL. """
 
     return 'http://www.zillow.com/webservice/GetSearchResults.htm?zws-id=' + app.zwsid + '&' + urllib.urlencode(full_address)
+
+
+def format_details_api_url(full_address):
+    """ Takes the address entered by user and returns a Zillow Deep Search API encoded URL. """
+
+    return 'http://www.zillow.com/webservice/GetDeepSearchResults.htm?zws-id=' + app.zwsid + '&' + urllib.urlencode(full_address)
 
 
 def return_api_xml_parsed(full_address):
     """ Returns parsed XML data from Zillow's API. """
 
-    api_url = format_api_url(full_address)
+    api_url = format_valuation_api_url(full_address)
     api_xml = urllib.urlopen(api_url).read()
     api_xml_parsed = BeautifulSoup(api_xml, 'lxml-xml')
     api_response_code = int(api_xml_parsed.find('code').getText())
@@ -45,6 +49,9 @@ def return_html_parsed(full_address):
 
     return BeautifulSoup(zillow_html, 'lxml')
 
+
+##############################################################################
+# Extracting Data From Zillow's API
 
 def get_unit_price(full_address):
     """
