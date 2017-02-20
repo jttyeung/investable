@@ -43,19 +43,18 @@ def search():
     # Gets response data from zillow_utilities
     response_code, price = get_unit_price(full_address)
     neighborhood = get_neighborhood(full_address)
+    bedrooms = get_bedrooms(full_address)
+    bathrooms = get_bathrooms(full_address)
+    sqft = get_sqft(full_address)
     latlng_point = get_latlong(full_address)
-    print latlng_point
-    print '-'*100
 
     # Gets rent average data from db_queries
-    rent_avgs = get_avg_rent(latlng_point)
-    print rent_avgs
-    print '*'*100
+    rent_avgs = get_avg_rent(bedrooms, bathrooms, sqft, latlng_point)
+    avg_rent_by_br = rent_avgs['avg_rent_by_br']
+    avg_rent_by_sqft = rent_avgs['avg_rent_by_sqft']
 
-    # Returns the response code, list price, neighborhood, and rent average
-    listing = { 'response': response_code, 'price': price, 'neighborhood': neighborhood, 'avg_rent_by_br': avg_rent_by_br, 'avg_rent_by_sqft': avg_rent_by_sqft }
-    print listing
-    print '#'*100
+    # Returns the response code and unit details from Zillow's API and PostgreSQL
+    listing = { 'response': response_code, 'price': price, 'neighborhood': neighborhood, 'bedrooms': bedrooms, 'bathrooms': bathrooms, 'sqft': sqft, 'avg_rent_by_br': avg_rent_by_br, 'avg_rent_by_sqft': avg_rent_by_sqft }
 
     return jsonify(listing)
 

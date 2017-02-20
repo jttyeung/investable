@@ -6,14 +6,8 @@ from server import *
 ##############################################################################
 # Formatting, Getting, and Parsing Results from Zillow
 
-def format_valuation_api_url(full_address):
-    """ Takes the address entered by user and returns a Zillow Valuation API encoded URL. """
-
-    return 'http://www.zillow.com/webservice/GetSearchResults.htm?zws-id=' + app.zwsid + '&' + urllib.urlencode(full_address)
-
-
-def format_details_api_url(full_address):
-    """ Takes the address entered by user and returns a Zillow Deep Search API encoded URL. """
+def format_api_url(full_address):
+    """ Takes the address entered by user and returns a Zillow API encoded URL. """
 
     return 'http://www.zillow.com/webservice/GetDeepSearchResults.htm?zws-id=' + app.zwsid + '&' + urllib.urlencode(full_address)
 
@@ -21,7 +15,7 @@ def format_details_api_url(full_address):
 def return_api_xml_parsed(full_address):
     """ Returns parsed XML data from Zillow's API. """
 
-    api_url = format_valuation_api_url(full_address)
+    api_url = format_api_url(full_address)
     api_xml = urllib.urlopen(api_url).read()
     api_xml_parsed = BeautifulSoup(api_xml, 'lxml-xml')
     api_response_code = int(api_xml_parsed.find('code').getText())
@@ -55,7 +49,7 @@ def return_html_parsed(full_address):
 
 def get_unit_price(full_address):
     """
-    Extracts listing price of unit from Zillow's listing page.
+    Extracts listing price of unit from Zillow's HTML listing page.
 
     Returns tuple of code and price and/or message. Codes are defined:
         100: Successful unit price received from Zillow page
@@ -84,7 +78,7 @@ def get_unit_price(full_address):
 
 
 def get_zillow_price_estimate(full_address):
-    """ Scrapes the Zillow price estimate from API if unit is not on the market. """
+    """ Scrapes the Zillow price estimate from API response if unit is not on the market. """
 
     api_xml_parsed = return_api_xml_parsed(full_address)
     api_response_code = api_xml_parsed['api_response_code']
@@ -98,7 +92,7 @@ def get_zillow_price_estimate(full_address):
 
 
 def get_neighborhood(full_address):
-    """ Scrapes neighborhood name from Zillow API. """
+    """ Scrapes neighborhood name from Zillow's API response. """
 
     api_xml_parsed = return_api_xml_parsed(full_address)
     api_xml_data = api_xml_parsed['api_parsed_data']
@@ -108,7 +102,7 @@ def get_neighborhood(full_address):
 
 
 def get_latlong(full_address):
-    """ Scrapes geolocation: latitude and longitude from Zillow API. """
+    """ Scrapes geolocation: latitude and longitude from Zillow's API response. """
 
     api_xml_parsed = return_api_xml_parsed(full_address)
     api_xml_data = api_xml_parsed['api_parsed_data']
@@ -116,3 +110,35 @@ def get_latlong(full_address):
     longitude = api_xml_data.find('longitude').getText()
 
     return 'POINT({} {})'.format(latitude, longitude)
+
+
+def get_bedrooms(full_address):
+    """ Scrapes number of bedrooms from Zillow's API response. """
+
+    api_xml_parsed = return_api_xml_parsed(full_address)
+    api_xml_data = api_xml_parsed['api_parsed_data']
+    bedrooms = api_xml_data.find('bedrooms').getText()
+
+    return float(bedrooms)
+
+
+def get_bathrooms(full_address):
+    """ Scrapes number of bathrooms from Zillow's API response. """
+
+    api_xml_parsed = return_api_xml_parsed(full_address)
+    api_xml_data = api_xml_parsed['api_parsed_data']
+    bathrooms = api_xml_data.find('bathrooms').getText()
+
+    return float(bathrooms)
+
+
+def get_sqft(full_address):
+    """ Scrapes unit sqft size from Zillow's API response. """
+
+    api_xml_parsed = return_api_xml_parsed(full_address)
+    api_xml_data = api_xml_parsed['api_parsed_data']
+    sqft = api_xml_data.find('finishedSqFt').getText()
+
+    return int(sqft)
+
+
