@@ -40,6 +40,7 @@ function updatePrice(listing) {
         $('#list-price').html(price);
         $('#mortgage-downpayment').val(twenty_percent_downpayment);
         $('#neighborhood').html(neighborhood);
+        // Get the average rent rate in the surrounding neighborhood
         updateAvgRentRate(avgRent);
 
     } else if (listing.response === 200) {
@@ -55,7 +56,7 @@ function updatePrice(listing) {
 }
 
 
-// Closes any alerts on click
+// Closes any div "alerts" on click
 $('#div-message').on('click', function() {
     $('#div-message').html('');
     $('#div-message').removeClass('btn-info');
