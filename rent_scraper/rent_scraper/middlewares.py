@@ -6,6 +6,8 @@
 # http://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
 from scrapy import signals
+import os
+import random
 
 
 class RentScraperSpiderMiddleware(object):

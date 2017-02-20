@@ -1,18 +1,27 @@
 "use strict";
 
 // Returns price of listing
-$('#search-bar').on('submit', getPrice);
+$('#search-bar').on('submit', getPrices);
 
-function getPrice(evt) {
+function getPrices(evt) {
     evt.preventDefault();
+
+    // Gets the full address entered by the user
     var fullAddress = { 'address': $('#address-search').val(),
                         'citystatezip': $('#citystatezip-search').val()
                       };
+
+    // Resets values after each search
     $('#list-price').html("");
     $('#mortgage-rate').val("");
     $('#mortgage-downpayment').val("");
     $('#neighborhood').html("");
-    $.get('/search.json', fullAddress, updatePrice);
+
+    // Gets the price of the listing
+    $.get('/search.json', fullAddress, updatePrice).success(
+    // Gets the rent average for that listing
+    $.get('/rent.json', fullAddress, updateAvgRentRate);)
+
 }
 
 function updatePrice(listing) {
@@ -39,12 +48,14 @@ function updatePrice(listing) {
     }
 }
 
+
 // Closes alerts on click
 $('#div-message').on('click', function() {
     $('#div-message').html('')
     $('#div-message').removeClass('btn-info');
     $('#div-message').attr('hidden', 'hidden')
 });
+
 
 // Returns mortgage rate
 $('#mortgage-calculator').on('submit', getMonthlyPayment);
@@ -65,4 +76,35 @@ function getMonthlyPayment(evt){
 function updateMonthlyPayment(rate){
     $('#monthly-payment').html(rate.mortgage);
     $('#total-payment').html(rate.total_mortgage);
+}
+
+
+// want to get the average rent when the search button is clicked
+// then, if the user changes the avg rent filter, then it should update the average rent
+// if a user changes the filter again, it should change it to the selected filter
+
+// Returns average rent rate
+// $('#search-bar').on('submit', getAvgRentRate);
+$('#avg-rent-filter').on('change', updateAvgRentRate);
+
+// function getAvgRentRate(evt){
+//     evt.preventDefault();
+    // // Gets the dropdown value of average rent filter
+    // var avgRentFilter = {
+    //     'filter': $('#avg-rent-filter').val()
+    // };
+
+
+//     $.get('/rent.json', avgRentFilter, updateAvgRentRage);
+// }
+
+function updateAvgRentRate(avgRent){
+    byBedroom = avgRent['avg_rent_by_br']
+    bySqft = avgRent['avg_rent_by_sqft']
+
+    if ($('#avg-rent-filter').val() == 'bedrooms') {
+        $('avg-rent').html(byBedroom);
+    } else {
+        $('avg-rent').html(bySqft);
+    }
 }

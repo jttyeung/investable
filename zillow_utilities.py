@@ -4,7 +4,12 @@ from server import *
 
 
 def format_api_url(full_address):
-    """ Takes the address entered by user and returns a Zillow API encoded URL. """
+    """ Takes the address entered by user and returns a Zillow API encoded URL.
+
+    >>> format_api_url({'address': '151 Bacardi Ave.', 'citystatezip': 'san francisco ca' })
+    'http://www.zillow.com/webservice/GetSearchResults.htm?zws-id=X1-ZWz19eq3jjtsln_2ox88&citystatezip=san+francisco+ca&address=151+Bacardi+Ave.'
+
+    """
 
     return 'http://www.zillow.com/webservice/GetSearchResults.htm?zws-id=' + app.zwsid + '&' + urllib.urlencode(full_address)
 
@@ -26,8 +31,9 @@ def get_zillow_html_page(full_address):
 
     api_xml_parsed = return_api_xml_parsed(full_address)
     api_xml_data = api_xml_parsed['api_parsed_data']
+    zillow_url = api_xml_data.find('homedetails').getText()
 
-    return api_xml_data.find('homedetails').getText()
+    return zillow_url
 
 
 def return_html_parsed(full_address):
@@ -102,4 +108,4 @@ def get_latlong(full_address):
     latitude = api_xml_data.find('latitude').getText()
     longitude = api_xml_data.find('longitude').getText()
 
-    return {'latitude': latitude, 'longitude': longitude}
+    return 'POINT({} {})'.format(latitude, longitude)

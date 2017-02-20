@@ -15,7 +15,11 @@ SPIDER_MODULES = ['rent_scraper.spiders']
 NEWSPIDER_MODULE = 'rent_scraper.spiders'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'rent_scraper (+http://www.yourdomain.com)'
+# USER_AGENT = 'rent_scraper (+http://www.yourdomain.com)'
+
+# More comprehensive list can be found at
+# http://techpatterns.com/forums/about304.html
+USER_AGENT_LIST = []
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -26,7 +30,7 @@ ROBOTSTXT_OBEY = True
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-# DOWNLOAD_DELAY = 3
+DOWNLOAD_DELAY = 5
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
@@ -45,15 +49,20 @@ ROBOTSTXT_OBEY = True
 
 # Enable or disable spider middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
-#    'rent_scraper.middlewares.RentScraperSpiderMiddleware': 543,
-#}
+# SPIDER_MIDDLEWARES = {
+    # 'rent_scraper.middlewares.RentScraperSpiderMiddleware': 543,
+# }
 
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'rent_scraper.middlewares.MyCustomDownloaderMiddleware': 543,
-#}
+# HTTP_PROXY = 'http://127.0.0.1:8123'
+# DOWNLOADER_MIDDLEWARES = {
+#     'rent_scraper.middlewares.RandomUserAgentMiddleware': 400,
+#     'rent_scraper.middlewares.ProxyMiddleware': 410,
+#     'scrapy.contrib.downloadermiddleware.useragent.UserAgentMiddleware': None,
+#     # 'rent_scraper.middlewares.MyCustomDownloaderMiddleware': 543,
+#     # Disable compression middleware, so the actual HTML pages are cached
+# }
 
 # Enable or disable extensions
 # See http://scrapy.readthedocs.org/en/latest/topics/extensions.html
@@ -91,7 +100,7 @@ ITEM_PIPELINES = {
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 # Close Spider after number of items scraped
-CLOSESPIDER_ITEMCOUNT = 50
+CLOSESPIDER_ITEMCOUNT = 25
 
 # Close spider after number of crawled page responses have been requested
-CLOSESPIDER_PAGECOUNT = 50
+CLOSESPIDER_PAGECOUNT = 30

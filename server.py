@@ -35,24 +35,50 @@ def homepage():
 def search():
     """ Returns user search results. """
 
-    # Search data pulled from AJAX
+    # User search data from site
     full_address = {}
     full_address.update(request.args.items())
 
-    # Response data from zillow_utilities
+    # Gets response data from zillow_utilities
     response_code, price = get_unit_price(full_address)
     neighborhood = get_neighborhood(full_address)
     latlng_point = get_latlong(full_address)
+    print latlng_point
+    print '-'*100
 
-    # Response data from db_queries
-    rent_avg = get_rent_avg(latlng_point)
+    # Gets rent average data from db_queries
+    rent_avgs = get_avg_rent(latlng_point)
+    print rent_avgs
+    print '*'*100
 
-    # Returns to page the response code, list price, neighborhood, and rent average
-    listing = { 'response': response_code, 'price': price, 'neighborhood': neighborhood, 'rent_avg': rent_avg }
+    # Returns the response code, list price, neighborhood, and rent average
+    listing = { 'response': response_code, 'price': price, 'neighborhood': neighborhood, 'avg_rent_by_br': avg_rent_by_br, 'avg_rent_by_sqft': avg_rent_by_sqft }
+    print listing
+    print '#'*100
 
     return jsonify(listing)
 
     # need to determine where search lands user - same page, refreshed page, etc.
+
+
+# @app.route('/rent.json')
+# def calculate_monthly_rent():
+#     """ Returns user search results. """
+
+#     # User search data from site
+#     full_address = {}
+#     full_address.update(request.args.items())
+
+#     # Get unit lat/lng point
+#     latlng_point = get_latlong(full_address)
+
+#     # Gets rent average data from db_queries
+#     rent_avgs = get_rent_avg(latlng_point)
+
+#     # Returns the rent averages
+#     rent_avgs = { 'avg_rent_by_br': avg_rent_by_br, 'avg_rent_by_sqft': avg_rent_by_sqft }
+
+#     return jsonify(rent_avgs)
 
 
 @app.route('/calculator')
