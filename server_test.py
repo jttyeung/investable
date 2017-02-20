@@ -15,10 +15,10 @@ class InvestableServerTest(unittest.TestCase):
         """ Test that the homepage loads. """
         result = self.client.get('/')
         self.assertEqual(result.status_code, 200)
-        # add assertIn
+        self.assertIn('Search a property by location or city:', result)
 
 
-    # what should this test?
+    # what should this test? is this a functional test instead?
     def test_search(self):
         """ Test that the search element returns a response. """
         result = self.client.get('/search')
@@ -32,7 +32,7 @@ class InvestableServerTest(unittest.TestCase):
         self.assertEqual(result.status_code, 200)
         # add assertIn
 
-
+    # # move to functional tests
     # def test_login(self):
     #     """ Test that the user is able to login. """
     #     result = self.client.post('/login')
