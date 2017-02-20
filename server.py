@@ -34,13 +34,13 @@ def homepage():
 
 @app.route('/search.json')
 def search():
-    """ Returns user search results. """
+    """ Returns user search results from Zillow's API and PostgreSQL. """
 
-    # User search data from site
+    # Search address entered by the user
     full_address = {}
     full_address.update(request.args.items())
 
-    # Gets response data from zillow_utilities
+    # Gets API response data from zillow_utilities
     response_code, price = get_unit_price(full_address)
     neighborhood = get_neighborhood(full_address)
     bedrooms = get_bedrooms(full_address)
@@ -50,35 +50,11 @@ def search():
 
     # Gets rent average data from db_queries
     rent_avgs = get_avg_rent(bedrooms, bathrooms, sqft, latlng_point)
-    avg_rent_by_br = rent_avgs['avg_rent_by_br']
-    avg_rent_by_sqft = rent_avgs['avg_rent_by_sqft']
 
     # Returns the response code and unit details from Zillow's API and PostgreSQL
-    listing = { 'response': response_code, 'price': price, 'neighborhood': neighborhood, 'bedrooms': bedrooms, 'bathrooms': bathrooms, 'sqft': sqft, 'avg_rent_by_br': avg_rent_by_br, 'avg_rent_by_sqft': avg_rent_by_sqft }
+    listing = { 'response': response_code, 'price': price, 'neighborhood': neighborhood, 'bedrooms': bedrooms, 'bathrooms': bathrooms, 'sqft': sqft, 'rent_avgs': rent_avgs }
 
     return jsonify(listing)
-
-    # need to determine where search lands user - same page, refreshed page, etc.
-
-
-# @app.route('/rent.json')
-# def calculate_monthly_rent():
-#     """ Returns user search results. """
-
-#     # User search data from site
-#     full_address = {}
-#     full_address.update(request.args.items())
-
-#     # Get unit lat/lng point
-#     latlng_point = get_latlong(full_address)
-
-#     # Gets rent average data from db_queries
-#     rent_avgs = get_rent_avg(latlng_point)
-
-#     # Returns the rent averages
-#     rent_avgs = { 'avg_rent_by_br': avg_rent_by_br, 'avg_rent_by_sqft': avg_rent_by_sqft }
-
-#     return jsonify(rent_avgs)
 
 
 @app.route('/calculator')
