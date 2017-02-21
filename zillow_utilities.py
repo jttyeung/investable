@@ -24,6 +24,29 @@ def return_api_xml_parsed(full_address):
              'api_parsed_data': api_xml_parsed }
 
 
+
+
+# def return_api_xml(full_address):
+#     """ Returns parsed XML data from Zillow's API. """
+
+#     api_url = format_api_url(full_address)
+#     api_xml = urllib.urlopen(api_url).read()
+#     return api_xml
+
+# def parse_xml(xml):
+#     api_xml_parsed = BeautifulSoup(api_xml, 'lxml-xml')
+#     api_response_code = int(api_xml_parsed.find('code').getText())
+
+#     return { 'api_response_code': api_response_code,
+#              'api_parsed_data': api_xml_parsed }
+
+
+# def funct(full_address):
+#     xml = return_api_xml_parsed(full_address)
+#     parse_xml(xml)
+
+
+
 def get_zillow_html_page(full_address):
     """ Takes the API response and returns the HTML web address of the unit. """
 
