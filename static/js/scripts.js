@@ -10,14 +10,14 @@ function getPrices(evt) {
     evt.preventDefault();
 
     // Resets page values on new search
-    $('#list-price').html("");
-    $('#mortgage-rate').val("");
-    $('#mortgage-downpayment').val("");
-    $('#neighborhood').html("");
-    $('#monthly-payment').html("");
-    $('#total-payment').html("");
-    $('#avg-rent-by-br').html("");
-    $('#avg-rent-by-sqft').html("");
+    $('#list-price').html('');
+    $('#mortgage-rate').val('');
+    $('#mortgage-downpayment').attr('placeholder', 0);
+    $('#neighborhood').html('');
+    $('#monthly-payment').html('');
+    $('#total-payment').html('');
+    $('#avg-rent-by-br').html('');
+    $('#avg-rent-by-sqft').html('');
 
     // Gets the full address entered by the user
     var fullAddress = { 'address': $('#address-search').val(),
@@ -40,11 +40,11 @@ function updatePrice(listing) {
     var avgRent = listing['rent_avgs'];
 
     if (listing.response === 100){
-        // Show the calculations div
+        // Show the property details div
         $('#property-details-page').show()
-        // Update
+        // Update the property details information on the page
         $('#list-price').html(price);
-        $('#mortgage-downpayment').val(twenty_percent_downpayment);
+        $('#mortgage-downpayment').attr('placeholder', twenty_percent_downpayment);
         $('#neighborhood').html(neighborhood);
         // Get the average rent rate in the surrounding neighborhood
         updateAvgRentRate(avgRent);
