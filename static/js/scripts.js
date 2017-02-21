@@ -1,5 +1,8 @@
 "use strict";
 
+// Page load defaults
+// $('#property-details-page').hide()
+
 // Returns price of listing and average rent rate
 $('#search-bar').on('submit', getPrices);
 
@@ -37,6 +40,9 @@ function updatePrice(listing) {
     var avgRent = listing['rent_avgs'];
 
     if (listing.response === 100){
+        // Show the calculations div
+        $('#property-details-page').show()
+        // Update
         $('#list-price').html(price);
         $('#mortgage-downpayment').val(twenty_percent_downpayment);
         $('#neighborhood').html(neighborhood);

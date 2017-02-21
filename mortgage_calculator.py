@@ -1,14 +1,26 @@
 import re
 
 def calculate_mortgage(mortgage_details):
-    """ Calculates mortgage monthly payment rate. """
+    """
+    Calculates mortgage monthly payment rate.
+
+    Tests:
+        >>> calculate_mortgage({'price': '$1,000,000', 'rate': '5.25', 'downpayment': '200000', 'loan': '30'})
+        ('$4,418', '$1,590,347')
+
+        >>> calculate_mortgage({'price': '$650,000', 'rate': '3.83', 'downpayment': '169000', 'loan': '20'})
+        ('$2,872', '$689,246')
+
+        >>> calculate_mortgage({'price': '$240,000', 'rate': '1.12', 'downpayment': '240000', 'loan': '15'})
+        ('$0', '$0')
+    """
 
     MONTHS_IN_YEAR = 12
     PERCENT_CONVERSION = 100
 
     # Get price, mortgage rate, downpayment amount
     price = int(mortgage_details['price'].replace('$','').replace(',',''))
-    rate = ((int(mortgage_details['rate'])/PERCENT_CONVERSION)/MONTHS_IN_YEAR)
+    rate = ((float(mortgage_details['rate'])/PERCENT_CONVERSION)/MONTHS_IN_YEAR)
     downpayment = int(re.sub('[^\d.]+', '', mortgage_details['downpayment']))
 
     # Translate loan term in years to months

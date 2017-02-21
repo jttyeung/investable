@@ -25,7 +25,7 @@
   background: white;
 }
 
-form input[type=number] {
+form input[id=mortgage-downpayment] {
   font-size: 16px;
   width: 130px;
   padding: 0;
@@ -37,7 +37,7 @@ form input[type=number] {
   font-weight: bold;
 }
 
-form input[type=percent] {
+form input[id=mortgage-rate] {
   font-size: 16px;
   width: 80px;
   padding: 0 10px;

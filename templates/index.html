@@ -21,8 +21,8 @@
   <div id="property-details-page" class="page col-xs-12">
     Property Price: <span id="list-price"></span><br>
     <form id="mortgage-calculator">
-      Your Annual Interest Rate: <div class="input-box"><input type="percent" id="mortgage-rate" step="0.25" placeholder="5.00" maxlength="5" required><span class="percent">%</span></div><br>
-      Your Downpayment: <div class="input-box"><span class="currency">$</span><input type="number" id="mortgage-downpayment" placeholder="20,000" maxlength="1" required></div><br>
+      Your Annual Interest Rate: <div class="input-box"><input type="number" id="mortgage-rate" placeholder="5.00" maxlength="5" min="0" step="any" required><span class="percent">%</span></div><br>
+      Your Downpayment: <div class="input-box"><span class="currency">$</span><input type="number" id="mortgage-downpayment" placeholder="20,000" maxlength="1" min="0" required></div><br>
       Your Loan Type:
         <select id="mortgage-loan-type">
           <option value="40-fixed">40-Year Fixed</option>
