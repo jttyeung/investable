@@ -7,6 +7,7 @@ import jinja2
 import os
 
 from zillow_utilities import *
+from account_utilities import *
 from mortgage_calculator import *
 from db_queries import *
 from model import *
@@ -69,11 +70,20 @@ def calculate_monthly_payment():
     return jsonify({ 'mortgage': mortgage, 'total_mortgage': total_mortgage })
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET'])
 def login():
     """ Brings user to the login page. """
 
     return render_template('login.html')
+
+
+@app.route('/login', methods=['POST'])
+def verify_login():
+    """ Verifys user's login. """
+    email = request.form.get('email')
+    password = request.form.get('password')
+
+    return redirect('/')
 
 
 @app.route('/register', methods=['GET'])
@@ -81,6 +91,20 @@ def register():
     """ Brings user to the registration page. """
 
     return render_template('registration.html')
+
+
+@app.route('/register', methods=['POST'])
+def registration_complete():
+    """ Brings user to the registration page. """
+
+    firstname = request.form.get('firstname')
+    lastname = request.form.get('lastname')
+    email = request.form.get('email')
+    password = request.form.get('password')
+
+    add_registration(firstname, lastname, email, password)
+
+    return redirect('/')
 
 
 # @app.route('/register', methods=['POST'])
