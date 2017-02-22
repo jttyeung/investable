@@ -43,17 +43,22 @@ def search():
 
     # Gets API response data from zillow_utilities
     response_code, price = get_unit_price(full_address)
-    neighborhood = get_neighborhood(full_address)
-    bedrooms = get_bedrooms(full_address)
-    bathrooms = get_bathrooms(full_address)
-    sqft = get_sqft(full_address)
-    latlng_point = get_latlong(full_address)
 
-    # Gets rent average data from db_queries
-    rent_avgs = get_avg_rent(bedrooms, bathrooms, sqft, latlng_point)
+    # If the location is found in Zillow's API
+    if response_code == 100:
+        neighborhood = get_neighborhood(full_address)
+        bedrooms = get_bedrooms(full_address)
+        bathrooms = get_bathrooms(full_address)
+        sqft = get_sqft(full_address)
+        latlng_point = get_latlong(full_address)
 
-    # Returns the response code and unit details from Zillow's API and PostgreSQL
-    listing = { 'response': response_code, 'price': price, 'neighborhood': neighborhood, 'bedrooms': bedrooms, 'bathrooms': bathrooms, 'sqft': sqft, 'rent_avgs': rent_avgs }
+        # Gets rent average data from db_queries
+        rent_avgs = get_avg_rent(bedrooms, bathrooms, sqft, latlng_point)
+
+        # Returns the response code and unit details from Zillow's API and PostgreSQL
+        listing = { 'response': response_code, 'price': price, 'neighborhood': neighborhood, 'bedrooms': bedrooms, 'bathrooms': bathrooms, 'sqft': sqft, 'rent_avgs': rent_avgs }
+    else:
+        listing = { 'response': response_code, 'price': price }
 
     return jsonify(listing)
 
@@ -95,7 +100,7 @@ def register():
 
 @app.route('/register', methods=['POST'])
 def registration_complete():
-    """ Brings user to the registration page. """
+#     """ Processes a new user registration. """
 
     firstname = request.form.get('firstname')
     lastname = request.form.get('lastname')
@@ -104,13 +109,6 @@ def registration_complete():
 
     add_registration(firstname, lastname, email, password)
 
-    return redirect('/')
-
-
-# @app.route('/register', methods=['POST'])
-# def add_user_registration():
-#     """ Processes a new user registration. """
-
 #     if username exists:
 #         flash('Sorry, that email has already been registered. Login instead?')
 #         return redirect('/register')
@@ -118,6 +116,8 @@ def registration_complete():
 #     else create a new user:
 #         flash('You have successfully created an account. Please login to continue.')
 #         return redirect('/')
+
+    return redirect('/')
 
 
 @app.route('/account')

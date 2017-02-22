@@ -26,6 +26,7 @@ def return_api_xml_parsed(full_address):
 
 
 
+
 # def return_api_xml(full_address):
 #     """ Returns parsed XML data from Zillow's API. """
 
@@ -47,12 +48,17 @@ def return_api_xml_parsed(full_address):
 
 
 
-def get_zillow_html_page(full_address):
+def get_zillow_html_url(full_address):
     """ Takes the API response and returns the HTML web address of the unit. """
 
     api_xml_parsed = return_api_xml_parsed(full_address)
     api_xml_data = api_xml_parsed['api_parsed_data']
-    zillow_url = api_xml_data.find('homedetails').getText()
+
+    try:
+        zillow_url = api_xml_data.find('homedetails').getText()
+
+    except AttributeError:
+        zillow_url = '404 - No Zillow URL found.'
 
     return zillow_url
 
@@ -60,11 +66,15 @@ def get_zillow_html_page(full_address):
 def return_html_parsed(full_address):
     """ Finds unit listing HTML page on Zillow and loads and parses the HTML response. """
 
-    zillow_page = get_zillow_html_page(full_address)
-    zillow_url = urllib.urlopen(zillow_page).geturl()
-    zillow_html = urllib.urlopen(zillow_url).read()
+    if get_zillow_html_url(full_address) != '404 - No Zillow URL found.':
+        zillow_page = get_zillow_html_url(full_address)
+        zillow_url = urllib.urlopen(zillow_page).geturl()
+        zillow_html = urllib.urlopen(zillow_url).read()
 
-    return BeautifulSoup(zillow_html, 'lxml')
+        return BeautifulSoup(zillow_html, 'lxml')
+
+    else:
+        return '404 - No Zillow HTML found.'
 
 
 ##############################################################################
@@ -82,22 +92,25 @@ def get_unit_price(full_address):
 
     zillow_html_parsed = return_html_parsed(full_address)
 
-    try:
-        # Check if there is a listing price on Zillow
-        unit_price_string = str(zillow_html_parsed.find('div', class_='main-row home-summary-row').find('span'))
-        unit_price = unit_price_string[unit_price_string.index('$') : unit_price_string.index(' <span class="value-suffix">')]
+    # If the unit exists on Zillow
+    if zillow_html_parsed != '404 - No Zillow HTML found.':
 
-        return (100, unit_price)
+        try:
+            # Check if there is a listing price on Zillow
+            unit_price_string = str(zillow_html_parsed.find('div', class_='main-row home-summary-row').find('span'))
+            unit_price = unit_price_string[unit_price_string.index('$') : unit_price_string.index(' <span class="value-suffix">')]
+            return (100, unit_price)
 
-    except AttributeError:
-        if get_zillow_price_estimate(full_address):
+        except AttributeError:
+            # if get_zillow_price_estimate(full_address):
             # If unit is found off-market, look for a price estimate
             zillow_price_estimate = int(get_zillow_price_estimate(full_address))
 
             return (200, 'We found the unit you were searching for, but it\'s not currently for sale. Zillow\'s estimated current market value of that unit is ${:,}'.format(zillow_price_estimate))
-        else:
-            # Otherwise unit is not found/address entered is incorrect
-            return (300, 'Sorry, we couldn\'t find a unit with that listing address. Please try your search again.')
+
+    else:
+        # Otherwise unit is not found/address entered is incorrect
+        return (300, 'Sorry, we couldn\'t find a unit with that listing address. Please try your search again.')
 
 
 def get_zillow_price_estimate(full_address):
