@@ -15,7 +15,7 @@ def format_api_url(full_address):
         return full_address
 
 
-# def return_api_xml(full_address):
+# def get_api_xml(full_address):
 #     """ Returns parsed XML data from Zillow's API. """
 
 #     api_url = format_api_url(full_address)
@@ -27,7 +27,7 @@ def format_api_url(full_address):
 #              'api_parsed_data': api_xml_parsed }
 
 
-def return_api_xml(full_address):
+def get_api_xml(full_address):
     """ Returns parsed XML data from Zillow's API. """
 
     api_url = format_api_url(full_address)
@@ -44,7 +44,7 @@ def return_api_xml(full_address):
 #     # global api_xml
 #     address = str(urllib.urlencode(full_address))
 #     if api_xml.get('full_address') is None:
-#         api_xml[address] = return_api_xml(full_address)
+#         api_xml[address] = get_api_xml(full_address)
 #     api_xml_parsed = BeautifulSoup(api_xml, 'lxml-xml')
 #     api_response_code = int(api_xml_parsed.find('code').getText())
 
@@ -53,7 +53,7 @@ def return_api_xml(full_address):
 
 
 def parse_xml(full_address):
-    api_xml = return_api_xml(full_address)
+    api_xml = get_api_xml(full_address)
     api_xml_parsed = BeautifulSoup(api_xml, 'lxml-xml')
     api_response_code = int(api_xml_parsed.find('code').getText())
 
@@ -76,7 +76,7 @@ def get_zillow_html_url(full_address):
     return zillow_url
 
 
-def return_html_parsed(full_address):
+def parse_html(full_address):
     """ Finds unit listing HTML page on Zillow and loads and parses the HTML response. """
 
     if get_zillow_html_url(full_address) != '404 - No Zillow URL found.':
@@ -103,7 +103,7 @@ def get_unit_price(full_address):
         300: Could not match address location to API results
     """
 
-    zillow_html_parsed = return_html_parsed(full_address)
+    zillow_html_parsed = parse_html(full_address)
 
     # If the unit exists on Zillow
     if zillow_html_parsed != '404 - No Zillow HTML found.':

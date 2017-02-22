@@ -31,10 +31,10 @@ class ZillowTests (unittest.TestCase):
         self.assertEqual('http://www.zillow.com/webservice/GetDeepSearchResults.htm?zws-id=' + app.zwsid + '&citystatezip=san+francisco+ca&address=151+Bacardi+Ave.', format_api_url(self.mock_address))
 
 
-    def test_return_api_xml(self):
+    def test_get_api_xml(self):
         # Mock an API response parsed by BeautifulSoup
         self.mock_api_xml = open(self.mock_file_content).read()
-        self.assertEqual(self.mock_api_xml, return_api_xml(self.mock_address))
+        self.assertEqual(self.mock_api_xml, get_api_xml(self.mock_address))
 
 
     def test_parse_xml(self):
@@ -42,12 +42,12 @@ class ZillowTests (unittest.TestCase):
         self.assertEqual(0, parsed_xml['api_response_code'])
 
 
-    # def get_zillow_html_page(self):
-    #     pass
+    def test_get_zillow_html_url(self):
+        self.assertEqual('http://www.zillow.com/homedetails/151-Bacardi-Ave-San-Francisco-CA-94109/11111111_zpid/', get_zillow_html_url(self.mock_address))
 
 
-    # def return_html_parsed(self):
-    #     pass
+    def parse_html(self):
+        pass
 
 
     def test_get_unit_price(self):
@@ -56,8 +56,22 @@ class ZillowTests (unittest.TestCase):
         # self.assertEqual('(300, 'Sorry, we couldn't find a unit with that listing address. Please try your search again.')', get_unit_price())
 
 
+    def test_get_zillow_price_estimate(self):
+        self.assertEqual('1395020',get_zillow_price_estimate(self.mock_address))
+
+
+    def test_get_zillow_unit_details(self):
+        self.assertEqual({'neighborhood': 'Tenderloin',
+                          'latlng_point': 'POINT(37.729981 -122.452644)',
+                          'bedrooms': '3',
+                          'bathrooms': '2.5',
+                          'sqft': '1386'
+                        }, get_zillow_unit_details(self.mock_address))
+
+
+
     # def test_get_zillow_price_estimate(self):
-    #     self.assertEqual('1035000', get_zillow_price_estimate(self.test_return_api_xml_parsed()))
+    #     self.assertEqual('1035000', get_zillow_price_estimate(self.test_get_api_xml_parsed()))
 
 
     # def test_get_neighborhood(full_address):
