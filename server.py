@@ -46,17 +46,20 @@ def search():
 
     # If the location is found in Zillow's API
     if response_code == 100:
-        neighborhood = get_neighborhood(full_address)
-        bedrooms = get_bedrooms(full_address)
-        bathrooms = get_bathrooms(full_address)
-        sqft = get_sqft(full_address)
-        latlng_point = get_latlong(full_address)
+        unit_details = get_zillow_unit_details(full_address)
+        # neighborhood = get_neighborhood(full_address)
+        # bedrooms = get_bedrooms(full_address)
+        # bathrooms = get_bathrooms(full_address)
+        # sqft = get_sqft(full_address)
+        # latlng_point = get_latlong(full_address)
 
         # Gets rent average data from db_queries
-        rent_avgs = get_avg_rent(bedrooms, bathrooms, sqft, latlng_point)
+        rent_avgs = get_avg_rent(unit_details['bedrooms'], unit_details['bathrooms'], unit_details['sqft'], unit_details['latlng_point'])
+        # rent_avgs = get_avg_rent(bedrooms, bathrooms, sqft, latlng_point)
 
         # Returns the response code and unit details from Zillow's API and PostgreSQL
-        listing = { 'response': response_code, 'price': price, 'neighborhood': neighborhood, 'bedrooms': bedrooms, 'bathrooms': bathrooms, 'sqft': sqft, 'rent_avgs': rent_avgs }
+        listing = { 'response': response_code, 'price': price, 'neighborhood': unit_details['neighborhood'], 'bedrooms': unit_details['bedrooms'], 'bathrooms': unit_details['bathrooms'], 'sqft': unit_details['sqft'], 'rent_avgs': rent_avgs }
+        # listing = { 'response': response_code, 'price': price, 'neighborhood': neighborhood, 'bedrooms': bedrooms, 'bathrooms': bathrooms, 'sqft': sqft, 'rent_avgs': rent_avgs }
     else:
         listing = { 'response': response_code, 'price': price }
 
