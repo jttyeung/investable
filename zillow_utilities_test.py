@@ -1,5 +1,5 @@
 import unittest
-
+import os
 from zillow_utilities import *
 
 
@@ -13,24 +13,33 @@ class ZillowTests (unittest.TestCase):
         # Get the Flask test client
         self.client = app.test_client()
 
-        # Mock an address
-        self.mock_address = {'address': '151 Bacardi Ave.', 'citystatezip': 'san francisco ca' }
+        self.mock_file_content = 'mock_zillow_api_xml_parsed.html'
 
-        # Mock an API response parsed by BeautifulSoup
-        self.mock_api_xml = open('mock_zillow_api_xml_parsed.html').read()
-        self.mock_api_xml_parsed = BeautifulSoup(self.mock_api_xml, 'lxml-xml')
+        # Mock an address
+        self.current_script_directory = os.path.dirname(os.path.realpath(__file__))
+        self.mock_address = 'file://' + self.current_script_directory + '/' + self.mock_file_content
+
+
+        # self.mock_api_xml_parsed = BeautifulSoup(self.mock_api_xml, 'lxml-xml')
         self.mock_api_response_code = 0
 
 
     def test_format_api_url(self):
+        # Mock an address
+        self.mock_address = {'address': '151 Bacardi Ave.', 'citystatezip': 'san francisco ca' }
+
         self.assertEqual('http://www.zillow.com/webservice/GetDeepSearchResults.htm?zws-id=' + app.zwsid + '&citystatezip=san+francisco+ca&address=151+Bacardi+Ave.', format_api_url(self.mock_address))
 
 
-    # def test_return_api_xml_parsed(self):
-    #     self.assertEqual( {'api_response_code': 0,
-    #                        'api_parsed_data': self.mock_api_xml_parsed
-    #                       }, return_api_xml_parsed(self.mock_address)
-    #                     )
+    def test_return_api_xml(self):
+        # Mock an API response parsed by BeautifulSoup
+        self.mock_api_xml = open(self.mock_file_content).read()
+        self.assertEqual(self.mock_api_xml, return_api_xml(self.mock_address))
+
+
+    def test_parse_xml(self):
+        parsed_xml = parse_xml(self.mock_address)
+        self.assertEqual(0, parsed_xml['api_response_code'])
 
 
     # def get_zillow_html_page(self):
@@ -41,10 +50,10 @@ class ZillowTests (unittest.TestCase):
     #     pass
 
 
-    # def test_get_unit_price(self):
-    #     self.assertEqual('(100, '$1,500,500')', get_unit_price())
-    #     self.assertEqual('(200, ''We found the unit you were searching for, but it\'s not currently for sale. Zillow\'s estimated current market value of that unit is $1395020)', get_unit_price())
-    #     self.assertEqual('(300, 'Sorry, we couldn't find a unit with that listing address. Please try your search again.')', get_unit_price())
+    def test_get_unit_price(self):
+        self.assertEqual((100, '$1,500,500'), get_unit_price(self.mock_address))
+        # self.assertEqual((200, 'We found the unit you were searching for, but it\'s not currently for sale. Zillow\'s estimated current market value of that unit is $1395020), get_unit_price())
+        # self.assertEqual('(300, 'Sorry, we couldn't find a unit with that listing address. Please try your search again.')', get_unit_price())
 
 
     # def test_get_zillow_price_estimate(self):
