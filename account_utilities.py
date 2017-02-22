@@ -1,7 +1,7 @@
 import bcrypt
 
 from model import *
-from server import verify_login, registration_complete
+from server import *
 
 
 def hash_password(password):
