@@ -48,3 +48,9 @@ form input[id=mortgage-rate] {
   font-family: 'PT Sans', sans-serif;
   font-weight: bold;
 }
+
+#map {
+    height: 500px;
+    width: 500px;
+}
+

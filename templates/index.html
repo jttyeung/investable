@@ -11,13 +11,14 @@
       <input type="textbox" id="citystatezip-search" placeholder="City, State or Zipcode" required>
       <!-- modify required text warning to "a city, state, or zipcode is required to search" -->
       <!--   change this to a keyboard stroke of 'enter' instead of having submit button -->
-      <input type="submit" value="Search">
+      <input id="search" type="submit" value="Search">
     </form>
     <!-- search bar goes here -->
   </div>
 </div>
 
 <div class="row page">
+  <div id="map"></div>
   <div id="property-details-page" class="page col-xs-12">
     Property Price: <span id="list-price"></span><br>
     <form id="mortgage-calculator">
