@@ -42,7 +42,7 @@ def search():
     full_address.update(request.args.items())
 
     # Gets API response data from zillow_utilities
-    response_code, price = get_unit_price(full_address)
+    response_code, price, hoa = get_unit_price(full_address)
 
     # If the location is found in Zillow's API
     if response_code == 100:
@@ -58,8 +58,12 @@ def search():
         # rent_avgs = get_avg_rent(bedrooms, bathrooms, sqft, latlng_point)
 
         # Returns the response code and unit details from Zillow's API and PostgreSQL
-        listing = { 'response': response_code, 'price': price, 'neighborhood': unit_details['neighborhood'], 'bedrooms': unit_details['bedrooms'], 'bathrooms': unit_details['bathrooms'], 'sqft': unit_details['sqft'], 'rent_avgs': rent_avgs }
+        listing = { 'response': response_code, 'price': price, 'neighborhood': unit_details['neighborhood'], 'bedrooms': unit_details['bedrooms'], 'bathrooms': unit_details['bathrooms'], 'sqft': unit_details['sqft'], 'hoa': hoa, 'latitude': unit_details['latitude'], 'longitude': unit_details['longitude'], 'latlng_point': unit_details['latlng_point'], 'rent_avgs': rent_avgs, 'zpid': unit_details['zpid'] }
         # listing = { 'response': response_code, 'price': price, 'neighborhood': neighborhood, 'bedrooms': bedrooms, 'bathrooms': bathrooms, 'sqft': sqft, 'rent_avgs': rent_avgs }
+
+        # Adds a listing to the database
+        add_listing_to_db(listing)
+
     else:
         listing = { 'response': response_code, 'price': price }
 

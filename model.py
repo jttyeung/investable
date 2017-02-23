@@ -58,8 +58,9 @@ class Listing(db.Model):
 
     __tablename__ = 'listings'
 
-    listing_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    zpid = db.Column(db.Integer, primary_key=True)
     price = db.Column(db.Integer, nullable=False)
+    hoa = db.Column(db.Integer, nullable=True)
     photo_url = db.Column(db.String(2083), nullable=True)
     detail_id = db.Column(db.Integer, db.ForeignKey('unitdetails.detail_id'), nullable=False)
 
@@ -69,7 +70,7 @@ class Listing(db.Model):
     def __repr__(self):
         """ Shows information about the unit for sale. """
 
-        return '<Listing id=%s price=%s detail_id=%s>' % (self.listing_id, self.price, self.detail_id)
+        return '<Listing id=%s price=%s detail_id=%s>' % (self.zpid, self.price, self.detail_id)
 
 
 class Rental(db.Model):
@@ -98,7 +99,7 @@ class Favorite(db.Model):
 
     favorite_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
-    listing_id = db.Column(db.Integer, db.ForeignKey('listings.listing_id'), nullable=False)
+    zpid = db.Column(db.Integer, db.ForeignKey('listings.zpid'), nullable=False)
     date_saved = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
     users = db.relationship('User', backref='favorites')
@@ -108,7 +109,7 @@ class Favorite(db.Model):
     def __repr__(self):
         """ Shows the user's favorite homes. """
 
-        return '<Favorite id=%s user_id=%s listing_id=%s date_saved=%s>' % (self.favorite_id, self.user_id, self.listing_id, self.date_saved)
+        return '<Favorite id=%s user_id=%s zpid=%s date_saved=%s>' % (self.favorite_id, self.user_id, self.zpid, self.date_saved)
 
 
 ##############################################################################
@@ -157,11 +158,11 @@ def sample_data():
     rental5 = Rental(cl_id=6007117645, price=3155, date_posted='2017-02-18 00:19:55+00', detail_id=detail10)
 
     # Add sample favorites
-    favorite1 = Favorite(user_id=fiyero, listing_id=listing3, date_saved='2017-01-18 21:11:35.537000')
-    favorite2 = Favorite(user_id=elphaba, listing_id=listing3, date_saved='2017-02-01 17:51:43.235000')
-    favorite3 = Favorite(user_id=elphaba, listing_id=listing1, date_saved='2017-02-10 11:08:51.067000')
-    favorite4 = Favorite(user_id=elphaba, listing_id=listing5, date_saved='2017-02-13 12:36:12.473000')
-    favorite5 = Favorite(user_id=glinda, listing_id=listing3, date_saved='2017-02-16 14:27:36.182000')
+    favorite1 = Favorite(user_id=fiyero, zpid=listing3, date_saved='2017-01-18 21:11:35.537000')
+    favorite2 = Favorite(user_id=elphaba, zpid=listing3, date_saved='2017-02-01 17:51:43.235000')
+    favorite3 = Favorite(user_id=elphaba, zpid=listing1, date_saved='2017-02-10 11:08:51.067000')
+    favorite4 = Favorite(user_id=elphaba, zpid=listing5, date_saved='2017-02-13 12:36:12.473000')
+    favorite5 = Favorite(user_id=glinda, zpid=listing3, date_saved='2017-02-16 14:27:36.182000')
 
     # Add and commit to test database
     db.session.add_all([fiyero, wizard, elphaba, glinda,

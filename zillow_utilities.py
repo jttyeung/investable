@@ -101,6 +101,9 @@ def get_unit_price(full_address):
         100: Successful unit price received from Zillow page
         200: Found unit on Zillow's API, but unit is not listed for sale
         300: Could not match address location to API results
+
+    Returns HOA
+        -1: No HOA exists
     """
 
     zillow_html_parsed = parse_html(full_address)
@@ -112,18 +115,27 @@ def get_unit_price(full_address):
             # Check if there is a listing price on Zillow
             unit_price_string = str(zillow_html_parsed.find('div', class_='main-row home-summary-row').find('span'))
             unit_price = unit_price_string[unit_price_string.index('$') : unit_price_string.index(' <span class="value-suffix">')]
-            return (100, unit_price)
+
+            # Get the HOA price if one exists
+            unit_hoa_string = zillow_html_parsed.find('section', class_='zsg-content-section').getText()
+            try:
+                unit_hoa_extracted = unit_hoa_string[unit_hoa_string.index('HOA Fee: $') : unit_hoa_string.index('/mo')]
+                unit_hoa = int(re.sub('[^\d.]+', '', unit_hoa_extracted))
+            except ValueError:
+                unit_hoa = None
+
+            return (100, unit_price, unit_hoa)
 
         except AttributeError:
             # if get_zillow_price_estimate(full_address):
             # If unit is found off-market, look for a price estimate
             zillow_price_estimate = int(get_zillow_price_estimate(full_address))
 
-            return (200, 'We found the unit you were searching for, but it\'s not currently for sale. Zillow\'s estimated current market value of that unit is ${:,}'.format(zillow_price_estimate))
+            return (200, 'We found the unit you were searching for, but it\'s not currently for sale. Zillow\'s estimated current market value of that unit is ${:,}'.format(zillow_price_estimate), None)
 
     else:
         # Otherwise unit is not found/address entered is incorrect
-        return (300, 'Sorry, we couldn\'t find a unit with that listing address. Please try your search again.')
+        return (300, 'Sorry, we couldn\'t find a unit with that listing address. Please try your search again.', None)
 
 
 
@@ -146,17 +158,37 @@ def get_zillow_unit_details(full_address):
 
     api_xml_parsed = parse_xml(full_address)
     api_xml_data = api_xml_parsed['api_parsed_data']
-
-    neighborhood = api_xml_data.find('region').get('name')
+    zpid = api_xml_data.find('zpid').getText()
     latitude = api_xml_data.find('latitude').getText()
     longitude = api_xml_data.find('longitude').getText()
     latlng_point = 'POINT({} {})'.format(latitude, longitude)
-    bedrooms = api_xml_data.find('bedrooms').getText()
-    bathrooms = api_xml_data.find('bathrooms').getText()
-    sqft = api_xml_data.find('finishedSqFt').getText()
+
+    try:
+        neighborhood = api_xml_data.find('region').get('name')
+    except:
+        neighborhood = None
+
+    try:
+        bedrooms = api_xml_data.find('bedrooms').getText()
+    except:
+        bedrooms = None
+
+    try:
+        bathrooms = api_xml_data.find('bathrooms').getText()
+    except AttributeError:
+        bathrooms = None
+
+    try:
+        sqft = api_xml_data.find('finishedSqFt').getText()
+    except AttributeError:
+        sqft = None
 
 
-    return {'neighborhood': neighborhood,
+
+    return {'zpid': zpid,
+            'neighborhood': neighborhood,
+            'latitude': latitude,
+            'longitude': longitude,
             'latlng_point': latlng_point,
             'bedrooms': bedrooms,
             'bathrooms': bathrooms,

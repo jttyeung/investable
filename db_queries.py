@@ -23,3 +23,33 @@ def get_avg_rent(bedrooms, bathrooms, sqft, latlng_point):
 
     # # TEST QUERY:
     # db.session.query(func.avg(Rental.price)).join(UnitDetails).filter((func.ST_Distance_Sphere('POINT(37.7651614 -122.460148)', UnitDetails.latlng) < 1409) & (UnitDetails.bedrooms == 1) & (UnitDetails.bathrooms == 1) & (UnitDetails.sqft > 700)).all()[0][0]
+
+
+def add_listing_to_db(listing):
+
+    latlng = 'POINT({} {})'.format(listing['latitude'], listing['longitude'])
+    price = re.sub('[^\d.]+', '', listing['price'])
+
+    try:
+        new_unit_details = UnitDetails(neighborhood=listing['neighborhood'],
+                                       bedrooms=listing['bedrooms'],
+                                       bathrooms=listing['bathrooms'],
+                                       sqft=listing['sqft'],
+                                       latitude=listing['latitude'],
+                                       longitude=listing['longitude'],
+                                       latlng=latlng
+                                       )
+
+        db.session.add(new_unit_details)
+
+        new_listing = Listing(zpid=listing['zpid'],
+                              price=price,
+                              hoa=listing['hoa'],
+                              unitdetails=new_unit_details)
+
+        db.session.add(new_listing)
+
+        db.session.commit()
+
+    except:
+        db.session.rollback()
