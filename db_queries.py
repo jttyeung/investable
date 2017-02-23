@@ -3,7 +3,7 @@ from model import *
 
 
 def get_avg_rent(bedrooms, bathrooms, sqft, latlng_point):
-    """ Gets the average rent within search radius """
+    """ Gets the average rent within search radius. """
 
     # Search radius distance in meters. 1609 meters ~ 1 mile
     SEARCH_RADIUS = 3219
@@ -26,6 +26,7 @@ def get_avg_rent(bedrooms, bathrooms, sqft, latlng_point):
 
 
 def add_listing_to_db(listing):
+    """ Adds a unit listing to the database. """
 
     latlng = 'POINT({} {})'.format(listing['latitude'], listing['longitude'])
     price = re.sub('[^\d.]+', '', listing['price'])

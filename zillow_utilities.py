@@ -97,13 +97,14 @@ def get_unit_price(full_address):
     """
     Extracts listing price of unit from Zillow's HTML listing page.
 
-    Returns tuple of code and price and/or message. Codes are defined:
+    Returns tuple of 3 items (response code, price and/or message, HOA amount).
+
+    Response Codes are defined as:
         100: Successful unit price received from Zillow page
         200: Found unit on Zillow's API, but unit is not listed for sale
         300: Could not match address location to API results
 
-    Returns HOA
-        -1: No HOA exists
+    Returns None if no HOA exists.
     """
 
     zillow_html_parsed = parse_html(full_address)
