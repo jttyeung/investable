@@ -24,7 +24,7 @@ class CraigslistSpider(CrawlSpider):
 
     # Start crawling from these URLs
     # start_urls = ['https://sfbay.craigslist.org/search/eby/apa', 'https://sfbay.craigslist.org/search/pen/apa', 'https://sfbay.craigslist.org/search/nby/apa', 'https://sfbay.craigslist.org/search/sfc/apa', 'https://sfbay.craigslist.org/search/sby/apa']
-    start_urls = ['https://sfbay.craigslist.org/search/nby/apa']
+    start_urls = ['https://sfbay.craigslist.org/search/sfc/apa']
 
     rules = (
         # Extracts links out of the start URL with the class restriction specified (refers to the rental posting link)
