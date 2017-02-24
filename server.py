@@ -1,6 +1,6 @@
 """ Investable Server """
 
-from flask import Flask, render_template, redirect, flash, request, jsonify
+from flask import Flask, render_template, redirect, flash, request, jsonify, json
 from flask_debugtoolbar import DebugToolbarExtension
 
 import jinja2
@@ -62,6 +62,19 @@ def search():
         listing = { 'response': response_code, 'price': price }
 
     return jsonify(listing)
+
+
+@app.route('/listings.json')
+def get_listings():
+    """ Uses city, state or zip entered by user to find listings in the surrounding area. """
+
+    geo_bounds = request.args.get('geoBounds')
+    geo_bounds_dict = json.loads(geo_bounds)
+
+    # Retrieves listings from db_queries
+    listings_in_range = find_all_listings(geo_bounds_dict)
+    print listings_in_range
+    return jsonify(listings_in_range)
 
 
 @app.route('/calculator')

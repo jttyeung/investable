@@ -21,10 +21,6 @@ def get_avg_rent(bedrooms, bathrooms, sqft, latlng_point):
     return { 'avg_rent_by_br': avg_rent_by_br, 'avg_rent_by_sqft': avg_rent_by_sqft }
 
 
-    # # TEST QUERY:
-    # db.session.query(func.avg(Rental.price)).join(UnitDetails).filter((func.ST_Distance_Sphere('POINT(37.7651614 -122.460148)', UnitDetails.latlng) < 1409) & (UnitDetails.bedrooms == 1) & (UnitDetails.bathrooms == 1) & (UnitDetails.sqft > 700)).all()[0][0]
-
-
 def add_listing_to_db(listing):
     """ Adds a unit listing to the database. """
 
@@ -54,3 +50,43 @@ def add_listing_to_db(listing):
 
     except:
         db.session.rollback()
+
+
+def find_all_listings(bounds):
+    """ Finds all the listings within the geocoded location range. """
+
+    # Query for the listings in the database within the latitude and
+    # longitude bounds of the user's search
+    listings = db.session.query(Listing).join(UnitDetails).filter((bounds['west'] < UnitDetails.longitude), (bounds['east'] > UnitDetails.longitude), (bounds['north'] > UnitDetails.latitude), (bounds['south'] < UnitDetails.latitude)).all()
+
+    listings_latlng = []
+
+    for listing in listings:
+        listings_latlng.append({'lat': listing.unitdetails.latitude, 'lng': listing.unitdetails.longitude})
+
+    print listings_latlng
+    return listings_latlng
+
+    # sample
+    # bounds = {'west': -123.17382499999997, 'east': -122.28178000000003, 'north': 37.9298239, 'south': 37.6398299}
+
+    #     ST_GeomFromText('POLYGON(   (-71.1776585052917 42.3902909739571,-71.1776820268866 42.3903701743239,-71.1776063012595 42.3903825660754,-71.1775826583081 42.3903033653531,-71.1776585052917 42.3902909739571)    )');
+
+
+    # if bounds.west <= db.session.query(UnitDetails.longitude) and db.session.query(UnitDetails.latitude) <= bounds.east and bounds.north <= p.y and p.y <= bounds.south:
+    #     print db.session.query(UnitDetails.latitude, UnitDetails.longitude)
+
+
+    # listings = db.session.query(Listing.zpid).join(UnitDetails).filter(func.ST_Contains(ST_GeomFromText('POLYGON((-123.17382499999997 37.9298239,-122.28178000000003 37.6398299))'),UnitDetails.latlng) == TRUE)
+
+    # listings = db.session.query(Listing.zpid).join(UnitDetails).filter(func.ST_Contains(ST_GeomFromText('POLYGON((-123.17382499999997 37.9298239,-122.28178000000003 37.6398299))'),UnitDetails.latlng) == TRUE)
+
+
+
+
+
+
+
+
+
+

@@ -7,6 +7,7 @@
 // $('#search-bar').on('submit', getUnitInfo);
 
 
+var markers = [];
 
 // Initialize Google Map
 function initMap() {
@@ -22,44 +23,82 @@ function initMap() {
         geocodeAddress(geocoder, map);
     });
 
+    function setMapOnAll(map){
+        for (var i = 0; i < markers.length; i++){
+            markers[i].setMap(map);
+        }
+    }
+
+    // Removes the markers from the map, but keeps them in the array
+    function clearMarkers() {
+        setMapOnAll(null);
+    }
+
+    // // Shows any markers currently in the array
+    // function showMarkers() {
+    //     setMapOnAll(map);
+    // }
+
+    // Deletes all markers in the array by removing references to them
+    function deleteMarkers() {
+        clearMarkers();
+        markers = [];
+    }
+
 
     // Using user's entered address, geocodes location to make map markers
     function geocodeAddress(geocoder, map) {
-        var address = document.getElementById('address-search').value;
-        var citystatezip = document.getElementById('citystatezip-search').value;
+        deleteMarkers();
+
+        // Gets the full address entered by the user
+        var fullAddress = { 'address': document.getElementById('address-search').value,
+                            'citystatezip': document.getElementById('citystatezip-search').value
+                          };
 
         // If only city/state/zip is entered and no address is entered,
         // find the center of that location on the map and
         // show markers for all listings available in that area
-        if (address === ''){
-            geocoder.geocode({'address': citystatezip}, function(results, status) {
+        if (fullAddress.address === ''){
+            geocoder.geocode({'address': fullAddress.citystatezip}, function(results, status) {
                 if (status === 'OK') {
                     map.setCenter(results[0].geometry.location);
-                    // For all locations within the bounds of the map,
-                    // show markers for each, up to ???
-                    $.get('/listings.json', function (listingResults){
-                        for (var i=0; i < listingResults.length < i++){
-                            var latitude = listingResults.latitude;
-                            var longitude = listingResults.longitude;
-                            var marker = new google.maps.Marker({
-                                map: map,
-                                position: {lat: latitude, lng: longitude}
-                            });
-                        }
-                    }
-                    // var marker = new google.maps.Marker({
-                    //     map: resultsMap,
-                    //     position: results[0].geometry.location
-                    // });
-                // } else {
-                //     alert('Geocode was not successful for the following reason: ' + status);
+                    var geoBounds = JSON.stringify(results[0].geometry.bounds);
+
+                    $.get('/listings.json', {'geoBounds': geoBounds}, addListingMarkers);
                 }
             });
+
+            // For all locations within the bounds of the map,
+            // show markers for each location
+            function addListingMarkers(listings){
+                for (var i=0; i < listings.length; i++){
+                    var latitude = parseFloat(listings[i]['lat']);
+                    var longitude = parseFloat(listings[i]['lng']);
+
+                    var marker = new google.maps.Marker({
+                        map: map,
+                        position: {lat: latitude, lng: longitude}
+                    });
+
+                    markers.push(marker);
+                }
+            }
+
+            // } else {
+            //     alert('Geocode was not successful for the following reason: ' + status);
+
         // If an exact location is entered, take that location and get the unit's information
         } else {
+            // document.getElementById('search-bar').addEventListener('submit', initMap);
             document.getElementById('search-bar').addEventListener('submit', getUnitInfo);
         }
     }
+
+    // // Add marker listeners
+    // marker.addListener('click', function() {
+    //   map.setZoom(8);
+    //   map.setCenter(marker.getPosition());
+    // });
 
 
     function getUnitInfo(evt) {
