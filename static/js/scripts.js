@@ -10,7 +10,7 @@
 var markers = [];
 
 // Initialize Google Map
-function initMap() {
+window.initMap = function () {
     var sanFrancisco = {lat: 37.7678149, lng: -122.4108119}
     var geocoder = new google.maps.Geocoder();
     var map = new google.maps.Map(document.getElementById('map'), {
@@ -62,6 +62,7 @@ function initMap() {
             geocoder.geocode({'address': fullAddress.citystatezip}, function(results, status) {
                 if (status === 'OK') {
                     map.setCenter(results[0].geometry.location);
+                    map.setZoom(13);
                     var geoBounds = JSON.stringify(results[0].geometry.bounds);
 
                     $.get('/listings.json', {'geoBounds': geoBounds}, addListingMarkers);
