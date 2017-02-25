@@ -80,7 +80,7 @@ window.initMap = function () {
                         map: map,
                         position: {lat: latitude, lng: longitude}
                     });
-
+                    // Store marker in markers array
                     markers.push(marker);
                 }
             }
@@ -90,7 +90,6 @@ window.initMap = function () {
 
         // If an exact location is entered, take that location and get the unit's information
         } else {
-            // document.getElementById('search-bar').addEventListener('submit', initMap);
             document.getElementById('search-bar').addEventListener('submit', getUnitInfo);
         }
     }
@@ -140,11 +139,17 @@ window.initMap = function () {
 
         // If successfully found listing on Zillow and listing is for sale
         if (listing.response === 100){
+            deleteMarkers();
             // Add a google maps marker
             var marker = new google.maps.Marker({
                 map: map,
                 position: {lat: latitude, lng: longitude}
             });
+            // Store marker in markers array
+            markers.push(marker);
+            // Reset center and zoom to marker location
+            map.setCenter({lat: latitude, lng: longitude});
+            map.setZoom(14);
             // Show the property details div
             $('#property-details-page').show()
             // Update the property details information on the page
