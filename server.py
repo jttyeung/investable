@@ -43,7 +43,6 @@ def search():
     full_address.update(request.args.items())
 
     # Gets API response data from zillow_utilities
-    print get_unit_price(full_address)
     response_code, price, message, hoa = get_unit_price(full_address)
 
     # If the location is found in Zillow's API
@@ -81,13 +80,12 @@ def get_rent_avgs():
     listing = request.args.get('listing')
     listing_dict = json.loads(listing)
 
+    # If source data contains a latlng_point
     if listing_dict.get('latlng_point'):
         latlng_point = listing_dict['latlng_point']
-        print 'first ' + latlng_point
+    # Otherwise, make a latlng point
     else:
         latlng_point = 'POINT({} {})'.format(listing_dict['latitude'],listing_dict['longitude'])
-        print 'else ' + latlng_point
-
 
     rent_avgs = get_avg_rent(listing_dict['bedrooms'], listing_dict['bathrooms'], listing_dict['sqft'], latlng_point)
 
@@ -103,10 +101,8 @@ def get_listings():
 
     # Retrieves listings from db_queries
     listings_in_range = find_all_listings(geo_bounds_dict)
-    # print listings_in_range
-    jsonified = jsonify(listings_in_range)
-    print jsonified
-    return jsonified
+
+    return jsonify(listings_in_range)
 
 
 @app.route('/calculator')

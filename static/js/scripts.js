@@ -129,11 +129,11 @@ function addListingMarkers(listings){
 
 
 function attachListener(marker, listing) {
+// Adds a click listener to each marker to update price when clicked
     marker.addListener('click', function() {
         updatePrice(listing, marker);
     });
 }
-
 
 
 function getUnitInfo(evt) {
@@ -199,14 +199,11 @@ function updatePrice(listing, marker) {
             var marker = new google.maps.Marker({
                 map: map,
                 position: {lat: latitude, lng: longitude},
-                icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
             });
+            // Zoom in on marker
+            map.setZoom(14);
             // Store marker in markers array
             markers.push(marker);
-            // Get the average rent rate in the surrounding area
-            // updateAvgRentRate(avgRent);
-            var listing = JSON.stringify(listing);
-            $.get('/avgrent.json', {'listing': listing}, updateAvgRentRate);
         }
         // Resets all marker colors
         resetMarkerSelections();

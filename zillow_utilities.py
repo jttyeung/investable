@@ -88,6 +88,7 @@ def get_unit_price(full_address):
             # Check if there is a listing price on Zillow
             unit_price_string = str(zillow_html_parsed.find('div', class_='main-row home-summary-row').find('span'))
             unit_price = unit_price_string[unit_price_string.index('$') : unit_price_string.index(' <span class="value-suffix">')]
+            unit_price_num = re.sub('[\D]+', '', unit_price)
 
             # Get the HOA price if one exists
             unit_hoa_string = zillow_html_parsed.find('section', class_='zsg-content-section').getText()
@@ -97,7 +98,7 @@ def get_unit_price(full_address):
             except ValueError:
                 unit_hoa = None
 
-            return (100, unit_price, 'Successfully found unit.', unit_hoa)
+            return (100, unit_price_num, 'Successfully found unit.', unit_hoa)
 
         except AttributeError:
             # if get_zillow_price_estimate(full_address):
