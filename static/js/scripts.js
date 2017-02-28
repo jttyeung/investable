@@ -139,8 +139,6 @@ function attachListener(marker, listing) {
 function getUnitInfo(evt) {
     // Resets page values on new search
     $('#list-price').html('');
-    $('#mortgage-rate').val('');
-    $('#mortgage-downpayment').attr('placeholder', 0);
     $('#monthly-payment').html('');
     $('#total-payment').html('');
     $('#avg-rent-by-br').html('');
@@ -211,6 +209,12 @@ function updatePrice(listing, marker) {
         setMarkerSelection(marker, listing);
         // Center map to marker location
         map.setCenter({lat: latitude, lng: longitude});
+
+        var rate = $('#mortgage-rate').val();
+        var downpayment = $('#mortgage-downpayment').val();
+        if (rate && downpayment){
+            getMonthlyPayment(price);
+        }
         // Show the property details div
         $('#property-details-page').show();
         // Update the property details information on the page
@@ -263,8 +267,12 @@ $('#mortgage-calculator').on('submit', getMonthlyPayment);
 
 // Calculates the mortgage payment for the home price listed
 function getMonthlyPayment(evt){
-    evt.preventDefault();
+    // If event type is object (new click event), prevent event default action
+    if (typeof(evt) === typeof({})){
+        evt.preventDefault();
+    }
 
+    // Get mortgage details from user inputs
     var mortgageDetails = {
         'price': $('#list-price').html(),
         'rate': $('#mortgage-rate').val(),
