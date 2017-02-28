@@ -67,7 +67,7 @@ function geocodeAddress(geocoder, map) {
     if (fullAddress.address === ''){
         // Create geocoder
         var geocoder = new google.maps.Geocoder();
-        console.log('inside fulladdress empty');
+
         // Geocode just the city and state or zipcode
         geocoder.geocode({'address': fullAddress.citystatezip}, function(results, status) {
 
@@ -76,19 +76,31 @@ function geocodeAddress(geocoder, map) {
                 // Set the zoom and center of the map to that location
                 map.setCenter(results[0].geometry.location);
                 map.setZoom(13);
-                // Extract the map boundaries provided by the geocoder
-                var geoBounds = JSON.stringify(results[0].geometry.bounds);
+
+                // Extract the map boundaries from geocoded location
+                var bounds = results[0].geometry.bounds;
+
+                if (bounds){
+                    var geoBounds = JSON.stringify(bounds);
+                // If no boundaries exist, use map viewport box from geocoded location
+                } else {
+                    var viewport = results[0].geometry.viewport;
+                    var geoBounds = JSON.stringify(viewport);
+                }
+
                 // Get all listings for sale within the map boundaries
                 $.get('/listings.json', {'geoBounds': geoBounds}, addListingMarkers);
+
+            // If the location cannot be geocoded, raise error message to user
+            } else {
+                $('#div-message').html('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + "We weren't able to find that location. Please try your search again.");
+                $('#div-message').addClass('btn-danger');
+                $('#div-message').removeAttr('hidden');
             }
         });
 
-        // } else {
-        //     alert('Geocode was not successful for the following reason: ' + status);
-
     // If an exact location is entered, take that location and get the unit's information
     } else {
-        console.log('inside fulladdress else');
         getUnitInfo();
     }
 }
@@ -151,7 +163,6 @@ function calculateTwentyPercentDownpayment(price) {
 
 
 function updatePrice(listing, marker) {
-    console.log(listing);
     // Updates page with unit details if the unit is available,
     // only shows an alert with a Zillow price estimate if unit is off-market,
     // or error message if unit address is not found.
@@ -180,7 +191,6 @@ function updatePrice(listing, marker) {
     //     updateAvgRentRate(avgRent);
     // } else
     if (listing.response === 100){
-        // deleteMarkers();
         // Add a google maps marker
 
         // If markers do not exist, then it is a new search listing
@@ -193,19 +203,22 @@ function updatePrice(listing, marker) {
             });
             // Store marker in markers array
             markers.push(marker);
+            // Get the average rent rate in the surrounding area
+            // updateAvgRentRate(avgRent);
+            var listing = JSON.stringify(listing);
+            $.get('/avgrent.json', {'listing': listing}, updateAvgRentRate);
         }
-        // Reset center and zoom to marker locations
+        // Resets all marker colors
         resetMarkerSelections();
-        setMarkerSelection(marker);
+        // Sets clicked marker to new color
+        setMarkerSelection(marker, listing);
+        // Center map to marker location
         map.setCenter({lat: latitude, lng: longitude});
-        // map.setZoom(14);
         // Show the property details div
-        $('#property-details-page').show()
+        $('#property-details-page').show();
         // Update the property details information on the page
         $('#list-price').html(price);
         $('#mortgage-downpayment').attr('placeholder', twentyPercentDownpayment);
-        // Get the average rent rate in the surrounding area
-        updateAvgRentRate(avgRent);
 
     // If listing is found on Zillow, but it is not for sale
     } else if (listing.response === 200) {
@@ -231,8 +244,12 @@ function resetMarkerSelections() {
 
 
 // Set selected marker to blue
-function setMarkerSelection(marker) {
+function setMarkerSelection(marker, listing) {
     marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+
+    // Get average rent rate on marker selection
+    var listing = JSON.stringify(listing);
+    $.get('/avgrent.json', {'listing': listing}, updateAvgRentRate);
 }
 
 

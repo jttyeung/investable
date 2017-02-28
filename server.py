@@ -50,9 +50,6 @@ def search():
     if response_code == 100:
         unit_details = get_zillow_unit_details(full_address)
 
-        # Gets rent average data from db_queries
-        rent_avgs = get_avg_rent(unit_details['bedrooms'], unit_details['bathrooms'], unit_details['sqft'], unit_details['latlng_point'])
-
         # Returns the response code and unit details from Zillow's API and PostgreSQL
         listing = { 'response': response_code,
                     'price': price,
@@ -65,7 +62,6 @@ def search():
                     'latitude': unit_details['latitude'],
                     'longitude': unit_details['longitude'],
                     'latlng_point': unit_details['latlng_point'],
-                    'rent_avgs': rent_avgs,
                     'zpid': unit_details['zpid']
                     }
 
@@ -76,6 +72,26 @@ def search():
         listing = { 'response': response_code, 'price': price, 'message': message }
 
     return jsonify(listing)
+
+
+@app.route('/avgrent.json')
+def get_rent_avgs():
+    """ Gets average rent data from db_queries. """
+
+    listing = request.args.get('listing')
+    listing_dict = json.loads(listing)
+
+    if listing_dict.get('latlng_point'):
+        latlng_point = listing_dict['latlng_point']
+        print 'first ' + latlng_point
+    else:
+        latlng_point = 'POINT({} {})'.format(listing_dict['latitude'],listing_dict['longitude'])
+        print 'else ' + latlng_point
+
+
+    rent_avgs = get_avg_rent(listing_dict['bedrooms'], listing_dict['bathrooms'], listing_dict['sqft'], latlng_point)
+
+    return jsonify(rent_avgs)
 
 
 @app.route('/listings.json')

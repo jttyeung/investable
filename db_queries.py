@@ -8,7 +8,7 @@ def get_avg_rent(bedrooms, bathrooms, sqft, latlng_point):
     # Search radius distance in meters. 1609 meters ~ 1 mile
     SEARCH_RADIUS = 3219
 
-    # Search + and - sqft range difference
+    # Search within + and - this amount of sqft difference
     SEARCH_SQFT_RANGE = 250
 
     # Search average rent price by radius by accuracy of number of bedrooms
@@ -73,6 +73,7 @@ def find_all_listings(bounds):
                                 'bathrooms': listing.unitdetails.bathrooms,
                                 'sqft': listing.unitdetails.sqft,
                                 'hoa': listing.hoa,
+                                'zpid': listing.zpid
                                 # 'rent_avgs': 10
                                 # 'rent_avgs': get_avg_rent(
                                 #                 listing.unitdetails.bedrooms,
