@@ -62,10 +62,25 @@ def find_all_listings(bounds):
     listings_latlng = []
 
     for listing in listings:
-        listings_latlng.append({'lat': listing.unitdetails.latitude, 'lng': listing.unitdetails.longitude})
+        listings_latlng.append({'response': 100,  # mock api found listing response
+                                'latitude': listing.unitdetails.latitude,
+                                'longitude': listing.unitdetails.longitude,
+                                'price': listing.price,
+                                'bedrooms': listing.unitdetails.bedrooms,
+                                'bathrooms': listing.unitdetails.bathrooms,
+                                'sqft': listing.unitdetails.sqft,
+                                'hoa': listing.hoa,
+                                'rent_avgs': get_avg_rent(
+                                                listing.unitdetails.bedrooms,
+                                                listing.unitdetails.bathrooms,
+                                                listing.unitdetails.sqft,
+                                                listing.unitdetails.latlng)
+                                })
 
-    print listings_latlng
     return listings_latlng
+
+
+
 
     # sample
     # bounds = {'west': -123.17382499999997, 'east': -122.28178000000003, 'north': 37.9298239, 'south': 37.6398299}

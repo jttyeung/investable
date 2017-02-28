@@ -74,7 +74,8 @@ def get_listings():
     # Retrieves listings from db_queries
     listings_in_range = find_all_listings(geo_bounds_dict)
     print listings_in_range
-    return jsonify(listings_in_range)
+    jsonified = jsonify(listings_in_range)
+    print jsonified
 
 
 @app.route('/calculator')
