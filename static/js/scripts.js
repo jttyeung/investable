@@ -183,16 +183,20 @@ function updatePrice(listing, marker) {
         // deleteMarkers();
         // Add a google maps marker
 
+        // If markers do not exist, then it is a new search listing
         if (!marker.position){
+            // Add new marker
             var marker = new google.maps.Marker({
                 map: map,
-                position: {lat: latitude, lng: longitude}
+                position: {lat: latitude, lng: longitude},
+                icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
             });
             // Store marker in markers array
             markers.push(marker);
         }
-        // Reset center and zoom to marker location
-        marker.icon.strokeColor
+        // Reset center and zoom to marker locations
+        resetMarkerSelections();
+        setMarkerSelection(marker);
         map.setCenter({lat: latitude, lng: longitude});
         // map.setZoom(14);
         // Show the property details div
@@ -218,6 +222,18 @@ function updatePrice(listing, marker) {
 }
 
 
+// Reset all marker colors to red on new marker selection
+function resetMarkerSelections() {
+    for (var i=0; i < markers.length; i++){
+        markers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
+    }
+}
+
+
+// Set selected marker to blue
+function setMarkerSelection(marker) {
+    marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+}
 
 
 // Closes any div "alerts" on click
