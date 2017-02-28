@@ -97,26 +97,30 @@ function geocodeAddress(geocoder, map) {
 // show markers for each location
 function addListingMarkers(listings){
     for (var i=0; i < listings.length; i++){
-        var latitude = parseFloat(listings[i]['latitude']);
-        var longitude = parseFloat(listings[i]['longitude']);
+        var listing = listings[i];
+        var latitude = parseFloat(listing['latitude']);
+        var longitude = parseFloat(listing['longitude']);
 
         // Creates a marker for each listing
         var marker = new google.maps.Marker({
             map: map,
             position: {lat: latitude, lng: longitude},
-            details: listings[i]
+            details: listing
         });
+        attachListener(marker, listing);
+
         // Stores each marker in global markers array
         markers.push(marker);
-
-        var listing = listings[i];
-        // Add an event listener for each marker
-        marker.addListener('click', function() {
-            // map.setCenter(marker.getPosition());
-            updatePrice(listing);
-        });
     }
 }
+
+
+function attachListener(marker, listing) {
+    marker.addListener('click', function() {
+        updatePrice(listing, marker);
+    });
+}
+
 
 
 function getUnitInfo(evt) {
@@ -139,13 +143,14 @@ function getUnitInfo(evt) {
 }
 
 
-// Calculates 20% Downpayment
+// Calculates 20% downpayment of the price of the listing
 function calculateTwentyPercentDownpayment(price) {
     return Math.round(parseInt(price)*0.20);
 }
 
 
-function updatePrice(listing) {
+function updatePrice(listing, marker) {
+    console.log(listing);
     // Updates page with unit details if the unit is available,
     // only shows an alert with a Zillow price estimate if unit is off-market,
     // or error message if unit address is not found.
@@ -162,15 +167,28 @@ function updatePrice(listing) {
     var longitude = parseFloat(listing.longitude);
 
     // If successfully found listing on Zillow and listing is for sale
+    // if (listing.response === 999){
+    //     map.setCenter({lat: latitude, lng: longitude});
+    //     // map.setZoom(14);
+    //     // Show the property details div
+    //     $('#property-details-page').show()
+    //     // Update the property details information on the page
+    //     $('#list-price').html(price);
+    //     $('#mortgage-downpayment').attr('placeholder', twentyPercentDownpayment);
+    //     // Get the average rent rate in the surrounding area
+    //     updateAvgRentRate(avgRent);
+    // } else
     if (listing.response === 100){
         // deleteMarkers();
         // Add a google maps marker
-        var marker = new google.maps.Marker({
-            map: map,
-            position: {lat: latitude, lng: longitude}
-        });
-        // Store marker in markers array
-        markers.push(marker);
+        if (!marker.position){
+            var marker = new google.maps.Marker({
+                map: map,
+                position: {lat: latitude, lng: longitude}
+            });
+            // Store marker in markers array
+            markers.push(marker);
+        }
         // Reset center and zoom to marker location
         map.setCenter({lat: latitude, lng: longitude});
         // map.setZoom(14);
