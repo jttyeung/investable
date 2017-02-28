@@ -8,6 +8,9 @@ def get_avg_rent(bedrooms, bathrooms, sqft, latlng_point):
     # Search radius distance in meters. 1609 meters ~ 1 mile
     SEARCH_RADIUS = 3219
 
+    # Search + and - sqft range difference
+    SEARCH_SQFT_RANGE = 250
+
     # Search average rent price by radius by accuracy of number of bedrooms
     avg_rent_by_br = int(db.session.query(func.avg(Rental.price)).join(UnitDetails).filter((func.ST_Distance_Sphere(latlng_point, UnitDetails.latlng) < SEARCH_RADIUS) & (UnitDetails.bedrooms == bedrooms)).all()[0][0])
 
@@ -16,7 +19,7 @@ def get_avg_rent(bedrooms, bathrooms, sqft, latlng_point):
     # avg_rent_by_br_ba = db.session.query(func.avg(Rentals.price)).join(UnitDetails).filter((func.ST_Distance_Sphere(latlng_point, UnitDetails.latlng) < SEARCH_RADIUS) & (UnitDetails.bedrooms == bedrooms) & (UnitDetails.bathrooms == bathrooms)).all()[0][0]
 
     # Search average rent price by radius by accuracy of sqft range per (+) or (-) 250 sqft
-    avg_rent_by_sqft = int(db.session.query(func.avg(Rental.price)).join(UnitDetails).filter((func.ST_Distance_Sphere(latlng_point, UnitDetails.latlng) < SEARCH_RADIUS) & (UnitDetails.sqft.between(UnitDetails.sqft - 250, UnitDetails.sqft + 250))).all()[0][0])
+    avg_rent_by_sqft = int(db.session.query(func.avg(Rental.price)).join(UnitDetails).filter((func.ST_Distance_Sphere(latlng_point, UnitDetails.latlng) < SEARCH_RADIUS) & (UnitDetails.sqft.between(UnitDetails.sqft - SEARCH_SQFT_RANGE, UnitDetails.sqft + SEARCH_SQFT_RANGE))).all()[0][0])
 
     return { 'avg_rent_by_br': avg_rent_by_br, 'avg_rent_by_sqft': avg_rent_by_sqft }
 
@@ -70,11 +73,12 @@ def find_all_listings(bounds):
                                 'bathrooms': listing.unitdetails.bathrooms,
                                 'sqft': listing.unitdetails.sqft,
                                 'hoa': listing.hoa,
-                                'rent_avgs': get_avg_rent(
-                                                listing.unitdetails.bedrooms,
-                                                listing.unitdetails.bathrooms,
-                                                listing.unitdetails.sqft,
-                                                listing.unitdetails.latlng)
+                                # 'rent_avgs': 10
+                                # 'rent_avgs': get_avg_rent(
+                                #                 listing.unitdetails.bedrooms,
+                                #                 listing.unitdetails.bathrooms,
+                                #                 listing.unitdetails.sqft,
+                                #                 listing.unitdetails.latlng)
                                 })
 
     return listings_latlng

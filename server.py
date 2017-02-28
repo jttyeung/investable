@@ -54,7 +54,20 @@ def search():
         rent_avgs = get_avg_rent(unit_details['bedrooms'], unit_details['bathrooms'], unit_details['sqft'], unit_details['latlng_point'])
 
         # Returns the response code and unit details from Zillow's API and PostgreSQL
-        listing = { 'response': response_code, 'price': price, 'neighborhood': unit_details['neighborhood'], 'bedrooms': unit_details['bedrooms'], 'bathrooms': unit_details['bathrooms'], 'sqft': unit_details['sqft'], 'hoa': hoa, 'latitude': unit_details['latitude'], 'longitude': unit_details['longitude'], 'latlng_point': unit_details['latlng_point'], 'rent_avgs': rent_avgs, 'zpid': unit_details['zpid'] }
+        listing = { 'response': response_code,
+                    'price': price,
+                    'message': message,
+                    'neighborhood': unit_details['neighborhood'],
+                    'bedrooms': unit_details['bedrooms'],
+                    'bathrooms': unit_details['bathrooms'],
+                    'sqft': unit_details['sqft'],
+                    'hoa': hoa,
+                    'latitude': unit_details['latitude'],
+                    'longitude': unit_details['longitude'],
+                    'latlng_point': unit_details['latlng_point'],
+                    'rent_avgs': rent_avgs,
+                    'zpid': unit_details['zpid']
+                    }
 
         # Adds a listing to the database
         add_listing_to_db(listing)
