@@ -14,7 +14,8 @@ window.initMap = function() {
 
     map = new google.maps.Map(document.getElementById('map'), {
         center: unitedStates,
-        zoom: 4
+        zoom: 4,
+        styles: [{"featureType":"administrative","elementType":"all","stylers":[{"visibility":"on"},{"lightness":33}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#f2e5d4"}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#c5dac6"}]},{"featureType":"poi.park","elementType":"labels","stylers":[{"visibility":"on"},{"lightness":20}]},{"featureType":"road","elementType":"all","stylers":[{"lightness":20}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"color":"#c5c6c6"}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#e4d7c6"}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#fbfaf7"}]},{"featureType":"water","elementType":"all","stylers":[{"visibility":"on"},{"color":"#acbcc9"}]}]
     });
 
     // Waits for search button to be clicked before geocoding
@@ -181,6 +182,7 @@ function updatePrice(listing, marker) {
     if (listing.response === 100){
         // deleteMarkers();
         // Add a google maps marker
+
         if (!marker.position){
             var marker = new google.maps.Marker({
                 map: map,
@@ -190,6 +192,7 @@ function updatePrice(listing, marker) {
             markers.push(marker);
         }
         // Reset center and zoom to marker location
+        marker.icon.strokeColor
         map.setCenter({lat: latitude, lng: longitude});
         // map.setZoom(14);
         // Show the property details div
