@@ -43,7 +43,8 @@ def search():
     full_address.update(request.args.items())
 
     # Gets API response data from zillow_utilities
-    response_code, price, hoa = get_unit_price(full_address)
+    print get_unit_price(full_address)
+    response_code, price, message, hoa = get_unit_price(full_address)
 
     # If the location is found in Zillow's API
     if response_code == 100:
@@ -59,7 +60,7 @@ def search():
         add_listing_to_db(listing)
 
     else:
-        listing = { 'response': response_code, 'price': price }
+        listing = { 'response': response_code, 'price': price, 'message': message }
 
     return jsonify(listing)
 
@@ -73,9 +74,10 @@ def get_listings():
 
     # Retrieves listings from db_queries
     listings_in_range = find_all_listings(geo_bounds_dict)
-    print listings_in_range
+    # print listings_in_range
     jsonified = jsonify(listings_in_range)
     print jsonified
+    return jsonified
 
 
 @app.route('/calculator')

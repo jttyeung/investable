@@ -97,18 +97,18 @@ def get_unit_price(full_address):
             except ValueError:
                 unit_hoa = None
 
-            return (100, unit_price, unit_hoa)
+            return (100, unit_price, 'Successfully found unit.', unit_hoa)
 
         except AttributeError:
             # if get_zillow_price_estimate(full_address):
             # If unit is found off-market, look for a price estimate
             zillow_price_estimate = int(get_zillow_price_estimate(full_address))
 
-            return (200, 'We found the unit you were searching for, but it\'s not currently for sale. Zillow\'s estimated current market value of that unit is ${:,}'.format(zillow_price_estimate), None)
+            return (200, get_zillow_price_estimate, 'We found the unit you were searching for, but it\'s not currently for sale. Zillow\'s estimated current market value of that unit is ${:,}'.format(zillow_price_estimate), None)
 
     else:
         # Otherwise unit is not found/address entered is incorrect
-        return (300, 'Sorry, we couldn\'t find a unit with that listing address. Please try your search again.', None)
+        return (300, None, 'Sorry, we couldn\'t find a unit with that listing address. Please try your search again.', None)
 
 
 

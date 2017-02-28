@@ -22,18 +22,16 @@ window.initMap = function() {
         evt.preventDefault();
         geocodeAddress(geocoder, map);
     });
-
-    // setMapOnAll(map);
-    // clearMarkers();
-    // deleteMarkers();
-
 }
 
+
+// Sets all markers on map
 function setMapOnAll(map){
     for (var i = 0; i < markers.length; i++){
         markers[i].setMap(map);
     }
 }
+
 
 // Removes the markers from the map, but keeps them in the array
 function clearMarkers() {
@@ -45,32 +43,41 @@ function clearMarkers() {
 //     setMapOnAll(map);
 // }
 
+
 // Deletes all markers in the array by removing references to them
 function deleteMarkers() {
     clearMarkers();
     markers = [];
 }
 
-// Using user's entered address, geocodes location to make map markers
+
+// Geocodes the location of the user-entered address
 function geocodeAddress(geocoder, map) {
     deleteMarkers();
-    // Gets the full address entered by the user
+
+    // Gets the full address (street, city, state, zip) entered by the user
     var fullAddress = { 'address': document.getElementById('address-search').value,
                         'citystatezip': document.getElementById('citystatezip-search').value
                       };
 
-    // If only city/state/zip is entered and no address is entered,
-    // find the center of that location on the map and
-    // get location of all listings for sale in that area
+    // If only city and state or zipcode is entered,
+    // geocode that location on the map and
+    // get the location of all listings for sale in that area
     if (fullAddress.address === ''){
+        // Create geocoder
         var geocoder = new google.maps.Geocoder();
         console.log('inside fulladdress empty');
+        // Geocode just the city and state or zipcode
         geocoder.geocode({'address': fullAddress.citystatezip}, function(results, status) {
+
+            // If the location is found via geocoder
             if (status === 'OK') {
+                // Set the zoom and center of the map to that location
                 map.setCenter(results[0].geometry.location);
                 map.setZoom(13);
+                // Extract the map boundaries provided by the geocoder
                 var geoBounds = JSON.stringify(results[0].geometry.bounds);
-
+                // Get all listings for sale within the map boundaries
                 $.get('/listings.json', {'geoBounds': geoBounds}, addListingMarkers);
             }
         });
@@ -80,6 +87,7 @@ function geocodeAddress(geocoder, map) {
 
     // If an exact location is entered, take that location and get the unit's information
     } else {
+        console.log('inside fulladdress else');
         getUnitInfo();
     }
 }
@@ -88,19 +96,21 @@ function geocodeAddress(geocoder, map) {
 // For all locations within the bounds of the map,
 // show markers for each location
 function addListingMarkers(listings){
-    console.log('listings: '+ listings);
     for (var i=0; i < listings.length; i++){
-        var latitude = parseFloat(listings[i]['lat']);
-        var longitude = parseFloat(listings[i]['lng']);
+        var latitude = parseFloat(listings[i]['latitude']);
+        var longitude = parseFloat(listings[i]['longitude']);
+
+        // Creates a marker for each listing
         var marker = new google.maps.Marker({
             map: map,
-            position: {lat: latitude, lng: longitude}
+            position: {lat: latitude, lng: longitude},
+            details: listings[i]
         });
-        // Store marker in markers array
+        // Stores each marker in global markers array
         markers.push(marker);
 
         var listing = listings[i];
-        // Add marker listeners
+        // Add an event listener for each marker
         marker.addListener('click', function() {
             // map.setCenter(marker.getPosition());
             updatePrice(listing);
@@ -108,27 +118,12 @@ function addListingMarkers(listings){
     }
 }
 
-// function updatePropertyDetails(listing){
-//     // listing.lat
-//     // listing.lng
-//     // listing.bedrooms
-//     // listing.bathrooms
-//     // listing.sqft
-//     // listing.hoa
-//     $('#list-price').html(listing.price);
-//     $('#avg-rent-by-br').html(listing.rent_avgs.avg_rent_by_br);
-//     $('#avg-rent-by-sqft').html(listing.rent_avgs.avg_rent_by_sqft);
-// }
-
 
 function getUnitInfo(evt) {
-    evt.preventDefault();
-
     // Resets page values on new search
     $('#list-price').html('');
     $('#mortgage-rate').val('');
     $('#mortgage-downpayment').attr('placeholder', 0);
-    $('#neighborhood').html('');
     $('#monthly-payment').html('');
     $('#total-payment').html('');
     $('#avg-rent-by-br').html('');
@@ -143,6 +138,13 @@ function getUnitInfo(evt) {
     $.get('/search.json', fullAddress, updatePrice);
 }
 
+
+// Calculates 20% Downpayment
+function calculateTwentyPercentDownpayment(price) {
+    return Math.round(parseInt(price)*0.20);
+}
+
+
 function updatePrice(listing) {
     // Updates page with unit details if the unit is available,
     // only shows an alert with a Zillow price estimate if unit is off-market,
@@ -153,16 +155,15 @@ function updatePrice(listing) {
     // if (typeof price == 'string'){
     //     price = price.replace(/\D/g,'');
     // }
-    var twentyPercentDownpayment = Math.round(parseInt(price.replace(/\D/g,''))*0.20);
+    var twentyPercentDownpayment = calculateTwentyPercentDownpayment(price);
     //.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    var neighborhood = listing.neighborhood;
-    var avgRent = listing['rent_avgs'];
+    var avgRent = listing.rent_avgs;
     var latitude = parseFloat(listing.latitude);
     var longitude = parseFloat(listing.longitude);
 
     // If successfully found listing on Zillow and listing is for sale
     if (listing.response === 100){
-        deleteMarkers();
+        // deleteMarkers();
         // Add a google maps marker
         var marker = new google.maps.Marker({
             map: map,
@@ -172,25 +173,24 @@ function updatePrice(listing) {
         markers.push(marker);
         // Reset center and zoom to marker location
         map.setCenter({lat: latitude, lng: longitude});
-        map.setZoom(14);
+        // map.setZoom(14);
         // Show the property details div
         $('#property-details-page').show()
         // Update the property details information on the page
         $('#list-price').html(price);
         $('#mortgage-downpayment').attr('placeholder', twentyPercentDownpayment);
-        $('#neighborhood').html(neighborhood);
-        // Get the average rent rate in the surrounding neighborhood
+        // Get the average rent rate in the surrounding area
         updateAvgRentRate(avgRent);
 
     // If listing is found on Zillow, but it is not for sale
     } else if (listing.response === 200) {
-        $('#div-message').html('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + price);
+        $('#div-message').html('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + listing.message);
         $('#div-message').addClass('btn-info');
         $('#div-message').removeAttr('hidden');
 
     // Or if no such listing exists on Zillow
     } else {
-        $('#div-message').html('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + price);
+        $('#div-message').html('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + listing.message);
         $('#div-message').addClass('btn-danger');
         $('#div-message').removeAttr('hidden');
     }
@@ -207,9 +207,10 @@ $('#div-message').on('click', function() {
 });
 
 
-// Returns calculated mortgage rate
+// Gets user-entered mortgage details on submit
 $('#mortgage-calculator').on('submit', getMonthlyPayment);
 
+// Calculates the mortgage payment for the home price listed
 function getMonthlyPayment(evt){
     evt.preventDefault();
 
@@ -223,6 +224,7 @@ function getMonthlyPayment(evt){
     $.get('/calculator', mortgageDetails, updateMonthlyPayment);
 }
 
+// Returns a monthly mortgage and total mortgage amount
 function updateMonthlyPayment(rate){
     $('#monthly-payment').html(rate.mortgage);
     $('#total-payment').html(rate.total_mortgage);
