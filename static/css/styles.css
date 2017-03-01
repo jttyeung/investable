@@ -54,3 +54,7 @@ form input[id=mortgage-rate] {
     width: 500px;
 }
 
+#map-notification {
+    text-align: center;
+    width: 500px;
+}

@@ -18,11 +18,17 @@ window.initMap = function() {
         styles: [{"featureType":"administrative","elementType":"all","stylers":[{"visibility":"on"},{"lightness":33}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#f2e5d4"}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#c5dac6"}]},{"featureType":"poi.park","elementType":"labels","stylers":[{"visibility":"on"},{"lightness":20}]},{"featureType":"road","elementType":"all","stylers":[{"lightness":20}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"color":"#c5c6c6"}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#e4d7c6"}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#fbfaf7"}]},{"featureType":"water","elementType":"all","stylers":[{"visibility":"on"},{"color":"#acbcc9"}]}]
     });
 
-    // Adds map listener; updates map markers on changes to map
+    // Adds map listener; updates map markers on changes to map once user
+    // idles from map panning/zooming
     map.addListener('idle', function() {
-        var geoBounds = JSON.stringify(map.getBounds());
         deleteMarkers();
-        findListingsInBounds(geoBounds);
+        var geoBounds = JSON.stringify(map.getBounds());
+        if (map.zoom < 12){
+            showMapInstructions();
+        } else {
+            hideMapInstructions();
+            findListingsInBounds(geoBounds);
+        }
     });
 
     // Waits for search button to be clicked before geocoding
@@ -30,6 +36,18 @@ window.initMap = function() {
         evt.preventDefault();
         geocodeAddress(geocoder, map);
     });
+}
+
+
+// Shows user interaction map instructions
+function showMapInstructions(){
+    $('#map-notification').html('Zoom in to see listings for sale in the area.')
+}
+
+
+// Hides user interaction map instructions
+function hideMapInstructions(){
+    $('#map-notification').html('Click on each listing for more details.')
 }
 
 
