@@ -63,7 +63,9 @@ def find_all_listings(bounds):
 
     # Query for the listings in the database within the latitude and
     # longitude bounds of the user's search
-    listings = db.session.query(Listing).join(UnitDetails).filter((bounds['west'] < UnitDetails.longitude), (bounds['east'] > UnitDetails.longitude), (bounds['north'] > UnitDetails.latitude), (bounds['south'] < UnitDetails.latitude)).order_by(func.random()).limit(MAX_QUERY_RESULTS).all()
+    listings = db.session.query(Listing).join(UnitDetails).filter((bounds['west'] < UnitDetails.longitude), (bounds['east'] > UnitDetails.longitude), (bounds['north'] > UnitDetails.latitude), (bounds['south'] < UnitDetails.latitude)).all()
+    # Query with limitations on max results
+    # listings = db.session.query(Listing).join(UnitDetails).filter((bounds['west'] < UnitDetails.longitude), (bounds['east'] > UnitDetails.longitude), (bounds['north'] > UnitDetails.latitude), (bounds['south'] < UnitDetails.latitude)).order_by(func.random()).limit(MAX_QUERY_RESULTS).all()
 
     listings_latlng = []
 

@@ -4,6 +4,7 @@
 // $('#property-details-page').hide()
 
 var markers = new Set();
+// var selectedMarker = new Set();
 var map;
 
 
@@ -18,18 +19,19 @@ window.initMap = function() {
         styles: [{"featureType":"administrative","elementType":"all","stylers":[{"visibility":"on"},{"lightness":33}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#f2e5d4"}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#c5dac6"}]},{"featureType":"poi.park","elementType":"labels","stylers":[{"visibility":"on"},{"lightness":20}]},{"featureType":"road","elementType":"all","stylers":[{"lightness":20}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"color":"#c5c6c6"}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#e4d7c6"}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#fbfaf7"}]},{"featureType":"water","elementType":"all","stylers":[{"visibility":"on"},{"color":"#acbcc9"}]}]
     });
 
-    // Adds map listener; updates map markers on changes to map once user
-    // idles from map panning/zooming
-    map.addListener('idle', function() {
-        deleteMarkers();
-        var geoBounds = JSON.stringify(map.getBounds());
-        if (map.zoom < 12){
-            showMapInstructions();
-        } else {
-            hideMapInstructions();
-            findListingsInBounds(geoBounds);
-        }
-    });
+    // // Adds map listener; updates map markers on changes to map once user
+    // // idles from map panning/zooming
+    // map.addListener('idle', function() {
+    //     deleteMarkers();
+    //     showSelectedMarker();
+    //     var geoBounds = JSON.stringify(map.getBounds());
+    //     if (map.zoom < 12){
+    //         showMapInstructions();
+    //     } else {
+    //         hideMapInstructions();
+    //         findListingsInBounds(geoBounds);
+    //     }
+    // });
 
     // Waits for search button to be clicked before geocoding
     document.getElementById('search').addEventListener('click', function(evt) {
@@ -80,6 +82,39 @@ function deleteMarkers() {
 }
 
 
+// function showSelectedMarker() {
+//     for (let marker of selectedMarker){
+//         marker.setMap(map);
+//     }
+// }
+
+
+// Set selected marker to blue
+function setMarkerSelection(marker, listing) {
+    marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+    // selectedMarker.add(marker);
+    // Get average rent rate on marker selection
+    var listing = JSON.stringify(listing);
+    $.get('/avgrent.json', {'listing': listing}, updateAvgRentRate);
+}
+
+
+// Reset all marker colors to red on new marker selection
+function resetMarkerSelections(marker) {
+    for (let marker of markers){
+        marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
+    }
+}
+
+
+// Adds a click listener to each marker to update price when clicked
+function attachListener(marker, listing) {
+    marker.addListener('click', function() {
+        updatePrice(listing, marker);
+    });
+}
+
+
 // Geocodes the location of the user-entered address
 function geocodeAddress(geocoder, map) {
     deleteMarkers();
@@ -107,9 +142,6 @@ function geocodeAddress(geocoder, map) {
 
                 // Extract the map boundaries from geocoded location
                 var bounds = results[0].geometry.bounds;
-                console.log('bounds' + bounds);
-                console.log('viewport: '+ results[0].geometry.viewport)
-
                 if (bounds){
                     var geoBounds = JSON.stringify(bounds);
                 // If no boundaries exist, use map viewport box from geocoded location
@@ -155,7 +187,8 @@ function addListingMarkers(listings){
         var marker = new google.maps.Marker({
             map: map,
             position: {lat: latitude, lng: longitude},
-            details: listing
+            details: listing,
+            icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
         });
         attachListener(marker, listing);
 
@@ -167,11 +200,9 @@ function addListingMarkers(listings){
 }
 
 
-function attachListener(marker, listing) {
-// Adds a click listener to each marker to update price when clicked
-    marker.addListener('click', function() {
-        updatePrice(listing, marker);
-    });
+// Calculates 20% downpayment of the price of the listing
+function calculateTwentyPercentDownpayment(price) {
+    return Math.round(parseInt(price)*0.20);
 }
 
 
@@ -190,12 +221,6 @@ function getUnitInfo(evt) {
 
     // Gets the details of the listing from calling the server
     $.get('/search.json', fullAddress, updatePrice);
-}
-
-
-// Calculates 20% downpayment of the price of the listing
-function calculateTwentyPercentDownpayment(price) {
-    return Math.round(parseInt(price)*0.20);
 }
 
 
@@ -236,14 +261,15 @@ function updatePrice(listing, marker) {
             var marker = new google.maps.Marker({
                 map: map,
                 position: {lat: latitude, lng: longitude},
+                icon : 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
             });
             // Zoom in on marker
             map.setZoom(14);
             // Store marker in markers array
-            markers.push(marker);
+            markers.add(marker);
         }
         // Resets all marker colors
-        resetMarkerSelections();
+        resetMarkerSelections(marker);
         // Sets clicked marker to new color
         setMarkerSelection(marker, listing);
         // Center map to marker location
@@ -276,24 +302,6 @@ function updatePrice(listing, marker) {
         $('#div-message').addClass('btn-danger');
         $('#div-message').removeAttr('hidden');
     }
-}
-
-
-// Reset all marker colors to red on new marker selection
-function resetMarkerSelections() {
-    for (var i=0; i < markers.length; i++){
-        markers[i].setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
-    }
-}
-
-
-// Set selected marker to blue
-function setMarkerSelection(marker, listing) {
-    marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
-
-    // Get average rent rate on marker selection
-    var listing = JSON.stringify(listing);
-    $.get('/avgrent.json', {'listing': listing}, updateAvgRentRate);
 }
 
 
