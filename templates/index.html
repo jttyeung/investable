@@ -3,6 +3,36 @@
 {% block body %}
 
 <div class="row page">
+  <div id="account-page" class="page col-xs-12">
+    <p>Account Details</p>
+      <div id="firstlastname">firstname lastname</div>
+      <div id="email">email</div>
+  </div>
+</div>
+
+<div class="row page">
+  <div id="login-register-page" class="page col-xs-12">
+    <div id="login-page">
+      <p>Log In</p>
+      <form id="log-in">
+        <input type="textbox" id="email" placeholder="Email" required><br>
+        <input type="password" id="password" placeholder="Password" required><br>
+        <input id="login" type="submit" value="Log In">
+      </form>
+      Haven't created an account yet? <a href="#registration-page">Register here.</a>
+    </div>
+    <div id="registration-page">
+      <p>Register</p>
+      <form id="log-in">
+        <input type="textbox" id="email" placeholder="Username" required><br>
+        <input type="password" id="password" placeholder="Password" required><br>
+        <input id="register" type="submit" value="Log In">
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="row page">
   <div id="search-page" class="page col-xs-12">
     <!-- large, centered on fullscreen page -->
     <p>Search a property by location<!--, neighborhood,--> or city:</p>
@@ -18,9 +48,9 @@
 </div>
 
 <div class="row page">
+  <div id="property-details-page" class="page col-xs-12">
   <div id="map-notification"></div>
   <div id="map"></div>
-  <div id="property-details-page" class="page col-xs-12">
     Property Price: <span id="list-price"></span><br>
     <form id="mortgage-calculator">
       Your Annual Interest Rate: <div class="input-box"><input type="number" id="mortgage-rate" placeholder="5.00" maxlength="5" min="0" step="any" required><span class="percent">%</span></div><br>
