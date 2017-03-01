@@ -4,7 +4,7 @@
 // $('#property-details-page').hide()
 
 var markers = new Set();
-// var selectedMarker = new Set();
+// var selectedMarkers = new Set();
 var map;
 
 
@@ -19,19 +19,19 @@ window.initMap = function() {
         styles: [{"featureType":"administrative","elementType":"all","stylers":[{"visibility":"on"},{"lightness":33}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#f2e5d4"}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#c5dac6"}]},{"featureType":"poi.park","elementType":"labels","stylers":[{"visibility":"on"},{"lightness":20}]},{"featureType":"road","elementType":"all","stylers":[{"lightness":20}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"color":"#c5c6c6"}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#e4d7c6"}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#fbfaf7"}]},{"featureType":"water","elementType":"all","stylers":[{"visibility":"on"},{"color":"#acbcc9"}]}]
     });
 
-    // // Adds map listener; updates map markers on changes to map once user
-    // // idles from map panning/zooming
-    // map.addListener('idle', function() {
-    //     deleteMarkers();
-    //     showSelectedMarker();
-    //     var geoBounds = JSON.stringify(map.getBounds());
-    //     if (map.zoom < 12){
-    //         showMapInstructions();
-    //     } else {
-    //         hideMapInstructions();
-    //         findListingsInBounds(geoBounds);
-    //     }
-    // });
+    // Adds map listener; updates map markers on changes to map once user
+    // idles from map panning/zooming
+    map.addListener('idle', function() {
+        deleteMarkers();
+        // showSelectedMarkers();
+        var geoBounds = JSON.stringify(map.getBounds());
+        if (map.zoom < 12){
+            showMapInstructions();
+        } else {
+            hideMapInstructions();
+            findListingsInBounds(geoBounds);
+        }
+    });
 
     // Waits for search button to be clicked before geocoding
     document.getElementById('search').addEventListener('click', function(evt) {
@@ -82,8 +82,9 @@ function deleteMarkers() {
 }
 
 
-// function showSelectedMarker() {
-//     for (let marker of selectedMarker){
+// function showSelectedMarkers() {
+//     for (let marker of selectedMarkers){
+//         // marker.setIcon('http://maps.google.com/mapfiles/ms/icons/pink-dot.png');
 //         marker.setMap(map);
 //     }
 // }
@@ -91,8 +92,8 @@ function deleteMarkers() {
 
 // Set selected marker to blue
 function setMarkerSelection(marker, listing) {
-    marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
-    // selectedMarker.add(marker);
+    var selectedMarker = marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+    // selectedMarkers.add(selectedMarker);
     // Get average rent rate on marker selection
     var listing = JSON.stringify(listing);
     $.get('/avgrent.json', {'listing': listing}, updateAvgRentRate);
@@ -109,8 +110,8 @@ function resetMarkerSelections(marker) {
 
 // Adds a click listener to each marker to update price when clicked
 function attachListener(marker, listing) {
-    marker.addListener('click', function() {
-        updatePrice(listing, marker);
+    marker.addListener('click', function(evt) {
+        updatePrice(evt, listing, marker);
     });
 }
 
@@ -224,7 +225,7 @@ function getUnitInfo(evt) {
 }
 
 
-function updatePrice(listing, marker) {
+function updatePrice(evt, listing, marker) {
     // Updates page with unit details if the unit is available,
     // only shows an alert with a Zillow price estimate if unit is off-market,
     // or error message if unit address is not found.
@@ -254,9 +255,8 @@ function updatePrice(listing, marker) {
     // } else
     if (listing.response === 100){
         // Add a google maps marker
-
         // If markers do not exist, then it is a new search listing
-        if (!marker.position){
+        if (markers.size === 0){
             // Add new marker
             var marker = new google.maps.Marker({
                 map: map,
@@ -268,12 +268,15 @@ function updatePrice(listing, marker) {
             // Store marker in markers array
             markers.add(marker);
         }
+
         // Resets all marker colors
         resetMarkerSelections(marker);
         // Sets clicked marker to new color
         setMarkerSelection(marker, listing);
+
+        // markers.delete(marker);
         // Center map to marker location
-        map.setCenter({lat: latitude, lng: longitude});
+        // map.setCenter({lat: latitude, lng: longitude});
 
         var rate = $('#mortgage-rate').val();
         var downpayment = $('#mortgage-downpayment').val();
