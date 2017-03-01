@@ -58,9 +58,12 @@ def add_listing_to_db(listing):
 def find_all_listings(bounds):
     """ Finds all the listings within the geocoded location range. """
 
+    # Number of listing results that can be returned at once
+    MAX_QUERY_RESULTS = 50
+
     # Query for the listings in the database within the latitude and
     # longitude bounds of the user's search
-    listings = db.session.query(Listing).join(UnitDetails).filter((bounds['west'] < UnitDetails.longitude), (bounds['east'] > UnitDetails.longitude), (bounds['north'] > UnitDetails.latitude), (bounds['south'] < UnitDetails.latitude)).all()
+    listings = db.session.query(Listing).join(UnitDetails).filter((bounds['west'] < UnitDetails.longitude), (bounds['east'] > UnitDetails.longitude), (bounds['north'] > UnitDetails.latitude), (bounds['south'] < UnitDetails.latitude)).order_by(func.random()).limit(MAX_QUERY_RESULTS).all()
 
     listings_latlng = []
 
