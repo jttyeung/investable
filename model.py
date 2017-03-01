@@ -63,6 +63,10 @@ class Listing(db.Model):
     hoa = db.Column(db.Integer, nullable=True)
     photo_url = db.Column(db.String(2083), nullable=True)
     detail_id = db.Column(db.Integer, db.ForeignKey('unitdetails.detail_id'), nullable=False)
+    street = db.Column(db.String(250), nullable=True)
+    city = db.Column(db.String(150), nullable=True)
+    state = db.Column(db.String(50), nullable=True)
+    zipcode = db.Column(db.Integer, nullable=True)
 
     unitdetails = db.relationship('UnitDetails', backref='listings')
 
