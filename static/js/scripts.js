@@ -3,19 +3,26 @@
 // Page load defaults
 // $('#property-details-page').hide()
 
-var markers = [];
+var markers = new Set();
 var map;
 
 
 // Initialize Google Map on the global scope
 window.initMap = function() {
-    var unitedStates = {lat: 37.8037745, lng: -100.7662268}
+    var unitedStates = {lat: 37.8037745, lng: -100.7662268};
     var geocoder = new google.maps.Geocoder();
 
     map = new google.maps.Map(document.getElementById('map'), {
         center: unitedStates,
         zoom: 4,
         styles: [{"featureType":"administrative","elementType":"all","stylers":[{"visibility":"on"},{"lightness":33}]},{"featureType":"landscape","elementType":"all","stylers":[{"color":"#f2e5d4"}]},{"featureType":"poi.park","elementType":"geometry","stylers":[{"color":"#c5dac6"}]},{"featureType":"poi.park","elementType":"labels","stylers":[{"visibility":"on"},{"lightness":20}]},{"featureType":"road","elementType":"all","stylers":[{"lightness":20}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"color":"#c5c6c6"}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"color":"#e4d7c6"}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"color":"#fbfaf7"}]},{"featureType":"water","elementType":"all","stylers":[{"visibility":"on"},{"color":"#acbcc9"}]}]
+    });
+
+    // Adds map listener; updates map markers on changes to map
+    map.addListener('idle', function() {
+        var geoBounds = JSON.stringify(map.getBounds());
+        deleteMarkers();
+        findListingsInBounds(geoBounds);
     });
 
     // Waits for search button to be clicked before geocoding
@@ -28,8 +35,11 @@ window.initMap = function() {
 
 // Sets all markers on map
 function setMapOnAll(map){
-    for (var i = 0; i < markers.length; i++){
-        markers[i].setMap(map);
+    // for (var i = 0; i < markers.length; i++){
+    //     markers[i].setMap(map);
+    // }
+    for (let marker of markers){
+        marker.setMap(map);
     }
 }
 
@@ -48,7 +58,7 @@ function clearMarkers() {
 // Deletes all markers in the array by removing references to them
 function deleteMarkers() {
     clearMarkers();
-    markers = [];
+    markers.clear();
 }
 
 
@@ -79,6 +89,8 @@ function geocodeAddress(geocoder, map) {
 
                 // Extract the map boundaries from geocoded location
                 var bounds = results[0].geometry.bounds;
+                console.log('bounds' + bounds);
+                console.log('viewport: '+ results[0].geometry.viewport)
 
                 if (bounds){
                     var geoBounds = JSON.stringify(bounds);
@@ -88,8 +100,9 @@ function geocodeAddress(geocoder, map) {
                     var geoBounds = JSON.stringify(viewport);
                 }
 
-                // Get all listings for sale within the map boundaries
-                $.get('/listings.json', {'geoBounds': geoBounds}, addListingMarkers);
+                // // Get all listings for sale within the map boundaries
+                findListingsInBounds(geoBounds);
+                // $.get('/listings.json', {'geoBounds': geoBounds}, addListingMarkers);
 
             // If the location cannot be geocoded, raise error message to user
             } else {
@@ -103,6 +116,12 @@ function geocodeAddress(geocoder, map) {
     } else {
         getUnitInfo();
     }
+}
+
+
+// Get all listings for sale within the map boundaries
+function findListingsInBounds(geoBounds){
+    $.get('/listings.json', {'geoBounds': geoBounds}, addListingMarkers);
 }
 
 
@@ -123,7 +142,9 @@ function addListingMarkers(listings){
         attachListener(marker, listing);
 
         // Stores each marker in global markers array
-        markers.push(marker);
+        if (!(markers.has(marker))){
+            markers.add(marker);
+        }
     }
 }
 
@@ -218,6 +239,10 @@ function updatePrice(listing, marker) {
         // Show the property details div
         $('#property-details-page').show();
         // Update the property details information on the page
+        $('#bedrooms').html(listing.bedrooms);
+        $('#bathrooms').html(listing.bathrooms);
+        $('#sqft').html(listing.sqft);
+        $('#hoa').html(listing.hoa);
         $('#list-price').html(price);
         $('#mortgage-downpayment').attr('placeholder', twentyPercentDownpayment);
 
