@@ -309,7 +309,7 @@ function updatePrice(listing, marker) {
       $('#sqft').html(listing.sqft);
       $('#hoa').html(listing.hoa);
       $('#list-price').html(price);
-      $('#mortgage-downpayment').attr('placeholder', twentyPercentDownpayment);
+      $('#suggested-downpayment').html(twentyPercentDownpayment);
 
   // If listing is found on Zillow, but it is not for sale
   } else if (listing.response === 200) {
