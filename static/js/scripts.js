@@ -42,10 +42,9 @@ window.initMap = function() {
     // If the user is searching within a region use the map listener,
     // otherwise a single address search should not update
     // listings shown on map when the map view changes
-    if (markers.size > 1){
+    if (markers.size > 1 || markers.size < 1){
       deleteMarkers();
       // showSelectedMarkers();
-
       // If map isn't zoomed in enough, tell user to zoom in
       if (map.zoom < 12){
         zoomMapInstructions();

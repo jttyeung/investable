@@ -50,16 +50,16 @@ form input[id=mortgage-rate] {
 }
 
 #map {
-    height: 500px;
-    width: 500px;
+  height: 500px;
+  width: 500px;
 }
 
 #map-notification {
-    text-align: center;
-    width: 500px;
+  text-align: center;
+  width: 500px;
 }
 
-#price-slider {
+#amount {
   border: 0;
   color: #f6931f;
   font-weight: bold;
