@@ -20,10 +20,10 @@ class User(db.Model):
     __tablename__ = 'users'
 
     user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    firstname = db.Column(db.String(40), nullable=False)
-    lastname = db.Column(db.String(40), nullable=False)
-    email = db.Column(db.String(100), nullable=False, unique=True)
-    password = db.Column(db.String(60), nullable=False)
+    firstname = db.Column(db.String(70), nullable=False)
+    lastname = db.Column(db.String(70), nullable=False)
+    email = db.Column(db.String(255), nullable=False, unique=True)
+    password = db.Column(db.String(100), nullable=False)
 
 
     def __repr__(self):
@@ -61,12 +61,12 @@ class Listing(db.Model):
     zpid = db.Column(db.Integer, primary_key=True)
     price = db.Column(db.Integer, nullable=False)
     hoa = db.Column(db.Integer, nullable=True)
+    street = db.Column(db.String(255), nullable=False)
+    city = db.Column(db.String(100), nullable=False)
+    state = db.Column(db.String(100), nullable=False)
+    zipcode = db.Column(db.Integer, nullable=False)
     photo_url = db.Column(db.String(2083), nullable=True)
     detail_id = db.Column(db.Integer, db.ForeignKey('unitdetails.detail_id'), nullable=False)
-    street = db.Column(db.String(250), nullable=True)
-    city = db.Column(db.String(150), nullable=True)
-    state = db.Column(db.String(50), nullable=True)
-    zipcode = db.Column(db.Integer, nullable=True)
 
     unitdetails = db.relationship('UnitDetails', backref='listings')
 

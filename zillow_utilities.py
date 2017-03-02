@@ -27,7 +27,7 @@ def get_api_xml(full_address):
 def parse_xml(full_address):
     api_xml = get_api_xml(full_address)
     api_xml_parsed = BeautifulSoup(api_xml, 'lxml-xml')
-    api_response_code = int(api_xml_parsed.find('code').getText())
+    api_response_code = int(api_xml_parsed.select_one('code').getText())
 
     return { 'api_response_code': api_response_code,
              'api_parsed_data': api_xml_parsed }
@@ -40,7 +40,7 @@ def get_zillow_html_url(full_address):
     api_xml_data = api_xml_parsed['api_parsed_data']
 
     try:
-        zillow_url = api_xml_data.find('homedetails').getText()
+        zillow_url = api_xml_data.select_one('homedetails').getText()
 
     except AttributeError:
         zillow_url = '404 - No Zillow URL found.'
@@ -105,7 +105,7 @@ def get_unit_price(full_address):
             # If unit is found off-market, look for a price estimate
             zillow_price_estimate = int(get_zillow_price_estimate(full_address))
 
-            return (200, get_zillow_price_estimate, 'We found the unit you were searching for, but it\'s not currently for sale. Zillow\'s estimated current market value of that unit is ${:,}'.format(zillow_price_estimate), None)
+            return (200, zillow_price_estimate, 'We found the unit you were searching for, but it\'s not currently for sale. Zillow\'s estimated current market value of that unit is ${:,}'.format(zillow_price_estimate), None)
 
     else:
         # Otherwise unit is not found/address entered is incorrect
@@ -122,7 +122,7 @@ def get_zillow_price_estimate(full_address):
 
     # Checks for a valid xml response code
     if api_response_code == 0:
-        zillow_price_estimate = api_xml_data.find('amount').getText()
+        zillow_price_estimate = api_xml_data.select_one('amount').getText()
 
         return zillow_price_estimate
 
@@ -133,8 +133,10 @@ def get_zillow_unit_details(full_address):
     api_xml_parsed = parse_xml(full_address)
     api_xml_data = api_xml_parsed['api_parsed_data']
     zpid = api_xml_data.select_one('zpid').getText()
-    # address = api_xml_data.select_one('address').find('street').getText()
-    # print address
+    street = api_xml_data.select_one('address street').getText()
+    city = api_xml_data.select_one('address city').getText()
+    state = api_xml_data.select_one('address state').getText()
+    zipcode = api_xml_data.select_one('address zipcode').getText()
     latitude = api_xml_data.select_one('latitude').getText()
     longitude = api_xml_data.select_one('longitude').getText()
     latlng_point = 'POINT({} {})'.format(latitude, longitude)
@@ -163,6 +165,10 @@ def get_zillow_unit_details(full_address):
 
     return {'zpid': zpid,
             'neighborhood': neighborhood,
+            'street': street,
+            'city': city,
+            'state': state,
+            'zipcode': zipcode,
             'latitude': latitude,
             'longitude': longitude,
             'latlng_point': latlng_point,
