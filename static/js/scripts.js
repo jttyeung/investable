@@ -45,17 +45,15 @@ window.initMap = function() {
     if (markers.size > 1){
       deleteMarkers();
       // showSelectedMarkers();
-      var geoBounds = JSON.stringify(map.getBounds());
 
       // If map isn't zoomed in enough, tell user to zoom in
       if (map.zoom < 12){
         zoomMapInstructions();
       // Once map is zoomed in, change to click instructions
-      // and check search filters
+      // then check search filters before returning listing results
       } else {
         clickMapInstructions();
-        // findListingsInBounds(geoBounds);
-        checkFilters(geoBounds);
+        checkFilters();
       }
     }
 
@@ -83,9 +81,6 @@ function clickMapInstructions(){
 
 // Sets all markers on map
 function setMapOnAll(map){
-  // for (var i = 0; i < markers.length; i++){
-  //     markers[i].setMap(map);
-  // }
   for (let marker of markers){
     marker.setMap(map);
   }
@@ -169,18 +164,7 @@ function geocodeAddress(geocoder, map) {
         map.setCenter(results[0].geometry.location);
         map.setZoom(13);
 
-        // Extract the map boundaries from geocoded location
-        var bounds = results[0].geometry.bounds;
-        if (bounds){
-            var geoBounds = JSON.stringify(bounds);
-        // If no boundaries exist, use map viewport box from geocoded location
-        } else {
-            var viewport = results[0].geometry.viewport;
-            var geoBounds = JSON.stringify(viewport);
-        }
-        // // Get all listings for sale within the map boundaries
-        // findListingsInBounds(geoBounds);
-        checkFilters(geoBounds);
+        checkFilters();
 
       // If the location cannot be geocoded, raise error message to user
       } else {
@@ -223,24 +207,31 @@ function addListingMarkers(listings){
 
 
 // Adds a listener to bedroom, bathroom, and price filters
-$('#slider-range').on('slidechange', function(){ console.log('hi'); deleteMarkers(); checkFilters();});
-$('#bedroom-filter').on('change', function(){ console.log('bedroomfilte'); deleteMarkers(); checkFilters();});
+$('#slider-range').on('slidechange', function(){ deleteMarkers(); checkFilters();});
+$('#bedroom-filter').on('change', function(){ deleteMarkers(); checkFilters();});
 $('#bathroom-filter').on('change', function(){ deleteMarkers(); checkFilters();});
 
 
 // Gets filter values and requests the server for a database query on those values
-function checkFilters(geoBounds){
-  // deleteMarkers();
-  if (!geoBounds){
-    var geoBounds = JSON.stringify(map.getBounds());
+function checkFilters(){
+  // Extract the map boundaries from geocoded location
+  var bounds = map.getBounds();
+  if (bounds){
+    var geoBounds = JSON.stringify(bounds);
+  // If no boundaries exist, use map viewport box from geocoded location
+  } else {
+    var viewport = results[0].geometry.viewport;
+    var geoBounds = JSON.stringify(viewport);
   }
+
+  // Grab filter values and send to server as an object
   var priceFilter = $("#slider-range").slider("values");
   var lowPrice = priceFilter[0];
   var highPrice = priceFilter[1];
   var bedroomFilter = $('#bedroom-filter').val();
   var bathroomFilter = $('#bathroom-filter').val();
   var filters = {'geoBounds': geoBounds, 'lowPrice': lowPrice, 'highPrice': highPrice, 'bedroomFilter': bedroomFilter, 'bathroomFilter': bathroomFilter}
-  console.log(filters);
+
   $.get('/listings.json', filters, addListingMarkers)
 }
 
