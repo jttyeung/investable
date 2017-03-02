@@ -19,7 +19,8 @@ def calculate_mortgage(mortgage_details):
     PERCENT_CONVERSION = 100
 
     # Get price, mortgage rate, downpayment amount
-    price = int(mortgage_details['price'].replace('$','').replace(',',''))
+    price = int(mortgage_details['price'])
+      # .replace('$','').replace(',',''))
     rate = ((float(mortgage_details['rate'])/PERCENT_CONVERSION)/MONTHS_IN_YEAR)
     downpayment = int(re.sub('[^\d.]+', '', mortgage_details['downpayment']))
 

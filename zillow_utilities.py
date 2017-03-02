@@ -132,30 +132,30 @@ def get_zillow_unit_details(full_address):
 
     api_xml_parsed = parse_xml(full_address)
     api_xml_data = api_xml_parsed['api_parsed_data']
-    zpid = api_xml_data.find('zpid').getText()
-    address = api_xml_data.find('address').find('street').getText()
-    print address
-    latitude = api_xml_data.find('latitude').getText()
-    longitude = api_xml_data.find('longitude').getText()
+    zpid = api_xml_data.select_one('zpid').getText()
+    # address = api_xml_data.select_one('address').find('street').getText()
+    # print address
+    latitude = api_xml_data.select_one('latitude').getText()
+    longitude = api_xml_data.select_one('longitude').getText()
     latlng_point = 'POINT({} {})'.format(latitude, longitude)
 
     try:
-        neighborhood = api_xml_data.find('region').get('name')
+        neighborhood = api_xml_data.select_one('region').get('name')
     except:
         neighborhood = None
 
     try:
-        bedrooms = api_xml_data.find('bedrooms').getText()
+        bedrooms = api_xml_data.select_one('bedrooms').getText()
     except:
         bedrooms = None
 
     try:
-        bathrooms = api_xml_data.find('bathrooms').getText()
+        bathrooms = api_xml_data.select_one('bathrooms').getText()
     except AttributeError:
         bathrooms = None
 
     try:
-        sqft = api_xml_data.find('finishedSqFt').getText()
+        sqft = api_xml_data.select_one('finishedSqFt').getText()
     except AttributeError:
         sqft = None
 

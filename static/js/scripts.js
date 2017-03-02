@@ -39,16 +39,26 @@ window.initMap = function() {
   // Adds map listener; updates map markers on changes to map once user
   // idles from map panning/zooming
   map.addListener('idle', function() {
-    deleteMarkers();
-    // showSelectedMarkers();
-    var geoBounds = JSON.stringify(map.getBounds());
-    if (map.zoom < 12){
-        showMapInstructions();
-    } else {
-        hideMapInstructions();
+    // If the user is searching within a region use the map listener,
+    // otherwise a single address search should not update
+    // listings shown on map when the map view changes
+    if (markers.size > 1){
+      deleteMarkers();
+      // showSelectedMarkers();
+      var geoBounds = JSON.stringify(map.getBounds());
+
+      // If map isn't zoomed in enough, tell user to zoom in
+      if (map.zoom < 12){
+        zoomMapInstructions();
+      // Once map is zoomed in, change to click instructions
+      // and check search filters
+      } else {
+        clickMapInstructions();
         // findListingsInBounds(geoBounds);
         checkFilters(geoBounds);
+      }
     }
+
   });
 
   // Waits for search button to be clicked before geocoding
@@ -60,13 +70,13 @@ window.initMap = function() {
 
 
 // Shows user interaction map instructions
-function showMapInstructions(){
+function zoomMapInstructions(){
   $('#map-notification').html('Zoom in to see listings for sale in the area.')
 }
 
 
 // Hides user interaction map instructions
-function hideMapInstructions(){
+function clickMapInstructions(){
   $('#map-notification').html('Click on each listing for more details.')
 }
 
@@ -129,7 +139,7 @@ function resetMarkerSelections(marker) {
 // Adds a click listener to each marker to update price when clicked
 function attachListener(marker, listing) {
   marker.addListener('click', function(evt) {
-    updatePrice(evt, listing, marker);
+    updatePrice(listing, marker);
   });
 }
 
@@ -259,7 +269,8 @@ function getUnitInfo(evt) {
 }
 
 
-function updatePrice(evt, listing, marker) {
+function updatePrice(listing, marker) {
+
   // Updates page with unit details if the unit is available,
   // only shows an alert with a Zillow price estimate if unit is off-market,
   // or error message if unit address is not found.
@@ -284,6 +295,7 @@ function updatePrice(evt, listing, marker) {
         });
         // Zoom in on marker
         map.setZoom(14);
+        map.setCenter(marker.position);
         // Store marker in markers array
         markers.add(marker);
       }
