@@ -2,7 +2,7 @@
 
 {% block body %}
 
-<div class="row page">
+<div class="row page" hidden>
   <div id="account-page" class="page col-xs-12">
     <p>Account Details</p>
       <div id="firstlastname">firstname lastname</div>
@@ -10,7 +10,7 @@
   </div>
 </div>
 
-<div class="row page">
+<div class="row page" hidden>
   <div id="login-register-page" class="page col-xs-12">
     <div id="login-page">
       <p>Log In</p>
@@ -21,7 +21,7 @@
       </form>
       Haven't created an account yet? <a href="#registration-page">Register here.</a>
     </div>
-    <div id="registration-page">
+    <div id="registration-page" hidden>
       <p>Register</p>
       <form id="log-in">
         <input type="firstname" id="firstname" placeholder="First Name" required><br>
