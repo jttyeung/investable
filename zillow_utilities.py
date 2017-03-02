@@ -133,6 +133,8 @@ def get_zillow_unit_details(full_address):
     api_xml_parsed = parse_xml(full_address)
     api_xml_data = api_xml_parsed['api_parsed_data']
     zpid = api_xml_data.find('zpid').getText()
+    address = api_xml_data.find('address').find('street').getText()
+    print address
     latitude = api_xml_data.find('latitude').getText()
     longitude = api_xml_data.find('longitude').getText()
     latlng_point = 'POINT({} {})'.format(latitude, longitude)

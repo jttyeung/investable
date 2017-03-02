@@ -55,15 +55,55 @@ def add_listing_to_db(listing):
         db.session.rollback()
 
 
-def find_all_listings(bounds):
+# def find_all_listings(bounds):
+#     """ Finds all the listings within the geocoded location range. """
+
+#     # Number of listing results that can be returned at once
+#     MAX_QUERY_RESULTS = 50
+
+#     # Query for the listings in the database within the latitude and
+#     # longitude bounds of the user's search
+#     listings = db.session.query(Listing).join(UnitDetails).filter((bounds['west'] < UnitDetails.longitude), (bounds['east'] > UnitDetails.longitude), (bounds['north'] > UnitDetails.latitude), (bounds['south'] < UnitDetails.latitude)).all()
+#     # Query with limitations on max results
+#     # listings = db.session.query(Listing).join(UnitDetails).filter((bounds['west'] < UnitDetails.longitude), (bounds['east'] > UnitDetails.longitude), (bounds['north'] > UnitDetails.latitude), (bounds['south'] < UnitDetails.latitude)).order_by(func.random()).limit(MAX_QUERY_RESULTS).all()
+
+#     listings_latlng = []
+
+#     for listing in listings:
+#         listings_latlng.append({'response': 100,  # mock api found listing response
+#                                 'latitude': listing.unitdetails.latitude,
+#                                 'longitude': listing.unitdetails.longitude,
+#                                 'price': listing.price,
+#                                 'bedrooms': listing.unitdetails.bedrooms,
+#                                 'bathrooms': listing.unitdetails.bathrooms,
+#                                 'sqft': listing.unitdetails.sqft,
+#                                 'hoa': listing.hoa,
+#                                 'zpid': listing.zpid
+#                                 # 'rent_avgs': 10
+#                                 # 'rent_avgs': get_avg_rent(
+#                                 #                 listing.unitdetails.bedrooms,
+#                                 #                 listing.unitdetails.bathrooms,
+#                                 #                 listing.unitdetails.sqft,
+#                                 #                 listing.unitdetails.latlng)
+#                                 })
+
+#     return listings_latlng
+
+
+def find_all_listings(bounds, bedrooms, bathrooms, low_price, high_price):
     """ Finds all the listings within the geocoded location range. """
+
+
+    # filters = {'geoBounds': geoBounds, 'priceFilter': [num,num], 'bedroomFilter': bedroomFilter, 'bathroomFilter': bathroomFilter}
 
     # Number of listing results that can be returned at once
     MAX_QUERY_RESULTS = 50
 
     # Query for the listings in the database within the latitude and
-    # longitude bounds of the user's search
-    listings = db.session.query(Listing).join(UnitDetails).filter((bounds['west'] < UnitDetails.longitude), (bounds['east'] > UnitDetails.longitude), (bounds['north'] > UnitDetails.latitude), (bounds['south'] < UnitDetails.latitude)).all()
+    # longitude bounds of the user's search with respect to any filters
+
+    listings = db.session.query(Listing).join(UnitDetails).filter((bounds['west'] < UnitDetails.longitude), (bounds['east'] > UnitDetails.longitude), (bounds['north'] > UnitDetails.latitude), (bounds['south'] < UnitDetails.latitude), (UnitDetails.bedrooms >= bedrooms), (UnitDetails.bathrooms >= bathrooms), (Listing.price >= low_price), (Listing.price <= high_price)).all()
+
     # Query with limitations on max results
     # listings = db.session.query(Listing).join(UnitDetails).filter((bounds['west'] < UnitDetails.longitude), (bounds['east'] > UnitDetails.longitude), (bounds['north'] > UnitDetails.latitude), (bounds['south'] < UnitDetails.latitude)).order_by(func.random()).limit(MAX_QUERY_RESULTS).all()
 
@@ -88,7 +128,6 @@ def find_all_listings(bounds):
                                 })
 
     return listings_latlng
-
 
 
 

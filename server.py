@@ -94,15 +94,18 @@ def get_rent_avgs():
 
 @app.route('/listings.json')
 def get_listings():
-    """ Uses city, state or zip entered by user to find listings in the surrounding area. """
+    """ Finds listings in the area filtered by bedrooms, bathrooms, and/or prices. """
 
-    geo_bounds = request.args.get('geoBounds')
-    geo_bounds_dict = json.loads(geo_bounds)
+    bounds = json.loads(request.args.get('geoBounds'))
+    bedrooms = float(request.args.get('bedroomFilter'))
+    bathrooms = float(request.args.get('bathroomFilter'))
+    low_price = int(request.args.get('lowPrice'))
+    high_price = int(request.args.get('highPrice'))
 
     # Retrieves listings from db_queries
-    listings_in_range = find_all_listings(geo_bounds_dict)
+    filtered_listings = find_all_listings(bounds, bedrooms, bathrooms, low_price, high_price)
 
-    return jsonify(listings_in_range)
+    return jsonify(filtered_listings)
 
 
 @app.route('/calculator')
