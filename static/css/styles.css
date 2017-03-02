@@ -58,3 +58,9 @@ form input[id=mortgage-rate] {
     text-align: center;
     width: 500px;
 }
+
+#price-slider {
+  border: 0;
+  color: #f6931f;
+  font-weight: bold;
+}

@@ -53,6 +53,7 @@
   <div id="property-details-page" class="page col-xs-12">
   <div id="map-notification"></div>
   <div id="map"></div>
+    Address: <span id="address"></span><br>
     Property Price: <span id="list-price"></span><br>
     <form id="mortgage-calculator">
       Your Annual Interest Rate: <div class="input-box"><input type="number" id="mortgage-rate" placeholder="5.00" maxlength="5" min="0" step="any" required><span class="percent">%</span></div><br>
@@ -69,7 +70,7 @@
       <br>
       <input type="submit" value="Calculate">
     </form>
-      Filter by Price: <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+      Filter by Price: <input type="text" id="price-slider" readonly>
       <div id="slider-range"></div>
       <br>
       Filter by # Bedrooms:
