@@ -53,8 +53,8 @@
   <div id="property-details-page" class="page col-xs-12">
   <div id="map-notification"></div>
   <div id="map"></div>
-    Address: <span id="address"></span><br>
-    Property Price: <span id="list-price"></span><br>
+    <div id="address"></div>
+    <div id="price">Property Price: <span id="list-price"></span></div>
     <form id="mortgage-calculator">
       Your Annual Interest Rate: <div class="input-box"><input type="number" id="mortgage-rate" placeholder="5.00" maxlength="5" min="0" step="any" required><span class="percent">%</span></div><br>
       Your Downpayment: <div class="input-box"><span class="currency">$</span><input type="number" id="mortgage-downpayment" placeholder="0" maxlength="1" min="0" required></div> Suggested downpayment: <span id="suggested-downpayment"></span><br>
@@ -92,15 +92,15 @@
           <option value="5">5+</option>
         </select>
       <br>
-      Bedrooms: <span id="bedrooms"></span><br>
-      Bathrooms: <span id="bathrooms"></span><br>
-      Sqft: <span id="sqft"></span><br>
+      <div id="bedrooms-div">Bedrooms: <span id="bedrooms"></div>
+      <div id="bathrooms-div">Bathrooms: <span id="bathrooms"></span></div>
+      <div id="sqft-div">Sqft: <span id="sqft"></span></div>
       <div id="hoa-div">HOA: <span id="hoa"></span></div>
-      Monthly Mortgage Payment: <span id="monthly-payment"></span><br>
-      Monthly Mortgage with HOA: <span id="monthly-plus-hoa-payment"></span><br>
-      Total Mortgage Payment: <span id="total-payment"></span><br>
-      Average Rent Per Month (for homes with the same # of bedrooms): <span id="avg-rent-by-br"></span><br>
-      Average Rent Per Month (for homes in the same sqft range): <span id="avg-rent-by-sqft"></span>
+      <div id="monthly-mortgage-div">Monthly Mortgage Payment: <span id="monthly-payment"></span></div>
+      <div id="monthly-mortgage-with-hoa-div">Monthly Mortgage with HOA: <span id="monthly-plus-hoa-payment"></span></div>
+      <div id="total-mortgage-div">Total Mortgage Payment: <span id="total-payment"></span></div>
+      <div id="avg-rent-by-br-div">Average Rent Per Month (for homes with the same # of bedrooms): <span id="avg-rent-by-br"></span></div>
+      <div id="avg-rent-by-sqft-div">Average Rent Per Month (for homes in the same sqft range): <span id="avg-rent-by-sqft"></span></div>
   </div>
 </div>
 

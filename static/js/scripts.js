@@ -318,6 +318,7 @@ function updatePrice(listing, marker) {
       getMonthlyPayment(price);
     }
     // Update the property details information on the page
+    $('#address').html(listing.street + ', ' + listing.city + ', ' + listing.state + ' ' + listing.zipcode);
     $('#bedrooms').html(listing.bedrooms);
     $('#bathrooms').html(listing.bathrooms);
     $('#sqft').html(listing.sqft);
