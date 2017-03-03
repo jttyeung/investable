@@ -125,39 +125,39 @@ def calculate_monthly_payment():
     return jsonify({ 'mortgage': mortgage, 'hoa_mortgage': hoa_mortgage, 'total_mortgage': total_mortgage })
 
 
-@app.route('/login', methods=['GET'])
-def login():
-    """ Brings user to the login page. """
+# @app.route('/login', methods=['GET'])
+# def login():
+#     """ Brings user to the login page. """
 
-    return render_template('login.html')
-
-
-@app.route('/login', methods=['POST'])
-def verify_login():
-    """ Verifys user's login. """
-    email = request.form.get('email')
-    password = request.form.get('password')
-
-    return redirect('/')
+#     return render_template('login.html')
 
 
-@app.route('/register', methods=['GET'])
-def register():
-    """ Brings user to the registration page. """
+# @app.route('/login', methods=['POST'])
+# def verify_login():
+#     """ Verifys user's login. """
+#     email = request.form.get('email')
+#     password = request.form.get('password')
 
-    return render_template('registration.html')
+#     return redirect('/')
 
 
-@app.route('/register', methods=['POST'])
-def registration_complete():
-#     """ Processes a new user registration. """
+# @app.route('/register', methods=['GET'])
+# def register():
+#     """ Brings user to the registration page. """
 
-    firstname = request.form.get('firstname')
-    lastname = request.form.get('lastname')
-    email = request.form.get('email')
-    password = request.form.get('password')
+#     return render_template('registration.html')
 
-    add_registration(firstname, lastname, email, password)
+
+# @app.route('/register', methods=['POST'])
+# def registration_complete():
+# #     """ Processes a new user registration. """
+
+#     firstname = request.form.get('firstname')
+#     lastname = request.form.get('lastname')
+#     email = request.form.get('email')
+#     password = request.form.get('password')
+
+#     add_registration(firstname, lastname, email, password)
 
 #     if username exists:
 #         flash('Sorry, that email has already been registered. Login instead?')
@@ -167,14 +167,14 @@ def registration_complete():
 #         flash('You have successfully created an account. Please login to continue.')
 #         return redirect('/')
 
-    return redirect('/')
+    # return redirect('/')
 
 
-@app.route('/account')
-def account_details():
-    """ Shows a user's account details. """
+# @app.route('/account')
+# def account_details():
+#     """ Shows a user's account details. """
 
-    return render_template('account.html')
+#     return render_template('account.html')
 
 
 ##############################################################################

@@ -16,9 +16,6 @@ def get_avg_rent(bedrooms, bathrooms, sqft, latlng_point):
         avg_rent_by_br = int(db.session.query(func.avg(Rental.price)).join(UnitDetails).filter((func.ST_Distance_Sphere(latlng_point, UnitDetails.latlng) < SEARCH_RADIUS) & (UnitDetails.bedrooms == bedrooms)).all()[0][0])
     except TypeError:
         avg_rent_by_br = 'Not enough rental data nearby to calculate an average.'
-    # # Future functionality:
-    # # Search average rent price by radius by accuracy of number of bedrooms and bathrooms
-    # avg_rent_by_br_ba = db.session.query(func.avg(Rentals.price)).join(UnitDetails).filter((func.ST_Distance_Sphere(latlng_point, UnitDetails.latlng) < SEARCH_RADIUS) & (UnitDetails.bedrooms == bedrooms) & (UnitDetails.bathrooms == bathrooms)).all()[0][0]
 
     try:
         # Search average rent price by radius by accuracy of sqft range per (+) or (-) 250 sqft
