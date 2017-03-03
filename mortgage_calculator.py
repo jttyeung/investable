@@ -35,6 +35,14 @@ def calculate_mortgage(mortgage_details):
         monthly_payment = (price - downpayment) * (rate * (1 + rate) ** loan_payments) / ((1 + rate) ** loan_payments - 1)
     formatted_monthly_payment = '${:,}'.format(int(round(monthly_payment)))
 
+    # Calculate total monthly payment with HOA fees if one exists
+    if mortgage_details.get('hoa'):
+        hoa = int(mortgage_details['hoa'])
+        monthly_plus_hoa_payment = monthly_payment + hoa
+    else:
+        monthly_plus_hoa_payment = monthly_payment
+    formatted_monthly_plus_hoa_payment = '${:,}'.format(int(round(monthly_plus_hoa_payment)))
+
     # Calculate total interest paid in span of loan
     total_interest_paid = monthly_payment * loan_payments - price
     formatted_total_interest_paid = '${:,}'.format(int(round(monthly_payment * loan_payments - price)))
@@ -42,4 +50,4 @@ def calculate_mortgage(mortgage_details):
     # Calculate the total mortgage paid with interest
     total_mortgage_payment = '${:,}'.format(int(round(price + total_interest_paid)))
 
-    return (formatted_monthly_payment, total_mortgage_payment)
+    return (formatted_monthly_payment, formatted_monthly_plus_hoa_payment, total_mortgage_payment)

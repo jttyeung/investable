@@ -64,3 +64,38 @@ form input[id=mortgage-rate] {
   color: #f6931f;
   font-weight: bold;
 }
+
+body, html {
+  height: 100%;
+}
+
+div .row.first {
+  width: 100%;
+  height: 100vh;
+/*  position: absolute;
+  top: 0;
+  left: 0;*/
+}
+
+div .row.second {
+  width: 100%;
+  height: 100vh;
+/*  position: absolute;
+  top: 0;
+  left: 0;*/
+}
+
+div .row.third {
+  width: 100%;
+  height: 100vh;
+/*  position: absolute;
+  top: 0;
+  left: 0;*/
+}
+div .row.fourth {
+  width: 100%;
+  height: 100vh;
+/*  position: absolute;
+  top: 0;
+  left: 0;*/
+}

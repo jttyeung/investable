@@ -1,7 +1,22 @@
 "use strict";
 
 // Page load defaults
-// $('#property-details-page').hide()
+$('div .row.fourth').hide()
+$('#hoa-div').hide();
+$('#search').on('click', function() {
+  // Show the property details div
+  $('div .row.fourth').show()
+  $('html,body').animate({
+    scrollTop: $('.fourth').offset().top},
+    'slow');
+  displayMap();
+  }
+);
+
+// Display map after search
+function displayMap(){
+  initMap();
+}
 
 // Price slider
 $(function() {
@@ -12,7 +27,7 @@ $(function() {
     step: 100,
     values: [50000, 5000000],
     slide: function( event, ui ) {
-        $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+      $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
     }
   });
   $("#amount").val("$" + $("#slider-range").slider("values", 0) +
@@ -26,7 +41,8 @@ var map;
 
 
 // Initialize Google Map on the global scope
-window.initMap = function() {
+// window.initMap = function() {
+function initMap() {
   var unitedStates = {lat: 37.8037745, lng: -100.7662268};
   var geocoder = new google.maps.Geocoder();
 
@@ -68,13 +84,13 @@ window.initMap = function() {
 
 // Shows user interaction map instructions
 function zoomMapInstructions(){
-  $('#map-notification').html('Zoom in to see listings for sale in the area.')
+  $('#map-notification').html('Zoom in to see listings for sale in the area.');
 }
 
 
 // Hides user interaction map instructions
 function clickMapInstructions(){
-  $('#map-notification').html('Click on each listing for more details.')
+  $('#map-notification').html('Click on each listing for more details.');
 }
 
 
@@ -245,6 +261,7 @@ function getUnitInfo(evt) {
   // Resets page values on new search
   $('#list-price').html('');
   $('#monthly-payment').html('');
+  $('#monthly-plus-hoa-payment').html('');
   $('#total-payment').html('');
   $('#avg-rent-by-br').html('');
   $('#avg-rent-by-sqft').html('');
@@ -274,53 +291,55 @@ function updatePrice(listing, marker) {
   var longitude = parseFloat(listing.longitude);
 
   if (listing.response === 100){
-      // Add a google maps marker
-      // If markers do not exist, then it is a new search listing
-      if (markers.size === 0){
-        // Add new marker
-        var marker = new google.maps.Marker({
-          map: map,
-          position: {lat: latitude, lng: longitude},
-          icon : 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
-        });
-        // Zoom in on marker
-        map.setZoom(14);
-        map.setCenter(marker.position);
-        // Store marker in markers array
-        markers.add(marker);
-      }
+    // Add a google maps marker
+    // If markers do not exist, then it is a new search listing
+    if (markers.size === 0){
+      // Add new marker
+      var marker = new google.maps.Marker({
+        map: map,
+        position: {lat: latitude, lng: longitude},
+        icon : 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+      });
+      // Zoom in on marker
+      map.setZoom(14);
+      map.setCenter(marker.position);
+      // Store marker in markers array
+      markers.add(marker);
+    }
 
-      // Resets all marker colors
-      resetMarkerSelections(marker);
-      // Sets clicked marker to new color
-      setMarkerSelection(marker, listing);
+    // Resets all marker colors
+    resetMarkerSelections(marker);
+    // Sets clicked marker to new color
+    setMarkerSelection(marker, listing);
 
-      var rate = $('#mortgage-rate').val();
-      var downpayment = $('#mortgage-downpayment').val();
-      if (rate && downpayment){
-        getMonthlyPayment(price);
-      }
-      // Show the property details div
-      $('#property-details-page').show();
-      // Update the property details information on the page
-      $('#bedrooms').html(listing.bedrooms);
-      $('#bathrooms').html(listing.bathrooms);
-      $('#sqft').html(listing.sqft);
+    var rate = $('#mortgage-rate').val();
+    var downpayment = $('#mortgage-downpayment').val();
+    if (rate && downpayment){
+      getMonthlyPayment(price);
+    }
+    // Update the property details information on the page
+    $('#bedrooms').html(listing.bedrooms);
+    $('#bathrooms').html(listing.bathrooms);
+    $('#sqft').html(listing.sqft);
+    // console.log(listing.hoa);
+    if (listing.hoa){
+      $('#hoa-div').show();
       $('#hoa').html(listing.hoa);
-      $('#list-price').html(price);
-      $('#suggested-downpayment').html(twentyPercentDownpayment);
+    }
+    $('#list-price').html(price);
+    $('#suggested-downpayment').html(twentyPercentDownpayment);
 
   // If listing is found on Zillow, but it is not for sale
   } else if (listing.response === 200) {
-      $('#div-message').html('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + listing.message);
-      $('#div-message').addClass('btn-info');
-      $('#div-message').removeAttr('hidden');
+    $('#div-message').html('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + listing.message);
+    $('#div-message').addClass('btn-info');
+    $('#div-message').removeAttr('hidden');
 
   // Or if no such listing exists on Zillow
   } else {
-      $('#div-message').html('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + listing.message);
-      $('#div-message').addClass('btn-danger');
-      $('#div-message').removeAttr('hidden');
+    $('#div-message').html('<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' + listing.message);
+    $('#div-message').addClass('btn-danger');
+    $('#div-message').removeAttr('hidden');
   }
 }
 
@@ -347,6 +366,7 @@ function getMonthlyPayment(evt){
   // Get mortgage details from user inputs
   var mortgageDetails = {
     'price': $('#list-price').html(),
+    'hoa': $('#hoa').val(),
     'rate': $('#mortgage-rate').val(),
     'downpayment': $('#mortgage-downpayment').val(),
     'loan': $('#mortgage-loan-type').val()
@@ -359,6 +379,7 @@ function getMonthlyPayment(evt){
 // Returns a monthly mortgage and total mortgage amount
 function updateMonthlyPayment(rate){
   $('#monthly-payment').html(rate.mortgage);
+  $('#monthly-plus-hoa-payment').html(rate.hoa_mortgage);
   $('#total-payment').html(rate.total_mortgage);
 }
 

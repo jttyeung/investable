@@ -18,6 +18,7 @@ app = Flask(__name__)
 
 app.secret_key = os.environ['APP_KEY']
 app.zwsid = os.environ['ZWSID']
+app.gmaps = os.environ['GMAPS_JS']
 
 # jinja debugger
 app.jinja_env.undefined = jinja2.StrictUndefined
@@ -31,7 +32,7 @@ app.jinja_env.auto_reload = True
 def homepage():
     """ Brings user to the homepage. """
 
-    return render_template('index.html')
+    return render_template('index.html', GMAPS_JS=app.gmaps)
 
 
 @app.route('/search.json')
@@ -119,9 +120,9 @@ def calculate_monthly_payment():
     # User data pulled from AJAX
     mortgage_details = {}
     mortgage_details.update(request.args.items())
-    mortgage, total_mortgage = calculate_mortgage(mortgage_details)
+    mortgage, hoa_mortgage, total_mortgage = calculate_mortgage(mortgage_details)
 
-    return jsonify({ 'mortgage': mortgage, 'total_mortgage': total_mortgage })
+    return jsonify({ 'mortgage': mortgage, 'hoa_mortgage': hoa_mortgage, 'total_mortgage': total_mortgage })
 
 
 @app.route('/login', methods=['GET'])

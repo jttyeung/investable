@@ -2,7 +2,7 @@
 
 {% block body %}
 
-<div class="row page" hidden>
+<div class="row first" hidden>
   <div id="account-page" class="page col-xs-12">
     <p>Account Details</p>
       <div id="firstlastname">firstname lastname</div>
@@ -10,7 +10,7 @@
   </div>
 </div>
 
-<div class="row page" hidden>
+<div class="row second" hidden>
   <div id="login-register-page" class="page col-xs-12">
     <div id="login-page">
       <p>Log In</p>
@@ -34,7 +34,7 @@
   </div>
 </div>
 
-<div class="row page">
+<div class="row third">
   <div id="search-page" class="page col-xs-12">
     <!-- large, centered on fullscreen page -->
     <p>Search a property by location<!--, neighborhood,--> or city:</p>
@@ -49,7 +49,7 @@
   </div>
 </div>
 
-<div class="row page">
+<div class="row fourth">
   <div id="property-details-page" class="page col-xs-12">
   <div id="map-notification"></div>
   <div id="map"></div>
@@ -95,8 +95,9 @@
       Bedrooms: <span id="bedrooms"></span><br>
       Bathrooms: <span id="bathrooms"></span><br>
       Sqft: <span id="sqft"></span><br>
-      HOA: <span id="hoa"></span><br>
+      <div id="hoa-div">HOA: <span id="hoa"></span></div>
       Monthly Mortgage Payment: <span id="monthly-payment"></span><br>
+      Monthly Mortgage with HOA: <span id="monthly-plus-hoa-payment"></span><br>
       Total Mortgage Payment: <span id="total-payment"></span><br>
       Average Rent Per Month (for homes with the same # of bedrooms): <span id="avg-rent-by-br"></span><br>
       Average Rent Per Month (for homes in the same sqft range): <span id="avg-rent-by-sqft"></span>
