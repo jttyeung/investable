@@ -34,6 +34,20 @@ $(function() {
     " - $" + $("#slider-range").slider("values", 1));
 } );
 
+function resetValues(){
+  // Resets page values on new search
+  $('#list-price').html('');
+  $('#hoa').html('');
+  $('#bedrooms').html('');
+  $('#bathrooms').html('');
+  $('#sqft').html('');
+  $('#monthly-payment').html('');
+  $('#monthly-plus-hoa-payment').html('');
+  $('#suggested-downpayment').html('');
+  $('#total-payment').html('');
+  $('#avg-rent-by-br').html('');
+  $('#avg-rent-by-sqft').html('');
+}
 
 var markers = new Set();
 // var selectedMarkers = new Set();
@@ -62,7 +76,7 @@ function initMap() {
       deleteMarkers();
       // showSelectedMarkers();
       // If map isn't zoomed in enough, tell user to zoom in
-      if (map.zoom < 12){
+      if (map.zoom < 13){
         zoomMapInstructions();
       // Once map is zoomed in, change to click instructions
       // then check search filters before returning listing results
@@ -167,6 +181,7 @@ function geocodeAddress(geocoder, map) {
   // geocode that location on the map and
   // get the location of all listings for sale in that area
   if (fullAddress.address === ''){
+    resetValues();
     // Create geocoder
     var geocoder = new google.maps.Geocoder();
 
@@ -258,14 +273,6 @@ function calculateTwentyPercentDownpayment(price) {
 
 
 function getUnitInfo(evt) {
-  // Resets page values on new search
-  $('#list-price').html('');
-  $('#monthly-payment').html('');
-  $('#monthly-plus-hoa-payment').html('');
-  $('#total-payment').html('');
-  $('#avg-rent-by-br').html('');
-  $('#avg-rent-by-sqft').html('');
-
   // Gets the full address entered by the user
   var fullAddress = { 'address': $('#address-search').val(),
                       'citystatezip': $('#citystatezip-search').val()
@@ -277,6 +284,7 @@ function getUnitInfo(evt) {
 
 
 function updatePrice(listing, marker) {
+  resetValues();
 
   // Updates page with unit details if the unit is available,
   // only shows an alert with a Zillow price estimate if unit is off-market,

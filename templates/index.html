@@ -2,16 +2,16 @@
 
 {% block body %}
 
-<div class="row first" hidden>
-  <div id="account-page" class="page col-xs-12">
+<div class="row first page" hidden>
+  <div id="account-page" class="col-xs-12">
     <p>Account Details</p>
       <div id="firstlastname">firstname lastname</div>
       <div id="email">email</div>
   </div>
 </div>
 
-<div class="row second" hidden>
-  <div id="login-register-page" class="page col-xs-12">
+<div class="row second page" hidden>
+  <div id="login-register-page" class="col-xs-12">
     <div id="login-page">
       <p>Log In</p>
       <form id="log-in">
@@ -34,25 +34,25 @@
   </div>
 </div>
 
-<div class="row third">
-  <div id="search-page" class="page col-xs-12">
+<div class="row third page">
+  <div id="search-page" class="col-xs-12">
     <!-- large, centered on fullscreen page -->
-    <p>Search a property by location<!--, neighborhood,--> or city:</p>
     <form id="search-bar">
+    <h1>Find rental property real estate that is <span id="appname">Investable</span>.</h1>
+    <h4>Search properties by address,<!--, neighborhood,--> zipcode, or city and state:</h4>
       <input type="textbox" id="address-search" placeholder="Address">
-      <input type="textbox" id="citystatezip-search" placeholder="City, State or Zipcode" required>
+      <input type="textbox" id="citystatezip-search" placeholder="City, State or Zipcode" required> <input id="search" type="submit" value="Search">
       <!-- modify required text warning to "a city, state, or zipcode is required to search" -->
       <!--   change this to a keyboard stroke of 'enter' instead of having submit button -->
-      <input id="search" type="submit" value="Search">
     </form>
-    <!-- search bar goes here -->
   </div>
 </div>
 
-<div class="row fourth">
-  <div id="property-details-page" class="page col-xs-12">
+<div class="row fourth page">
   <div id="map-notification"></div>
-  <div id="map"></div>
+  <div id="map" class="col-xs-6"></div>
+  <div id="property-details" class="col-xs-6">
+
     <div id="address"></div>
     <div id="price">Property Price: <span id="list-price"></span></div>
     <form id="mortgage-calculator">
@@ -92,7 +92,7 @@
           <option value="5">5+</option>
         </select>
       <br>
-      <div id="bedrooms-div">Bedrooms: <span id="bedrooms"></div>
+      <div id="bedrooms-div">Bedrooms: <span id="bedrooms"></span></div>
       <div id="bathrooms-div">Bathrooms: <span id="bathrooms"></span></div>
       <div id="sqft-div">Sqft: <span id="sqft"></span></div>
       <div id="hoa-div">HOA: <span id="hoa"></span></div>
@@ -101,8 +101,10 @@
       <div id="total-mortgage-div">Total Mortgage Payment: <span id="total-payment"></span></div>
       <div id="avg-rent-by-br-div">Average Rent Per Month (for homes with the same # of bedrooms): <span id="avg-rent-by-br"></span></div>
       <div id="avg-rent-by-sqft-div">Average Rent Per Month (for homes in the same sqft range): <span id="avg-rent-by-sqft"></span></div>
+    </div>
   </div>
 </div>
+
 
 
 {% endblock %}
