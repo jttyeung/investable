@@ -65,6 +65,7 @@ form input[id=mortgage-rate] {
 }
 
 #map-notification {
+  font-family: 'Bitter', serif;
   height: 5vh;
   width: 50%;
   text-align: center;
@@ -72,6 +73,26 @@ form input[id=mortgage-rate] {
   font-size: 1.4em;
   color: #ffffff;
   background-color: #2F3F00;
+}
+
+#page-up {
+  font-family: 'Bitter', serif;
+  height: 5vh;
+  width: 50%;
+  text-align: center;
+  padding-top: 5px;
+  font-size: 1.4em;
+  background-color: #86A136;
+  color: #2F3F00;
+}
+
+.caret {
+
+}
+
+#search-again {
+  padding: 0px 100px 0 100px;
+  /*border-bottom: 1px #000;*/
 }
 
 #amount {
@@ -92,10 +113,12 @@ form input[id=mortgage-rate] {
   justify-content: center;
 }
 
-
 .row.fourth.page {
+  font-size: 1.2em;
+  font-weight: lighter;
   background-color: #86A136;
-  color: #2F3F00;
+  /*color: #2F3F00;*/
+  color: #000000;
   font-weight: bold;
 }
 
@@ -105,6 +128,7 @@ h1 {
 
 h4 {
   padding: 0 0 12px;
+  font-family: 'Bitter', serif;
 }
 
 span#appname {
@@ -138,3 +162,6 @@ div .row.page {
   height: 100vh;
 }
 
+#property-details {
+  padding-top: 30px;
+}
