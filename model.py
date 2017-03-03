@@ -130,10 +130,10 @@ def sample_data():
     Favorite.query.delete()
 
     # Add sample users
-    fiyero = User(firstname=fiyero, lastname=tigelaar, email='fiyerotigelaar@example.com', password='')
-    wizard = User(firstname=wizard, lastname=ofoz, email='wizardofoz@example.com', password='')
-    elphaba = User(firstname=elphaba, lastname=thropp, email='elphabathropp@example.com', password='')
-    glinda = User(firstname=glinda, lastname=good, email='glindagood@example.com', password='')
+    fiyero = User(firstname=fiyero, lastname=tigelaar, email='fiyerotigelaar@example.com', password='$2b$12$zDfkTi4MZeyuxkzHF6XbhOlfTJ4uy31cRVq6IZyPQ950Qb6KLp1AC')
+    wizard = User(firstname=wizard, lastname=ofoz, email='wizardofoz@example.com', password='$2b$12$dQd.R13zS/PZKRBY/IH6guPusbAfNStx1pk.yQZ3FSyBpwD6bLoHK')
+    elphaba = User(firstname=elphaba, lastname=thropp, email='elphabathropp@example.com', password='$2b$12$7HoZkpd6xInvo0YO2td6VOL/E138mvzlXeA9Xan8daapqRoxfmScC')
+    glinda = User(firstname=glinda, lastname=good, email='glindagood@example.com', password='$2b$12$FPHmgRWWGFF7B/OOoTipbeLnqLY0A2nU/6Kbtcn012ZEFr6XRvC8C')
 
     # Add sample unit details
     detail1 = UnitDetails(neighborhood='inner sunset / UCSF', bedrooms=2, bathrooms=2.5, sqft=2500, latitude=37.7651614, longitude=-122.4601482, latlng='0101000000AE940ACFF0E142400D946F11739D5EC0')
@@ -148,11 +148,11 @@ def sample_data():
     detail10 = UnitDetails(neighborhood='downtown / civic / van ness', bedrooms=2, bathrooms=2, sqft=2500, latitude=37.7815058, longitude=-122.4204841, latlng='01010000003151CE6108E442403B7F2436E99A5EC0')
 
     # Add sample listings
-    listing1 = Listing(price=1105500, detail_id=detail1)
-    listing2 = Listing(price=550900, detail_id=detail2)
-    listing3 = Listing(price=664000, detail_id=detail3)
-    listing4 = Listing(price=2540800, detail_id=detail4)
-    listing5 = Listing(price=980430, detail_id=detail5)
+    listing1 = Listing(zpid=19273591, price=1105500, street='123 Yellow Brick Rd', city='Emerald City', zipcode=10078, detail_id=detail1)
+    listing2 = Listing(zpid=98759925, price=550900, street='99 Yellow Brick Rd', city='Emerald City', zipcode=35929, detail_id=detail2)
+    listing3 = Listing(zpid=98723598, price=664000, hoa=500, street='85 Yellow Brick Rd', city='Emerald City', zipcode=20585, detail_id=detail3)
+    listing4 = Listing(zpid=28938876, price=2540800, hoa=275, street='26 Yellow Brick Rd', city='Emerald City', zipcode=49852, detail_id=detail4)
+    listing5 = Listing(zpid=38478998, price=980430, hoa=350, street='34 Yellow Brick Rd', city='Emerald City', zipcode=35990, detail_id=detail5)
 
     # Add sample rentals
     rental1 = Rental(cl_id=6007117641, price=2890, date_posted='2017-02-17 07:27:17+00', detail_id=detail6)
