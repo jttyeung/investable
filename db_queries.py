@@ -65,19 +65,19 @@ def find_all_listings(bounds, bedrooms, bathrooms, low_price, high_price):
     """ Finds all the listings within the geocoded location range. """
 
     # Number of listing results that can be returned at once
-    MAX_QUERY_RESULTS = 50
+    # MAX_QUERY_RESULTS = 50
+
+    # Query with limitations on max results
+    # listings = db.session.query(Listing).join(UnitDetails).filter((bounds['west'] < UnitDetails.longitude), (bounds['east'] > UnitDetails.longitude), (bounds['north'] > UnitDetails.latitude), (bounds['south'] < UnitDetails.latitude)).order_by(func.random()).limit(MAX_QUERY_RESULTS).all()
 
     # Query for the listings in the database within the latitude and
     # longitude bounds of the user's search with respect to any filters
     listings = db.session.query(Listing).join(UnitDetails).filter((bounds['west'] < UnitDetails.longitude), (bounds['east'] > UnitDetails.longitude), (bounds['north'] > UnitDetails.latitude), (bounds['south'] < UnitDetails.latitude), (UnitDetails.bedrooms >= bedrooms), (UnitDetails.bathrooms >= bathrooms), (Listing.price >= low_price), (Listing.price <= high_price)).all()
 
-    # Query with limitations on max results
-    # listings = db.session.query(Listing).join(UnitDetails).filter((bounds['west'] < UnitDetails.longitude), (bounds['east'] > UnitDetails.longitude), (bounds['north'] > UnitDetails.latitude), (bounds['south'] < UnitDetails.latitude)).order_by(func.random()).limit(MAX_QUERY_RESULTS).all()
-
-    listings_latlng = []
+    all_listings = []
 
     for listing in listings:
-        listings_latlng.append({'response': 100,  # mock api found listing response
+        all_listings.append({'response': 100,  # found listing response
                                 'latitude': listing.unitdetails.latitude,
                                 'longitude': listing.unitdetails.longitude,
                                 'street': listing.street,
@@ -92,30 +92,4 @@ def find_all_listings(bounds, bedrooms, bathrooms, low_price, high_price):
                                 'zpid': listing.zpid
                                 })
 
-    return listings_latlng
-
-
-
-    # sample
-    # bounds = {'west': -123.17382499999997, 'east': -122.28178000000003, 'north': 37.9298239, 'south': 37.6398299}
-
-    #     ST_GeomFromText('POLYGON(   (-71.1776585052917 42.3902909739571,-71.1776820268866 42.3903701743239,-71.1776063012595 42.3903825660754,-71.1775826583081 42.3903033653531,-71.1776585052917 42.3902909739571)    )');
-
-
-    # if bounds.west <= db.session.query(UnitDetails.longitude) and db.session.query(UnitDetails.latitude) <= bounds.east and bounds.north <= p.y and p.y <= bounds.south:
-    #     print db.session.query(UnitDetails.latitude, UnitDetails.longitude)
-
-
-    # listings = db.session.query(Listing.zpid).join(UnitDetails).filter(func.ST_Contains(ST_GeomFromText('POLYGON((-123.17382499999997 37.9298239,-122.28178000000003 37.6398299))'),UnitDetails.latlng) == TRUE)
-
-    # listings = db.session.query(Listing.zpid).join(UnitDetails).filter(func.ST_Contains(ST_GeomFromText('POLYGON((-123.17382499999997 37.9298239,-122.28178000000003 37.6398299))'),UnitDetails.latlng) == TRUE)
-
-
-
-
-
-
-
-
-
-
+    return all_listings
