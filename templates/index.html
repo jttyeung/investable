@@ -50,62 +50,66 @@
 
 <div class="row fourth page">
   <div class="row">
-  <div id="map-notification" class="col-xs-6"></div>
-    <div id="page-up" class="col-xs-6"><span class="glyphicon glyphicon-chevron-up"></span><span id="search-again">Search Again</span><span class="glyphicon glyphicon-chevron-up"></span></div>
+    <div id="page-up" class="col-xs-6">
+      <span class="glyphicon glyphicon-chevron-up"></span><span id="search-again">Search Again</span><span class="glyphicon glyphicon-chevron-up"></span>
+    </div>
   </div>
   <div class="row">
-  <div id="map" class="col-xs-6"></div>
-  <div id="property-details" class="col-xs-6">
-    <div id="address"> </div>
-    <div id="price">Property Price: <span id="list-price"></span></div>
-    <form id="mortgage-calculator">
-      Your Annual Interest Rate: <div class="input-box"><input type="number" id="mortgage-rate" placeholder="5.00" maxlength="5" min="0" step="any" required><span class="percent">%</span></div><br>
-      Your Downpayment: <div class="input-box"><span class="currency">$</span><input type="number" id="mortgage-downpayment" placeholder="0" maxlength="1" min="0" required></div> Suggested downpayment: <span id="suggested-downpayment"></span><br>
-      Your Loan Type:
-        <select id="mortgage-loan-type">
-          <option value="40-fixed">40-Year Fixed</option>
-          <option value="30-fixed" selected="selected">30-Year Fixed</option>
-          <option value="25-fixed">25-Year Fixed</option>
-          <option value="20-fixed">20-Year Fixed</option>
-          <option value="15-fixed">15-Year Fixed</option>
-          <option value="10-fixed">10-Year Fixed</option>
-        </select>
-      <br>
-      <input type="submit" value="Calculate">
-    </form>
-      Filter by Price: <input type="text" id="amount" readonly>
-      <div id="slider-range"></div>
-      <br>
-      Filter by # Bedrooms:
-        <select id="bedroom-filter">
-          <option value="0">0</option>
-          <option value="1">1+</option>
-          <option value="2">2+</option>
-          <option value="3">3+</option>
-          <option value="4">4+</option>
-          <option value="5">5+</option>
-        </select>
-      <br>
-      Filter by # Bathrooms:
-        <select id="bathroom-filter">
-          <option value="1">1+</option>
-          <option value="2">2+</option>
-          <option value="3">3+</option>
-          <option value="4">4+</option>
-          <option value="5">5+</option>
-        </select>
-      <br>
-      <div id="bedrooms-div">Bedrooms: <span id="bedrooms"></span></div>
-      <div id="bathrooms-div">Bathrooms: <span id="bathrooms"></span></div>
-      <div id="sqft-div">Sqft: <span id="sqft"></span></div>
-      <div id="hoa-div">HOA: <span id="hoa"></span></div>
-      <div id="monthly-mortgage-div">Monthly Mortgage Payment: <span id="monthly-payment"></span></div>
-      <div id="monthly-mortgage-with-hoa-div">Monthly Mortgage with HOA: <span id="monthly-plus-hoa-payment"></span></div>
-      <div id="total-mortgage-div">Total Mortgage Payment: <span id="total-payment"></span></div>
-      <div id="avg-rent-by-br-div">Average Rent Per Month (for homes with the same # of bedrooms): <span id="avg-rent-by-br"></span></div>
-      <div id="avg-rent-by-sqft-div">Average Rent Per Month (for homes in the same sqft range): <span id="avg-rent-by-sqft"></span></div>
+    <div id="map" class="col-xs-6"></div>
+    <div id="property-details" class="col-xs-6">
+      <div id="address"> </div>
+      <div id="price">Property Price: <span id="list-price"></span></div>
+      <form id="mortgage-calculator">
+        Your Annual Interest Rate: <div class="input-box"><input type="number" id="mortgage-rate" placeholder="5.00" maxlength="5" min="0" step="any" required><span class="percent">%</span></div><br>
+        Your Downpayment: <div class="input-box"><span class="currency">$</span><input type="number" id="mortgage-downpayment" placeholder="0" maxlength="1" min="0" required></div> Suggested downpayment: <span id="suggested-downpayment"></span><br>
+        Your Loan Type:
+          <select id="mortgage-loan-type">
+            <option value="40-fixed">40-Year Fixed</option>
+            <option value="30-fixed" selected="selected">30-Year Fixed</option>
+            <option value="25-fixed">25-Year Fixed</option>
+            <option value="20-fixed">20-Year Fixed</option>
+            <option value="15-fixed">15-Year Fixed</option>
+            <option value="10-fixed">10-Year Fixed</option>
+          </select>
+        <br>
+        <input type="submit" value="Calculate">
+      </form>
+        Filter by Price: <input type="text" id="amount" readonly>
+        <div id="slider-range"></div>
+        <br>
+        Filter by # BR:
+          <select id="bedroom-filter">
+            <option value="0">0</option>
+            <option value="1">1+</option>
+            <option value="2">2+</option>
+            <option value="3">3+</option>
+            <option value="4">4+</option>
+            <option value="5">5+</option>
+          </select>
+        <br>
+        Filter by # BA:
+          <select id="bathroom-filter">
+            <option value="1">1+</option>
+            <option value="2">2+</option>
+            <option value="3">3+</option>
+            <option value="4">4+</option>
+            <option value="5">5+</option>
+          </select>
+        <br>
+        <div id="bedrooms-div">BR: <span id="bedrooms"></span></div>
+        <div id="bathrooms-div">BA: <span id="bathrooms"></span></div>
+        <div id="sqft-div">Sqft: <span id="sqft"></span></div>
+        <div id="hoa-div">HOA: <span id="hoa"></span></div>
+        <div id="monthly-mortgage-div">Monthly Mortgage: <span id="monthly-payment"></span></div>
+        <div id="monthly-mortgage-with-hoa-div">Monthly Mortgage with HOA: <span id="monthly-plus-hoa-payment"></span></div>
+        <div id="total-mortgage-div">Total Mortgage Payment: <span id="total-payment"></span></div>
+        <div id="avg-rent-by-br-div">Avg Monthly Rent (for homes with the same # of bedrooms): <span id="avg-rent-by-br"></span></div>
+        <div id="avg-rent-by-sqft-div">Avg Monthly Rent (for homes in the same sqft range): <span id="avg-rent-by-sqft"></span></div>
+      </div>
     </div>
-    </div>
+    <div class="row">
+      <div id="map-notification" class="col-xs-6"></div>
+      <div id="something" class="col-xs-6"></div>
   </div>
 </div>
 

@@ -2,9 +2,39 @@ body {
   color: #ffffff;
 }
 
-.container-fluid {
-  padding-left: 0px;
-  padding-right: 0px;
+/* Gives every page a full window height */
+div .row.page {
+  height: 100vh;
+}
+
+
+#map {
+  height: 90vh;
+  width: 50%;
+}
+
+/* Top of map page header bar to return to search */
+#page-up {
+  font-family: 'Bitter', serif;
+  height: 40px;
+  width: 100%;
+  text-align: center;
+  padding-top: 5px;
+  font-size: 1.4em;
+  background-color: #86A136;
+  color: #2F3F00;
+}
+
+/* Text notification on bottom of map page below map */
+#map-notification {
+  font-family: 'Bitter', serif;
+  height: 5vh;
+  width: 50%;
+  text-align: center;
+  padding-top: 5px;
+  font-size: 1.4em;
+  color: #ffffff;
+  background-color: #21043A;
 }
 
 .input-box {
@@ -58,46 +88,9 @@ form input[id=mortgage-rate] {
   font-weight: bold;
 }
 
-#map {
-  height: 95vh;
-  width: 50%;
-  /*margin-left: -15px;*/
-}
-
-#map-notification {
-  font-family: 'Bitter', serif;
-  height: 5vh;
-  width: 50%;
-  text-align: center;
-  padding-top: 5px;
-  font-size: 1.4em;
-  color: #ffffff;
-  background-color: #2F3F00;
-}
-
-#page-up {
-  font-family: 'Bitter', serif;
-  height: 5vh;
-  width: 50%;
-  text-align: center;
-  padding-top: 5px;
-  font-size: 1.4em;
-  background-color: #86A136;
-  color: #2F3F00;
-}
-
-.caret {
-
-}
-
-#search-again {
-  padding: 0px 100px 0 100px;
-  /*border-bottom: 1px #000;*/
-}
-
 #amount {
   border: 0;
-  color: #f6931f;
+  background-color: #B7B0BE;
   font-weight: bold;
 }
 
@@ -115,11 +108,8 @@ form input[id=mortgage-rate] {
 
 .row.fourth.page {
   font-size: 1.2em;
-  font-weight: lighter;
-  background-color: #86A136;
-  /*color: #2F3F00;*/
+  background-color: #B7B0BE;
   color: #000000;
-  font-weight: bold;
 }
 
 h1 {
@@ -157,11 +147,12 @@ span#appname {
   border-radius: 4px;
 }
 
-div .row.page {
-  width: 100%;
-  height: 100vh;
-}
-
-#property-details {
-  padding-top: 30px;
+/* Address on page */
+#address {
+  height: 35px;
+  font-size: 1.3em;
+  text-align: center;
+  /*padding: 5px 0 5px 0;*/
+  background-color: #21043A;
+  color: #ffffff;
 }

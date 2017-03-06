@@ -104,7 +104,7 @@ function zoomMapInstructions(){
 
 // Hides user interaction map instructions
 function clickMapInstructions(){
-  $('#map-notification').html('Click on each listing for more details.');
+  $('#map-notification').html('Select a listing to see more details.');
 }
 
 
@@ -292,6 +292,7 @@ function updatePrice(listing, marker) {
 
   // Creating variable values from the server's response
   var price = listing.price;
+  price = '$' + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   var twentyPercentDownpayment = calculateTwentyPercentDownpayment(price);
   //.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   var avgRent = listing.rent_avgs;
