@@ -117,12 +117,13 @@ def get_listings():
 def calculate_monthly_payment():
     """ Calculates the monthly mortgage payment based on user's details. """
 
-    # User data pulled from AJAX
+    # User mortgage data pulled from AJAX
     mortgage_details = {}
     mortgage_details.update(request.args.items())
-    mortgage, hoa_mortgage, total_mortgage = calculate_mortgage(mortgage_details)
+    mortgage, total_mortgage = calculate_mortgage(mortgage_details)
+    print mortgage_details
 
-    return jsonify({ 'mortgage': mortgage, 'hoa_mortgage': hoa_mortgage, 'total_mortgage': total_mortgage })
+    return jsonify({ 'mortgage': mortgage, 'total_mortgage': total_mortgage })
 
 
 # @app.route('/login', methods=['GET'])

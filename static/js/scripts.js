@@ -146,10 +146,11 @@ function deleteMarkers() {
 
 // Set selected marker to blue
 function setMarkerSelection(marker, listing) {
-  var selectedMarker = marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
-  // selectedMarkers.add(selectedMarker);
+  marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
+
   // Get average rent rate on marker selection
   var listing = JSON.stringify(listing);
+
   $.get('/avgrent.json', {'listing': listing}, updateAvgRentRate);
 }
 
@@ -173,6 +174,7 @@ function attachListener(marker, listing) {
 // Geocodes the location of the user-entered address
 function geocodeAddress(geocoder, map) {
   deleteMarkers();
+  resetValues();
 
   // Gets the full address (street, city, state, zip) entered by the user
   var fullAddress = { 'address': document.getElementById('address-search').value,
@@ -183,7 +185,7 @@ function geocodeAddress(geocoder, map) {
   // geocode that location on the map and
   // get the location of all listings for sale in that area
   if (fullAddress.address === ''){
-    resetValues();
+    // resetValues();
     // Create geocoder
     var geocoder = new google.maps.Geocoder();
 
@@ -286,8 +288,6 @@ function getUnitInfo(evt) {
 
 
 function updatePrice(listing, marker) {
-  resetValues();
-
   // Updates page with unit details if the unit is available,
   // only shows an alert with a Zillow price estimate if unit is off-market,
   // or error message if unit address is not found.
@@ -302,6 +302,8 @@ function updatePrice(listing, marker) {
   var longitude = parseFloat(listing.longitude);
 
   if (listing.response === 100){
+    // Resets all marker colors
+    resetMarkerSelections(marker);
     // Add a google maps marker
     // If markers do not exist, then it is a new search listing
     if (markers.size === 0){
@@ -318,8 +320,6 @@ function updatePrice(listing, marker) {
       markers.add(marker);
     }
 
-    // Resets all marker colors
-    resetMarkerSelections(marker);
     // Sets clicked marker to new color
     setMarkerSelection(marker, listing);
 
@@ -332,10 +332,13 @@ function updatePrice(listing, marker) {
     $('#address').html(listing.street + ', ' + listing.city + ', ' + listing.state + ' ' + listing.zipcode);
     $('#bedrooms').html(listing.bedrooms);
     $('#bathrooms').html(listing.bathrooms);
-    var sqft = listing.sqft.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    // Format sqft if it exists
+    if (listing.sqft){
+      var sqft = listing.sqft.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
     $('#sqft').html(sqft);
+    // Format HOA if it exists
     if (listing.hoa){
-      // Format HOA if it exists
       var hoa = '$' + listing.hoa.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       $('#hoa').html(hoa);
     } else {
@@ -381,12 +384,12 @@ function getMonthlyPayment(evt){
   // Get mortgage details from user inputs
   var mortgageDetails = {
     'price': $('#list-price').html().replace(/\D/g,''),
-    'hoa': $('#hoa').val().replace(/\D/g,''),
+    'hoa': $('#hoa').html().replace(/\D/g,''),
     'rate': $('#mortgage-rate').val(),
     'downpayment': $('#mortgage-downpayment').val(),
     'loan': $('#mortgage-loan-type').val()
   };
-
+  console.log(mortgageDetails)
   $.get('/calculator', mortgageDetails, updateMonthlyPayment);
 }
 
