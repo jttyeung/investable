@@ -121,7 +121,6 @@ def calculate_monthly_payment():
     mortgage_details = {}
     mortgage_details.update(request.args.items())
     mortgage, total_mortgage = calculate_mortgage(mortgage_details)
-    print mortgage_details
 
     return jsonify({ 'mortgage': mortgage, 'total_mortgage': total_mortgage })
 

@@ -304,6 +304,7 @@ function updatePrice(listing, marker) {
   if (listing.response === 100){
     // Resets all marker colors
     resetMarkerSelections(marker);
+
     // Add a google maps marker
     // If markers do not exist, then it is a new search listing
     if (markers.size === 0){
@@ -389,7 +390,7 @@ function getMonthlyPayment(evt){
     'downpayment': $('#mortgage-downpayment').val(),
     'loan': $('#mortgage-loan-type').val()
   };
-  console.log(mortgageDetails)
+
   $.get('/calculator', mortgageDetails, updateMonthlyPayment);
 }
 
