@@ -136,25 +136,12 @@ function clearMarkers() {
   setMapOnAll(null);
 }
 
-// // Shows any markers currently in the array
-// function showMarkers() {
-//     setMapOnAll(map);
-// }
-
 
 // Deletes all markers in the array by removing references to them
 function deleteMarkers() {
   clearMarkers();
   markers.clear();
 }
-
-
-// function showSelectedMarkers() {
-//     for (let marker of selectedMarkers){
-//         // marker.setIcon('http://maps.google.com/mapfiles/ms/icons/pink-dot.png');
-//         marker.setMap(map);
-//     }
-// }
 
 
 // Set selected marker to blue
