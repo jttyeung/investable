@@ -292,7 +292,7 @@ function updatePrice(listing, marker) {
 
   // Creating variable values from the server's response
   var price = listing.price;
-  price = '$' + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  var displayPrice = '$' + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   var twentyPercentDownpayment = calculateTwentyPercentDownpayment(price);
   //.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   var avgRent = listing.rent_avgs;
@@ -336,7 +336,7 @@ function updatePrice(listing, marker) {
       $('#hoa-div').show();
       $('#hoa').html(listing.hoa);
     }
-    $('#list-price').html(price);
+    $('#list-price').html(displayPrice);
     $('#suggested-downpayment').html(twentyPercentDownpayment);
 
   // If listing is found on Zillow, but it is not for sale
@@ -375,7 +375,7 @@ function getMonthlyPayment(evt){
 
   // Get mortgage details from user inputs
   var mortgageDetails = {
-    'price': $('#list-price').html(),
+    'price': $('#list-price').html().replace(/\D/g,''),
     'hoa': $('#hoa').val(),
     'rate': $('#mortgage-rate').val(),
     'downpayment': $('#mortgage-downpayment').val(),
