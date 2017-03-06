@@ -7,6 +7,7 @@ blinker==1.4
 cffi==1.9.1
 click==6.7
 constantly==15.1.0
+coverage==4.3.4
 cryptography==1.7.2
 cssselect==1.0.1
 decorator==4.0.11
@@ -20,6 +21,7 @@ geopy==1.11.0
 html5lib==0.999999999
 idna==2.2
 incremental==16.10.1
+invoke==0.15.0
 ipaddress==1.0.18
 itsdangerous==0.24
 Jinja2==2.9.5
