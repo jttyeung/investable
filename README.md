@@ -76,7 +76,7 @@ These instructions will get you a copy of the project up and running on your loc
 ## <a name="use"></a>How to Use Investable
 1. Edit the list of `start_urls` in `/rent_scraper/rent_scraper/spiders/craigslist.py` with the Craigslist URL for the city you would like rent averages from.
 2. Edit the `CLOSESPIDER_ITEMCOUNT` in `/rent_scraper/rent_scraper/spiders/settings.py` to indicate how many rental properties to include in the average. Please scrape responsibly.
-3. Search for a listing of interest. **Note**: Cannot search by city due to Zillow API restrictions.
+3. Search for a listing of interest by full address. **Note**: Cannot search by city/region due to Zillow API call restrictions.
 4. Enter your mortgage customizations to compare rent rate vs. mortgage rate, or search again.
 
 
@@ -99,5 +99,5 @@ Learn more on LinkedIn: [https://linkedin.com/in/jttyeung](https://linkedin.com/
 
 ## <a name="license"></a>License
 
-This project is licensed under the [MIT License](LICENSE.md)
+This project is licensed under the [MIT License](LICENSE.md).
 
