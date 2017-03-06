@@ -4,7 +4,7 @@
 $('div .row.fourth').hide()
 
 // Page scrolling down animation on search click
-$('#search').on('click', function() {
+$('#search-button').on('click', function() {
   // Show the property details div
   $('div .row.fourth').show()
   $('html,body').animate({
@@ -109,7 +109,7 @@ function initMap() {
   });
 
   // Waits for search button to be clicked before geocoding
-  document.getElementById('search').addEventListener('click', function(evt) {
+  document.getElementById('search-button').addEventListener('click', function(evt) {
     evt.preventDefault();
     geocodeAddress(geocoder, map);
   });

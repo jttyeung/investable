@@ -2,11 +2,6 @@ body {
   color: #ffffff;
 }
 
-/* Landing page background */
-#third-page-background {
-  background: url(/static/images/pexels-photo-261187.jpeg) no-repeat center center;
-}
-
 /* Gives every partition of the page a background */
 .row {
   background: url(/static/images/ps_neutral.png) repeat;
@@ -21,6 +16,28 @@ div .row.page {
 #map {
   height: 72vh;
   width: 50%;
+}
+
+/* Landing page background */
+#third-page-background {
+  background: url(/static/images/pexels-photo-261187.jpeg) no-repeat center center;
+  /*margin: -10px -15px -10px -15px;*/
+}
+
+/* Landing page styling */
+.row.third.page {
+  background: rgba(33, 4, 58, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Map and property detail page styling */
+.row.fourth.page {
+  font-family: 'Roboto', serif;
+  font-size: 1.2em;
+  background: rgba(33, 4, 58, .7);
+  color: #000000;
 }
 
 /* Top of map page header bar to return to search */
@@ -134,25 +151,13 @@ form input[id=mortgage-rate] {
   margin-top: -10%;
 }
 
-.row.third.page {
-  background: rgba(33, 4, 58, 0.9);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.row.fourth.page {
-  font-family: 'Roboto', serif;
-  font-size: 1.2em;
-  background: rgba(33, 4, 58, .7);
-  color: #000000;
-}
-
+/* Landing page main text */
 h1 {
   padding: 0 20px 80px 20px;
   font-size: 3.5em;
 }
 
+/* Landing page search bar text */
 h4 {
   padding: 0 0 12px;
   font-family: 'Droid Serif', serif;
@@ -163,6 +168,7 @@ span#appname {
   color: #86A136;
 }
 
+/* Landing page search box styling */
 #address-search {
   color: rgb(33, 4, 58);
   width: 300px;
@@ -175,7 +181,8 @@ span#appname {
   height: 40px;
 }
 
-#search {
+/* Landing search button */
+#search-button {
   color: rgb(33, 4, 58);
   font-weight: bold;
   width: 100px;
@@ -185,7 +192,7 @@ span#appname {
   border-radius: 4px;
 }
 
-/* Address on page */
+/* Address on details page */
 #address {
   height: 35px;
   font-size: 1.3em;
@@ -195,17 +202,19 @@ span#appname {
   color: #ffffff;
 }
 
+/* Monthly payment amount on details page */
+div #monthly-payment {
+  padding: 10px 0 10px;
+  height: 45px;
+}
+
 #monthly-payment {
   font-size: 2em;
 }
 
+/* Avg rent amounts on details page */
 #avg-rent-by-br {
   font-size: 2em;
-}
-
-div #monthly-payment {
-  padding: 10px 0 10px;
-  height: 45px;
 }
 
 div #avg-rent-by-br {
