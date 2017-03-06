@@ -93,7 +93,8 @@ These instructions will get you a copy of the project up and running on your loc
 
 ## <a name="author"></a>Author
 
-* Joanne Yeung is a full-stack engineer in San Francisco, CA. Learn more here: [https://linkedin.com/in/jttyeung](https://linkedin.com/in/jttyeung)
+Joanne Yeung is a full-stack engineer in San Francisco, CA.
+Learn more on LinkedIn: [https://linkedin.com/in/jttyeung](https://linkedin.com/in/jttyeung)
 
 
 ## <a name="license"></a>License
