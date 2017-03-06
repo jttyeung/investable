@@ -33,20 +33,25 @@ function displayMap(){
   initMap();
 }
 
+// Format currency with commas and dollar sign
+function formatCurrency(number){
+  return '$' + number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 // Price slider
 $(function() {
   $("#slider-range").slider({
     range: true,
     min: 50000,
     max: 5000000,
-    step: 100,
+    step: 1000,
     values: [50000, 5000000],
     slide: function( event, ui ) {
-      $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+      $("#amount").val(formatCurrency(ui.values[0]) + " - " + formatCurrency(ui.values[1]));
     }
   });
-  $("#amount").val("$" + $("#slider-range").slider("values", 0) +
-    " - $" + $("#slider-range").slider("values", 1));
+  $("#amount").val(formatCurrency($("#slider-range").slider("values", 0)) +
+    " - " + formatCurrency($("#slider-range").slider("values", 1)));
 } );
 
 function resetValues(){
@@ -294,7 +299,7 @@ function updatePrice(listing, marker) {
 
   // Creating variable values from the server's response
   var price = listing.price;
-  var displayPrice = '$' + price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  var displayPrice = formatCurrency(price);
   var twentyPercentDownpayment = calculateTwentyPercentDownpayment(price);
   //.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   var avgRent = listing.rent_avgs;
@@ -340,7 +345,7 @@ function updatePrice(listing, marker) {
     $('#sqft').html(sqft);
     // Format HOA if it exists
     if (listing.hoa){
-      var hoa = '$' + listing.hoa.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      var hoa = formatCurrency(listing.hoa);
       $('#hoa').html(hoa);
     } else {
       $('#hoa').html('None');
@@ -405,8 +410,8 @@ function updateMonthlyPayment(rate){
 
 // Returns nearby average rent rates by bedroom or sqft
 function updateAvgRentRate(avgRent){
-  var byBedroom = '$' + avgRent['avg_rent_by_br'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
-  var bySqft = '$' + avgRent['avg_rent_by_sqft'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
+  var byBedroom = formatCurrency(avgRent['avg_rent_by_br']);
+  var bySqft = formatCurrency(avgRent['avg_rent_by_sqft']);
 
   $('#avg-rent-by-br').html(byBedroom);
   $('#avg-rent-by-sqft').html(bySqft);

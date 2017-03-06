@@ -34,17 +34,19 @@
   </div>
 </div>
 
-<div class="row third page">
-  <div id="search-page" class="col-xs-12">
-    <!-- large, centered on fullscreen page -->
-    <form id="search-bar">
-    <h1>Find rental property that is <span id="appname">Investable</span>.</h1>
-    <h4>Search properties by address,<!--, neighborhood,--> zipcode, or city and state:</h4>
-      <input type="textbox" id="address-search" placeholder="Address">
-      <input type="textbox" id="citystatezip-search" placeholder="City, State or Zipcode" required> <input id="search" type="submit" value="Search">
-      <!-- modify required text warning to "a city, state, or zipcode is required to search" -->
-      <!--   change this to a keyboard stroke of 'enter' instead of having submit button -->
-    </form>
+<div id="third-page-background">
+  <div class="row third page">
+    <div id="search-page" class="col-xs-12">
+      <!-- large, centered on fullscreen page -->
+      <form id="search-bar">
+      <h1>Find rental property that is <span id="appname">Investable</span>.</h1>
+      <h4>Search properties by address,<!--, neighborhood,--> zipcode, or city and state:</h4>
+        <input type="textbox" id="address-search" placeholder="Address">
+        <input type="textbox" id="citystatezip-search" placeholder="City, State or Zipcode" required> <input id="search" type="submit" value="Search">
+        <!-- modify required text warning to "a city, state, or zipcode is required to search" -->
+        <!--   change this to a keyboard stroke of 'enter' instead of having submit button -->
+      </form>
+    </div>
   </div>
 </div>
 
@@ -80,6 +82,15 @@
       Filter by Price: <input type="text" id="amount" readonly>
       <div id="slider-range"></div>
     </div><!-- .col-xs-6 -->
+    <div id="price-comparison-div">
+      <div class="col-xs-3" id="monthly-mortgage-div">Monthly Mortgage:</div>
+      <div class="col-xs-3" id="avg-rent-by-br-div">Avg Monthly Rent:</div>
+      <div class="col-xs-3" id="monthly-payment"></div>
+      <div class="col-xs-3" id="avg-rent-by-br"></div>
+      <div id="avg-rent-by-sqft-div">Similar sqft:
+        <span id="avg-rent-by-sqft"></span>
+      </div>
+    </div>
   </div>
   <div class="row">
     <div id="map" class="col-xs-6"></div>
@@ -91,13 +102,6 @@
         BA: <span id="bathrooms"></span> &nbsp; &nbsp; | &nbsp; &nbsp;
         Sqft: <span id="sqft"></span> &nbsp; &nbsp; | &nbsp; &nbsp;
         HOA: <span id="hoa"></span>
-      </div>
-      <div class="col-xs-3" id="monthly-mortgage-div">Monthly Mortgage:</div>
-      <div class="col-xs-3" id="avg-rent-by-br-div">Avg Monthly Rent:</div>
-      <div class="col-xs-3" id="monthly-payment"></div>
-      <div class="col-xs-3" id="avg-rent-by-br"></div>
-      <div id="avg-rent-by-sqft-div">Avg Monthly Rent (for homes in the same sqft range):
-        <span id="avg-rent-by-sqft"></span>
       </div>
       <form id="mortgage-calculator">
         Calculate Your Mortgage Rate:<br>

@@ -2,6 +2,16 @@ body {
   color: #ffffff;
 }
 
+/* Landing page background */
+#third-page-background {
+  background: url(/static/images/pexels-photo-261187.jpeg) no-repeat center center;
+}
+
+/* Gives every partition of the page a background */
+.row {
+  background: url(/static/images/ps_neutral.png) repeat;
+}
+
 /* Gives every page a full window height */
 div .row.page {
   height: 100vh;
@@ -15,34 +25,42 @@ div .row.page {
 
 /* Top of map page header bar to return to search */
 #page-up {
-  font-family: 'Bitter', serif;
   height: 5vh;
   min-height: 40px;
   width: 100%;
   text-align: center;
   padding-top: 5px;
-  font-size: 1.4em;
+  font-size: 1.3em;
+  font-family: 'Droid Serif', serif;
   background-color: #86A136;
   color: #2F3F00;
 }
 
-/* Div for filters */
+/* Styling for filters div */
 #filter-div {
   height: 18vh;
   min-height: 130px;
-  background-color: #21043A;
+  background: rgba(33, 4, 58, 1);
+  color: #ffffff;
+}
+
+/* Styling for price comparison div */
+#price-comparison-div {
+  height: 18vh;
+  min-height: 130px;
+  background: rgba(33, 4, 58, 1);
   color: #ffffff;
 }
 
 /* Text notification on bottom of map page below map */
 #map-notification {
-  font-family: 'Bitter', serif;
   min-height: 40px;
   height: 5vh;
   width: 50%;
   text-align: center;
   padding-top: 5px;
-  font-size: 1.4em;
+  font-size: 1.2em;
+  font-family: 'Droid Serif', serif;
   color: #ffffff;
   background-color: #21043A;
 }
@@ -82,7 +100,7 @@ form input[id=mortgage-downpayment] {
   border-left: 0;
   color: #666;
   border-radius: 0 7px 7px 0;
-  font-family: 'PT Sans', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: bold;
 }
 
@@ -94,16 +112,21 @@ form input[id=mortgage-rate] {
   border-right: 0;
   color: #666;
   border-radius: 7px 0 0 7px;
-  font-family: 'PT Sans', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-weight: bold;
 }
 
-/* Slider bar filter for listing price */
+/* Amount display for price slider bar */
 #amount {
   border: 0;
-  background-color: #21043A;
+  background: #21043A;
   color: #86A136;
   font-weight: bold;
+}
+
+/* Slider bar display for price slider */
+#slider-range {
+  width: 450px;
 }
 
 #search-bar {
@@ -112,25 +135,28 @@ form input[id=mortgage-rate] {
 }
 
 .row.third.page {
-  background-color: #18012D;
+  background: rgba(33, 4, 58, 0.9);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .row.fourth.page {
+  font-family: 'Roboto', serif;
   font-size: 1.2em;
-  background-color: #B7B0BE;
+  background: rgba(33, 4, 58, .7);
   color: #000000;
 }
 
 h1 {
   padding: 0 20px 80px 20px;
+  font-size: 3.5em;
 }
 
 h4 {
   padding: 0 0 12px;
-  font-family: 'Bitter', serif;
+  font-family: 'Droid Serif', serif;
+  font-size: 1.3em;
 }
 
 span#appname {
@@ -138,19 +164,19 @@ span#appname {
 }
 
 #address-search {
-  color: #18012D;
+  color: rgb(33, 4, 58);
   width: 300px;
   height: 40px;
 }
 
 #citystatezip-search {
-  color: #18012D;
+  color: rgb(33, 4, 58);
   width: 200px;
   height: 40px;
 }
 
 #search {
-  color: #18012D;
+  color: rgb(33, 4, 58);
   font-weight: bold;
   width: 100px;
   height: 41px;
@@ -170,11 +196,11 @@ span#appname {
 }
 
 #monthly-payment {
-  font-size: 1.8em;
+  font-size: 2em;
 }
 
 #avg-rent-by-br {
-  font-size: 1.8em;
+  font-size: 2em;
 }
 
 div #monthly-payment {
