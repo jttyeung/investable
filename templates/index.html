@@ -58,12 +58,15 @@
     <div id="map" class="col-xs-6"></div>
     <div id="property-details" class="col-xs-6">
       <div id="address"></div>
-      <div id="price">Price: <span id="list-price"></span> |
-        BR: <span id="bedrooms"></span> |
-        BA: <span id="bathrooms"></span> |
-        Sqft: <span id="sqft"></span> |
+      <div id="price">Price: <span id="list-price"></span> &nbsp; &nbsp; | &nbsp; &nbsp;
+        BR: <span id="bedrooms"></span> &nbsp; &nbsp; | &nbsp; &nbsp;
+        BA: <span id="bathrooms"></span> &nbsp; &nbsp; | &nbsp; &nbsp;
+        Sqft: <span id="sqft"></span> &nbsp; &nbsp; | &nbsp; &nbsp;
         HOA: <span id="hoa"></span>
       </div>
+      <div id="monthly-mortgage-div">Monthly Mortgage: <span id="monthly-payment"></span></div>
+      <div id="avg-rent-by-br-div">Avg Monthly Rent (for homes with the same # of bedrooms): <span id="avg-rent-by-br"></span></div>
+      <div id="avg-rent-by-sqft-div">Avg Monthly Rent (for homes in the same sqft range): <span id="avg-rent-by-sqft"></span></div>
       <form id="mortgage-calculator">
         Your Annual Interest Rate: <div class="input-box"><input type="number" id="mortgage-rate" placeholder="5.00" maxlength="5" min="0" step="any" required><span class="percent">%</span></div><br>
         Your Downpayment: <div class="input-box"><span class="currency">$</span><input type="number" id="mortgage-downpayment" placeholder="0" maxlength="1" min="0" required></div> Suggested downpayment: <span id="suggested-downpayment"></span><br>
@@ -101,11 +104,7 @@
             <option value="5">5+</option>
           </select>
         <br>
-        <div id="monthly-mortgage-div">Monthly Mortgage: <span id="monthly-payment"></span></div>
-        <div id="monthly-mortgage-with-hoa-div">Monthly Mortgage with HOA: <span id="monthly-plus-hoa-payment"></span></div>
         <div id="total-mortgage-div">Total Mortgage Payment: <span id="total-payment"></span></div>
-        <div id="avg-rent-by-br-div">Avg Monthly Rent (for homes with the same # of bedrooms): <span id="avg-rent-by-br"></span></div>
-        <div id="avg-rent-by-sqft-div">Avg Monthly Rent (for homes in the same sqft range): <span id="avg-rent-by-sqft"></span></div>
       </div>
     </div>
     <div class="row">

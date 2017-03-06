@@ -28,7 +28,7 @@ div .row.page {
 /* Text notification on bottom of map page below map */
 #map-notification {
   font-family: 'Bitter', serif;
-  height: 5vh;
+  height: 38px;
   width: 50%;
   text-align: center;
   padding-top: 5px;

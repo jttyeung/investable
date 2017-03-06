@@ -2,7 +2,6 @@
 
 // Page load defaults
 $('div .row.fourth').hide()
-$('#hoa-div').hide();
 $('#search').on('click', function() {
   // Show the property details div
   $('div .row.fourth').show()
@@ -330,11 +329,14 @@ function updatePrice(listing, marker) {
     $('#address').html(listing.street + ', ' + listing.city + ', ' + listing.state + ' ' + listing.zipcode);
     $('#bedrooms').html(listing.bedrooms);
     $('#bathrooms').html(listing.bathrooms);
-    $('#sqft').html(listing.sqft);
-    // console.log(listing.hoa);
+    var sqft = listing.sqft.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    $('#sqft').html(sqft);
     if (listing.hoa){
-      $('#hoa-div').show();
-      $('#hoa').html(listing.hoa);
+      // Format HOA if it exists
+      var hoa = '$' + listing.hoa.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      $('#hoa').html(hoa);
+    } else {
+      $('#hoa').html('None');
     }
     $('#list-price').html(displayPrice);
     $('#suggested-downpayment').html(twentyPercentDownpayment);
@@ -376,7 +378,7 @@ function getMonthlyPayment(evt){
   // Get mortgage details from user inputs
   var mortgageDetails = {
     'price': $('#list-price').html().replace(/\D/g,''),
-    'hoa': $('#hoa').val(),
+    'hoa': $('#hoa').val().replace(/\D/g,''),
     'rate': $('#mortgage-rate').val(),
     'downpayment': $('#mortgage-downpayment').val(),
     'loan': $('#mortgage-loan-type').val()
