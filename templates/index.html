@@ -51,25 +51,58 @@
 <div class="row fourth page">
   <div class="row">
     <div id="page-up" class="col-xs-6">
-      <span class="glyphicon glyphicon-chevron-up"></span><span id="search-again">Search Again</span><span class="glyphicon glyphicon-chevron-up"></span>
+      <span class="glyphicon glyphicon-chevron-up"></span>
+      <span id="search-again">Search Again</span>
+      <span class="glyphicon glyphicon-chevron-up"></span>
     </div>
   </div>
   <div class="row">
+    <div class="col-xs-6" id="filter-div">
+      Filter by # BR:
+        <select id="bedroom-filter">
+          <option value="0">0</option>
+          <option value="1">1+</option>
+          <option value="2">2+</option>
+          <option value="3">3+</option>
+          <option value="4">4+</option>
+          <option value="5">5+</option>
+        </select>
+      <br>
+      Filter by # BA:
+        <select id="bathroom-filter">
+          <option value="1">1+</option>
+          <option value="2">2+</option>
+          <option value="3">3+</option>
+          <option value="4">4+</option>
+          <option value="5">5+</option>
+        </select>
+      <br>
+      Filter by Price: <input type="text" id="amount" readonly>
+      <div id="slider-range"></div>
+    </div><!-- .col-xs-6 -->
+  </div>
+  <div class="row">
     <div id="map" class="col-xs-6"></div>
-    <div id="property-details" class="col-xs-6">
-      <div id="address"></div>
-      <div id="price">Price: <span id="list-price"></span> &nbsp; &nbsp; | &nbsp; &nbsp;
+    <div id="address" class="col-xs-6"></div>
+    <div id="property-details">
+      <div id="price" class="col-xs-6">
+        Price: <span id="list-price"></span> &nbsp; &nbsp; | &nbsp; &nbsp;
         BR: <span id="bedrooms"></span> &nbsp; &nbsp; | &nbsp; &nbsp;
         BA: <span id="bathrooms"></span> &nbsp; &nbsp; | &nbsp; &nbsp;
         Sqft: <span id="sqft"></span> &nbsp; &nbsp; | &nbsp; &nbsp;
         HOA: <span id="hoa"></span>
       </div>
-      <div id="monthly-mortgage-div">Monthly Mortgage: <span id="monthly-payment"></span></div>
-      <div id="avg-rent-by-br-div">Avg Monthly Rent (for homes with the same # of bedrooms): <span id="avg-rent-by-br"></span></div>
-      <div id="avg-rent-by-sqft-div">Avg Monthly Rent (for homes in the same sqft range): <span id="avg-rent-by-sqft"></span></div>
+      <div class="col-xs-3" id="monthly-mortgage-div">Monthly Mortgage:</div>
+      <div class="col-xs-3" id="avg-rent-by-br-div">Avg Monthly Rent:</div>
+      <div class="col-xs-3" id="monthly-payment"></div>
+      <div class="col-xs-3" id="avg-rent-by-br"></div>
+      <div id="avg-rent-by-sqft-div">Avg Monthly Rent (for homes in the same sqft range):
+        <span id="avg-rent-by-sqft"></span>
+      </div>
       <form id="mortgage-calculator">
-        Your Annual Interest Rate: <div class="input-box"><input type="number" id="mortgage-rate" placeholder="5.00" maxlength="5" min="0" step="any" required><span class="percent">%</span></div><br>
-        Your Downpayment: <div class="input-box"><span class="currency">$</span><input type="number" id="mortgage-downpayment" placeholder="0" maxlength="1" min="0" required></div> Suggested downpayment: <span id="suggested-downpayment"></span><br>
+        Calculate Your Mortgage Rate:<br>
+        Annual Interest Rate: <div class="input-box"><input type="number" id="mortgage-rate" placeholder="5.00" maxlength="5" min="0" step="any" required><span class="percent">%</span></div><br>
+        Downpayment: <div class="input-box"><spa class="currency">$</span><input type="number" id="mortgage-downpayment" placeholder="0" maxlength="1" min="0" required></div> Suggested downpayment: <span id="suggested-downpayment"></span><br>
         Your Loan Type:
           <select id="mortgage-loan-type">
             <option value="40-fixed">40-Year Fixed</option>
@@ -82,34 +115,14 @@
         <br>
         <input type="submit" value="Calculate">
       </form>
-        Filter by Price: <input type="text" id="amount" readonly>
-        <div id="slider-range"></div>
         <br>
-        Filter by # BR:
-          <select id="bedroom-filter">
-            <option value="0">0</option>
-            <option value="1">1+</option>
-            <option value="2">2+</option>
-            <option value="3">3+</option>
-            <option value="4">4+</option>
-            <option value="5">5+</option>
-          </select>
-        <br>
-        Filter by # BA:
-          <select id="bathroom-filter">
-            <option value="1">1+</option>
-            <option value="2">2+</option>
-            <option value="3">3+</option>
-            <option value="4">4+</option>
-            <option value="5">5+</option>
-          </select>
-        <br>
-        <div id="total-mortgage-div">Total Mortgage Payment: <span id="total-payment"></span></div>
-      </div>
-    </div>
-    <div class="row">
-      <div id="map-notification" class="col-xs-6"></div>
-      <div id="something" class="col-xs-6"></div>
+        <div id="total-mortgage-div">Total Mortgage Payment:
+          <span id="total-payment"></span>
+        </div>
+    </div><!-- #property-details -->
+  </div><!-- .row -->
+  <div class="row">
+    <div id="map-notification" class="col-xs-6"></div>
   </div>
 </div>
 

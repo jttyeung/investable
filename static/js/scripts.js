@@ -2,12 +2,28 @@
 
 // Page load defaults
 $('div .row.fourth').hide()
+
+// Page scrolling down animation on search click
 $('#search').on('click', function() {
   // Show the property details div
   $('div .row.fourth').show()
   $('html,body').animate({
     scrollTop: $('.fourth').offset().top},
     'slow');
+  displayMap();
+  }
+);
+
+// Add onMouseOver cursor to change to pointer
+$('#page-up').css('cursor', 'pointer');
+
+// Page scrolling up animation on new search
+$('#page-up').on('click', function() {
+  // Show the property details div
+  $('div .row.third').show()
+  $('html,body').animate({
+    scrollTop: $('.third').offset().top},
+    300);
   displayMap();
   }
 );
@@ -398,8 +414,8 @@ function updateMonthlyPayment(rate){
 
 // Returns nearby average rent rates by bedroom or sqft
 function updateAvgRentRate(avgRent){
-  var byBedroom = avgRent['avg_rent_by_br'];
-  var bySqft = avgRent['avg_rent_by_sqft'];
+  var byBedroom = '$' + avgRent['avg_rent_by_br'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
+  var bySqft = '$' + avgRent['avg_rent_by_sqft'].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
 
   $('#avg-rent-by-br').html(byBedroom);
   $('#avg-rent-by-sqft').html(bySqft);

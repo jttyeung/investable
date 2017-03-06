@@ -7,16 +7,17 @@ div .row.page {
   height: 100vh;
 }
 
-
+/* Google Maps properties */
 #map {
-  height: 90vh;
+  height: 72vh;
   width: 50%;
 }
 
 /* Top of map page header bar to return to search */
 #page-up {
   font-family: 'Bitter', serif;
-  height: 40px;
+  height: 5vh;
+  min-height: 40px;
   width: 100%;
   text-align: center;
   padding-top: 5px;
@@ -25,10 +26,19 @@ div .row.page {
   color: #2F3F00;
 }
 
+/* Div for filters */
+#filter-div {
+  height: 18vh;
+  min-height: 130px;
+  background-color: #21043A;
+  color: #ffffff;
+}
+
 /* Text notification on bottom of map page below map */
 #map-notification {
   font-family: 'Bitter', serif;
-  height: 38px;
+  min-height: 40px;
+  height: 5vh;
   width: 50%;
   text-align: center;
   padding-top: 5px;
@@ -88,9 +98,11 @@ form input[id=mortgage-rate] {
   font-weight: bold;
 }
 
+/* Slider bar filter for listing price */
 #amount {
   border: 0;
-  background-color: #B7B0BE;
+  background-color: #21043A;
+  color: #86A136;
   font-weight: bold;
 }
 
@@ -155,4 +167,21 @@ span#appname {
   /*padding: 5px 0 5px 0;*/
   background-color: #21043A;
   color: #ffffff;
+}
+
+#monthly-payment {
+  font-size: 1.8em;
+}
+
+#avg-rent-by-br {
+  font-size: 1.8em;
+}
+
+div #monthly-payment {
+  padding: 10px 0 10px;
+  height: 45px;
+}
+
+div #avg-rent-by-br {
+  height: 45px;
 }
