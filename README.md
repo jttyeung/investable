@@ -3,7 +3,7 @@ Investable
 
 Investable is a research tool for individuals looking to purchase rental real estate. Intended for smart investors, this app compares personal mortgage rates to average rent rates within the surrounding neighborhood of the point of interest. Using the estimated rental rate on the market, it helps users instantly determine which properties might bring in rental income. Users can search by address or region or use Google Maps directly to find a home of interest, and can filter down search results by number of bedrooms, bathrooms or the home listing price.
 
-![Investable Homepage](/static/images/investable.png)
+![Investable Homepage](/static/images/investable_1.png)
 
 
 Table of Contents
