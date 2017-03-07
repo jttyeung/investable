@@ -2,11 +2,6 @@ body {
   color: rgb(255, 255, 255);
 }
 
-/* Gives every partition of the page a background */
-.row {
-  background: url(/static/images/noisy_grid_@2X.png) repeat;
-}
-
 /* Gives every page a full window height */
 div .row.page {
   height: 100vh;
@@ -15,7 +10,7 @@ div .row.page {
 /* Google Maps properties */
 #map {
   height: 72vh;
-  width: 50%;
+  width: 100%;
 }
 
 /* Landing page background */
@@ -60,8 +55,8 @@ div .row.page {
   padding-top: 5px;
 }
 
-/* Styling for price comparison div */
-#price-comparison-div {
+/* Styling for home info div */
+#home-info-div {
   height: 18vh;
   min-height: 130px;
   background: rgba(33, 4, 58, 0.9);
@@ -69,17 +64,31 @@ div .row.page {
   padding-top: 5px;
 }
 
+/* Styling for price comparison div */
+#price-comparison-div {
+  padding: 25px;
+  height: 30vh;
+  min-height: 130px;
+  background: rgba(33, 4, 58, 0.9);
+  color: rgb(255, 255, 255);
+}
+
 /* Text notification on bottom of map page below map */
 #map-notification {
   min-height: 40px;
   height: 5vh;
-  width: 50%;
+  width: 100%;
   text-align: center;
   padding-top: 5px;
   font-size: 1.2em;
   font-family: 'Droid Serif', serif;
   color: rgb(255, 255, 255);
   background-color: rgba(33, 4, 58, 0.6);
+}
+
+#details-page {
+  background: url(/static/images/noisy_grid_@2X.png) repeat;
+  height: 47vh;
 }
 
 .input-box {
@@ -208,25 +217,32 @@ span#appname {
 
 /* Monthly payment amount on details page */
 #monthly-payment {
-  font-size: 2.5em;
-  height: 45px;
+  font-size: 3.5em;
+  height: 100px;
   color: rgb(134, 161, 54);
-  font-weight: bold;
 }
 
 /* Avg rent amounts on details page */
 #avg-rent-by-br {
-  font-size: 2.5em;
-  height: 45px;
+  font-size: 3.5em;
+  height: 100px;
   color: rgb(134, 161, 54);
-  font-weight: bold;
 }
 
 #avg-rent-by-sqft-div {
-  padding-top: 15px;
   font-size: 0.75em;
 }
 
 #calculator {
-  padding: 30px 0 250px 0;
+  padding: 25px 0 0 0;
+}
+
+.suggested-downpayment {
+  font-size: 0.8em;
+}
+
+.loan-details {
+  border-style: solid;
+  border-color: rgb(0, 0, 0);
+  border-width: 1px;
 }

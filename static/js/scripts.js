@@ -63,13 +63,14 @@ function resetValues(){
   $('#sqft').html('');
   $('#monthly-payment').html('');
   $('#monthly-plus-hoa-payment').html('');
-  $('#suggested-downpayment').html('');
+  $('#suggested-downpayment-amt').html('');
   $('#total-payment').html('');
   $('#avg-rent-by-br').html('');
   $('#avg-rent-by-sqft').html('');
 }
 
 var markers = new Set();
+var currentMarker = null;
 // var selectedMarkers = new Set();
 var map;
 
@@ -152,7 +153,8 @@ function deleteMarkers() {
 // Set selected marker to blue
 function setMarkerSelection(marker, listing) {
   marker.setIcon('http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
-
+  // Save the current marker selection
+  currentMarker = marker;
   // Get average rent rate on marker selection
   var listing = JSON.stringify(listing);
 
@@ -162,8 +164,8 @@ function setMarkerSelection(marker, listing) {
 
 // Reset all marker colors to red on new marker selection
 function resetMarkerSelections(marker) {
-  for (let marker of markers){
-    marker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
+  if (currentMarker){
+    currentMarker.setIcon('http://maps.google.com/mapfiles/ms/icons/red-dot.png');
   }
 }
 
@@ -351,7 +353,7 @@ function updatePrice(listing, marker) {
       $('#hoa').html('None');
     }
     $('#list-price').html(displayPrice);
-    $('#suggested-downpayment').html(twentyPercentDownpayment);
+    $('#suggested-downpayment-amt').html(formatCurrency(twentyPercentDownpayment));
 
   // If listing is found on Zillow, but it is not for sale
   } else if (listing.response === 200) {
