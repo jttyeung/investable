@@ -62,7 +62,6 @@ function resetValues(){
   $('#bathrooms').html('');
   $('#sqft').html('');
   $('#monthly-payment').html('');
-  $('#monthly-plus-hoa-payment').html('');
   $('#suggested-downpayment-amt').html('');
   $('#total-payment').html('');
   $('#avg-rent-by-br').html('');
@@ -405,7 +404,6 @@ function getMonthlyPayment(evt){
 // Returns a monthly mortgage and total mortgage amount
 function updateMonthlyPayment(rate){
   $('#monthly-payment').html(rate.mortgage);
-  $('#monthly-plus-hoa-payment').html(rate.hoa_mortgage);
   $('#total-payment').html(rate.total_mortgage);
 }
 

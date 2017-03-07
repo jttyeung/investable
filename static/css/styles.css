@@ -115,7 +115,7 @@ div .row.page {
   border-left: 0;
   line-height: 2;
   border-radius: 0 7px 7px 0;
-  background: : rgb(0, 0, 0);
+  background: rgb(255, 255, 255);
 }
 
 form input[id=mortgage-downpayment] {
