@@ -81,10 +81,10 @@ div .row.page {
 
 /* Text notification on bottom of map page below map */
 #map-notification {
-  height: 10vh;
+  height: 20vh;
   min-height: 70px;
   text-align: center;
-  padding-top: 5px;
+  padding-top: 50px;
   font-size: 1.2em;
   font-family: 'Droid Serif', serif;
   color: rgb(255, 255, 255);
@@ -93,7 +93,7 @@ div .row.page {
 
 #details-page {
   background: url(/static/images/pw_pattern.png) repeat;
-  height: 45vh;
+  height: 35vh;
 }
 
 .input-box {
