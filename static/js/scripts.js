@@ -349,7 +349,8 @@ function updatePrice(listing, marker) {
     $('#bedrooms').html(listing.bedrooms);
     $('#bathrooms').html(listing.bathrooms);
     $('#list-price').html(displayPrice);
-    $('#mortgage-downpayment').val(twentyPercentDownpayment).trigger('change');
+    $('#mortgage-downpayment').val(twentyPercentDownpayment);
+    // .trigger('change');
     // Format sqft if it exists
     if (listing.sqft){
       var sqft = listing.sqft.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -437,6 +438,7 @@ function updateMonthlyPayment(rate) {
 // Returns nearby average rent rates by bedroom or sqft
 function updateAvgRentRate(avgRent){
   getMonthlyPayment();
+  calculateDownpaymentPercentage();
 
   // Get the current bedroom and sqft rates
   var byBedroom = formatCurrency(avgRent['avg_rent_by_br']);
