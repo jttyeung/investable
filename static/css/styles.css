@@ -67,7 +67,7 @@ div .row.page {
 /* Styling for price comparison div */
 #price-comparison-div {
   padding: 25px;
-  height: 30vh;
+  height: 25vh;
   min-height: 130px;
   background: rgba(33, 4, 58, 0.9);
   color: rgb(255, 255, 255);
@@ -88,7 +88,7 @@ div .row.page {
 
 #details-page {
   background: url(/static/images/pw_pattern.png) repeat;
-  height: 47vh;
+  height: 52vh;
 }
 
 .input-box {
@@ -204,10 +204,10 @@ span#appname {
 
 /* Address on details page */
 #address {
-  height: 35px;
-  font-size: 1.3em;
+  height: 80px;
+  font-size: 1.5em;
   text-align: center;
-  color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
 }
 
 /* Filter header styling */

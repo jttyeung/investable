@@ -94,16 +94,17 @@ function initMap() {
     // listings shown on map when the map view changes
     if (markers.size > 1 || markers.size < 1){
       deleteMarkers();
-      // showSelectedMarkers();
-      // If map isn't zoomed in enough, tell user to zoom in
-      if (map.zoom < 13){
-        zoomMapInstructions();
+      if (map.zoom > 13){
       // Once map is zoomed in, change to click instructions
       // then check search filters before returning listing results
-      } else {
-        clickMapInstructions();
         checkFilters();
       }
+    }
+    if (map.zoom < 13){
+      // If map isn't zoomed in enough, tell user to zoom in
+      zoomMapInstructions();
+    } else {
+      clickMapInstructions();
     }
 
   });
@@ -330,11 +331,10 @@ function updatePrice(listing, marker) {
     // Sets clicked marker to new color
     setMarkerSelection(marker, listing);
 
+    // Get the current rate and downpayment amount
     var rate = $('#mortgage-rate').val();
     var downpayment = $('#mortgage-downpayment').val();
-    if (rate && downpayment){
-      getMonthlyPayment(price);
-    }
+
     // Update the property details information on the page
     $('#address').html(listing.street + ', ' + listing.city + ', ' + listing.state + ' ' + listing.zipcode);
     $('#bedrooms').html(listing.bedrooms);
@@ -352,6 +352,7 @@ function updatePrice(listing, marker) {
       $('#hoa').html('None');
     }
     $('#list-price').html(displayPrice);
+    $('#mortgage-downpayment').val(twentyPercentDownpayment);
     $('#suggested-downpayment-amt').html(formatCurrency(twentyPercentDownpayment));
 
   // If listing is found on Zillow, but it is not for sale
@@ -378,13 +379,24 @@ $('#div-message').on('click', function() {
 
 
 // Gets user-entered mortgage details on submit
-$('#mortgage-calculator').on('submit', getMonthlyPayment);
+$('#mortgage-downpayment').bind('keyup change', checkValueChanges);
+$('#mortgage-rate').bind('keyup change', checkValueChanges);
+
+
+// Check if the details have changed
+function checkValueChanges() {
+  var val = $(this).val();
+  if( $(this).data('last') != val ){
+    getMonthlyPayment();
+  }
+  $(this).data('last', val);
+}
 
 
 // Calculates the mortgage payment for the home price listed
 function getMonthlyPayment(evt){
   // If event type is object (new click event), prevent event default action
-  if (typeof(evt) === typeof({})){
+  if (typeof(evt) === typeof({})) {
     evt.preventDefault();
   }
 
@@ -402,17 +414,28 @@ function getMonthlyPayment(evt){
 
 
 // Returns a monthly mortgage and total mortgage amount
-function updateMonthlyPayment(rate){
-  $('#monthly-payment').html(rate.mortgage);
-  $('#total-payment').html(rate.total_mortgage);
+function updateMonthlyPayment(rate) {
+  $('#monthly-payment')
+    .animate({opacity: 0, left: -5})
+    .html(rate.mortgage)
+    .animate({opacity: 100, left: 0});
+  $('#total-payment')
+    .html(rate.total_mortgage);
 }
 
 
 // Returns nearby average rent rates by bedroom or sqft
 function updateAvgRentRate(avgRent){
+  // Get the monthly payment amount
+  getMonthlyPayment();
+
+  // Get the current bedroom and sqft rates
   var byBedroom = formatCurrency(avgRent['avg_rent_by_br']);
   var bySqft = formatCurrency(avgRent['avg_rent_by_sqft']);
 
-  $('#avg-rent-by-br').html(byBedroom);
+  $('#avg-rent-by-br')
+    .animate({opacity: 0, left: -5})
+    .html(byBedroom)
+    .animate({opacity: 100, left: 0});
   $('#avg-rent-by-sqft').html(bySqft);
 }
