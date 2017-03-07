@@ -253,6 +253,86 @@ $('#bedroom-filter').on('change', function(){ deleteMarkers(); checkFilters();})
 $('#bathroom-filter').on('change', function(){ deleteMarkers(); checkFilters();});
 
 
+// // Filter + and - button listeners
+// $('#bed-minus').on('click', decrementFilters);
+// $('#bed-plus').on('click', incrementFilters);
+// $('#bath-minus').on('click', decrementFilters);
+// $('#bath-plus').on('click', incrementFilters);
+
+
+$('#bed-minus').on('click', $('#bedroom-filter').html(), decrementFilters);
+$('#bed-plus').on('click', $('#bedroom-filter').html(), incrementFilters);
+$('#bath-minus').on('click', $('#bathroom-filter').html(), decrementFilters);
+$('#bath-plus').on('click', $('#bathroom-filter').html(), incrementFilters);
+
+// Decrements bed or bath filter
+function decrementFilters() {
+  var bedrooms = parseInt($('#bedroom-filter').html());
+  var bathrooms = parseInt($('#bathroom-filter').html());
+
+  if (!isNaN(bedrooms) && bedrooms > 1){
+    bedrooms -= 1;
+    $('#bedroom-filter').html(bedrooms);
+  } else if (bedrooms === 1){
+    bedrooms = 'Any';
+    $('#bedroom-filter').html(bedrooms);
+  }
+
+  if (!isNaN(bathrooms) && bathrooms > 1){
+    bathrooms -= 1;
+    $('#bathroom-filter').html(bathrooms);
+  } else if (bathrooms === 1){
+    bathooms = 'Any';
+    $('#bathroom-filter').html(bathrooms);
+  }
+}
+
+
+// // Decrements bed or bath filter
+// function decrementFilters() {
+//   var bedrooms = parseInt($('#bedroom-filter').html());
+//   var bathrooms = parseInt($('#bathroom-filter').html());
+
+//   if (!isNaN(bedrooms) && bedrooms > 1){
+//     bedrooms -= 1;
+//     $('#bedroom-filter').html(bedrooms);
+//   } else if (bedrooms === 1){
+//     bedrooms = 'Any';
+//     $('#bedroom-filter').html(bedrooms);
+//   }
+
+//   if (!isNaN(bathrooms) && bathrooms > 1){
+//     bathrooms -= 1;
+//     $('#bathroom-filter').html(bathrooms);
+//   } else if (bathrooms === 1){
+//     bathooms = 'Any';
+//     $('#bathroom-filter').html(bathrooms);
+//   }
+// }
+
+// // Increments bed or bath filter
+// function incrementFilters() {
+//   var bedrooms = parseInt($('#bedroom-filter').html());
+//   var bathrooms = parseInt($('#bathroom-filter').html());
+
+//   if (isNaN(bedrooms)){
+//     bedrooms = 1;
+//     $('#bedroom-filter').html(bedrooms);
+//   } else if (bedrooms < 5){
+//     bedrooms += 1;
+//     $('#bedroom-filter').html(bedrooms);
+//   }
+
+//   if (isNaN(bathrooms)) {
+//     bathrooms = 1;
+//     $('#bathroom-filter').html(bathrooms);
+//   } else if (bathrooms < 5){
+//     bathrooms += 1;
+//     $('#bathroom-filter').html(bathrooms);
+//   }
+// }
+
+
 // Gets filter values and requests the server for a database query on those values
 function checkFilters(){
   // Extract the map boundaries from geocoded location
@@ -269,8 +349,18 @@ function checkFilters(){
   var priceFilter = $("#slider-range").slider("values");
   var lowPrice = priceFilter[0];
   var highPrice = priceFilter[1];
-  var bedroomFilter = $('#bedroom-filter').val();
-  var bathroomFilter = $('#bathroom-filter').val();
+  var bedroomFilter = $('#bedroom-filter').html();
+  if (bedroomFilter === 'Any') {
+    bedroomFilter = 0;
+  } else {
+    bedroomFilter = parseInt(bedroomFilter)
+  }
+  var bathroomFilter = $('#bathroom-filter').html();
+  if (bathroomFilter === 'Any') {
+    bathroomFilter = 0;
+  } else {
+    bathroomFilter = parseInt(bathroomFilter)
+  }
   var filters = {'geoBounds': geoBounds, 'lowPrice': lowPrice, 'highPrice': highPrice, 'bedroomFilter': bedroomFilter, 'bathroomFilter': bathroomFilter}
 
   $.get('/listings.json', filters, addListingMarkers)
