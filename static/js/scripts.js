@@ -94,7 +94,7 @@ function initMap() {
     // listings shown on map when the map view changes
     if (markers.size > 1 || markers.size < 1){
       deleteMarkers();
-      if (map.zoom > 13){
+      if (map.zoom >= 13){
       // Once map is zoomed in, change to click instructions
       // then check search filters before returning listing results
         checkFilters();
@@ -119,13 +119,13 @@ function initMap() {
 
 // Shows user interaction map instructions
 function zoomMapInstructions(){
-  $('#map-notification').html('Zoom in to see listings for sale in the area.');
+  $('#map-notification').html('Zoom in on map to see listings for sale in the area.');
 }
 
 
 // Hides user interaction map instructions
 function clickMapInstructions(){
-  $('#map-notification').html('Select a listing to see more details.');
+  $('#map-notification').html('Select a listing on the map to see more details.');
 }
 
 

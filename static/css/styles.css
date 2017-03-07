@@ -60,6 +60,10 @@ div .row.page {
   padding-top: 5px;
 }
 
+#property-details {
+  font-size: 0.9em;
+}
+
 /* Styling for price comparison div */
 #price-comparison-div {
   height: 40vh;
@@ -84,11 +88,9 @@ div .row.page {
   /*height: 20vh;*/
   min-height: 70px;
   text-align: center;
-  padding-top: 50px;
+  padding-top: 45px;
   font-size: 1.2em;
   font-family: 'Droid Serif', serif;
-/*  color: rgb(255, 255, 255);
-  background: rgb(148, 121, 171);*/
 }
 
 #instructions-customizations-div {
@@ -98,10 +100,14 @@ div .row.page {
   background: rgb(148, 121, 171);
 }
 
-/*#details-page {
-  background: url(/static/images/pw_pattern.png) repeat;
-  height: 35vh;
-}*/
+#details-page {
+  padding: 0;
+  margin: 40px 0 0 0;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .input-box {
   display: flex;
@@ -131,7 +137,7 @@ div .row.page {
 }
 
 #downpayment-percentage {
-  font-size: 1.3em;
+  font-size: 1.2em;
 }
 
 form input[id=mortgage-downpayment] {
@@ -272,7 +278,17 @@ button.bed-bath-filters {
 }
 
 #calculator {
-  padding: 25px 0 0 0;
+  padding: 25px 25px 25px 25px;
+  /*border: 2px solid rgba(33, 4, 58, 0.9);*/
+  border-radius: 10px;
+  width: 550px;
+  height: 280px;
+  background: rgba(255, 255, 255, 0.7);
+  color: rgb(0, 0, 0);
+}
+
+.calculator-item {
+  padding-top: 30px;
 }
 
 .suggested-downpayment {
