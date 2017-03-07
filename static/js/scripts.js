@@ -225,6 +225,7 @@ function geocodeAddress(geocoder, map) {
 // For all locations for sale within the map boundaries,
 // show markers for each location
 function addListingMarkers(listings){
+  deleteMarkers();
   for (var i=0; i < listings.length; i++){
     var listing = listings[i];
     var latitude = parseFloat(listing['latitude']);
