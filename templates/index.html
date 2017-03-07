@@ -53,7 +53,7 @@
 
 <div class="row fourth page">
   <div class="row">
-    <div id="page-up" class="col-xs-6">
+    <div id="page-up" class="col-xs-12">
       <span class="glyphicon glyphicon-chevron-up"></span>
       <span id="search-again">Search Again</span>
       <span class="glyphicon glyphicon-chevron-up"></span>
@@ -68,10 +68,10 @@
         <div class="col-xs-2">BA: <span id="bathrooms"></span></div>
         <div class="col-xs-2">Sqft: <span id="sqft"></span></div>
         <div class="col-xs-3">HOA: <span id="hoa"></span></div>
-      </div>
-    </div>
+      </div><!-- #property-details -->
+    </div><!-- #home-info-div -->
     <div class="col-xs-6" id="map-notification"></div>
-  </div><!-- row -->
+  </div><!-- .row -->
   <div class="row">
     <div class="col-xs-6">
       <div class="row">
@@ -96,52 +96,52 @@
               <div id="slider-range"></div>
             </div>
           </div><!-- .col-xs-12 -->
-        </div><!-- .col-xs-6 -->
-
-
-
-      </div>
-    </div>
-    <div id="details-page" class="col-xs-6">
-      <div id="calculator" class="col-xs-12">
-        <form id="mortgage-calculator">
-          <fieldset>
-            <legend>Personalize Your Mortgage Rate:</legend>
-              <div class="col-xs-12">
-              Loan Length:
-                <select id="mortgage-loan-type">
-                  <option value="40-fixed">40-Year Fixed</option>
-                  <option value="30-fixed" selected="selected">30-Year Fixed</option>
-                  <option value="25-fixed">25-Year Fixed</option>
-                  <option value="20-fixed">20-Year Fixed</option>
-                  <option value="15-fixed">15-Year Fixed</option>
-                  <option value="10-fixed">10-Year Fixed</option>
-                </select>
-              </div>
-              <div class="col-xs-6">
-                Annual Interest Rate:
-                <div class="input-box">
-                  <input type="number" id="mortgage-rate" value="4.00" maxlength="5" min="0" step="any" required>
-                  <span class="percent">%</span>
+        </div><!-- #filter-div -->
+      </div><!-- row -->
+    </div><!-- .col-xs-6 -->
+    <div class="col-xs-6">
+      <div class="row">
+        <div id="details-page" class="col-xs-12">
+        <div id="calculator" class="col-xs-12">
+          <form id="mortgage-calculator">
+            <fieldset>
+              <legend>Personalize Your Mortgage Rate:</legend>
+                <div class="col-xs-12">
+                Loan Length:
+                  <select id="mortgage-loan-type">
+                    <option value="40-fixed">40-Year Fixed</option>
+                    <option value="30-fixed" selected="selected">30-Year Fixed</option>
+                    <option value="25-fixed">25-Year Fixed</option>
+                    <option value="20-fixed">20-Year Fixed</option>
+                    <option value="15-fixed">15-Year Fixed</option>
+                    <option value="10-fixed">10-Year Fixed</option>
+                  </select>
                 </div>
-              </div>
-              <div class="col-xs-6">
-                Downpayment:
-                <div class="input-box">
-                  <span class="currency">$</span>
-                  <input type="number" id="mortgage-downpayment" value="100000" maxlength="1" min="0" step="100" required>
-                  &nbsp; &nbsp; &nbsp; <div id="downpayment-percentage"></div>
+                <div class="col-xs-6">
+                  Annual Interest Rate:
+                  <div class="input-box">
+                    <input type="number" id="mortgage-rate" value="4.00" maxlength="5" min="0" step="any" required>
+                    <span class="percent">%</span>
+                  </div>
                 </div>
-              </div>
-          </fieldset>
-        </form>
-        <div id="total-mortgage-div" class="col-xs-12">Total Mortgage Payment:
-          <span id="total-payment"></span>
-        </div>
-      </div><!-- calculator -->
-    </div><!-- #details-page -->
+                <div class="col-xs-6">
+                  Downpayment:
+                  <div class="input-box">
+                    <span class="currency">$</span>
+                    <input type="number" id="mortgage-downpayment" value="100000" maxlength="1" min="0" step="100" required>
+                    &nbsp; &nbsp; &nbsp; <div id="downpayment-percentage"></div>
+                  </div>
+                </div>
+            </fieldset>
+          </form>
+          <div id="total-mortgage-div" class="col-xs-12">Total Mortgage Payment:
+            <span id="total-payment"></span>
+          </div>
+        </div><!-- calculator -->
+      </div><!-- #details-page -->
+    </div><!-- row -->
     <div class="row">
-      <div class="col-xs-6" id="price-comparison-div">
+      <div class="col-xs-12" id="price-comparison-div">
         <div class="row">
           <div class="col-xs-6 text-center" id="monthly-mortgage-div">Monthly Mortgage:</div>
           <div class="col-xs-6 text-center" id="avg-rent-by-br-div">Avg Monthly Rent:</div>
@@ -156,7 +156,7 @@
         </div>
       </div><!-- #price-comparison-div -->
     </div><!-- .row -->
-  </div><!-- .row -->
+  </div><!-- .col-xs-6 -->
 </div>
 
 {% endblock %}
