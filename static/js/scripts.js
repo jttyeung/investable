@@ -35,7 +35,12 @@ function displayMap(){
 
 // Format currency with commas and dollar sign
 function formatCurrency(number){
-  return '$' + number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return '$' + formatNumWithCommas(number)
+}
+
+// Format currency with commas and dollar sign
+function formatNumWithCommas(number){
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 // Price slider
