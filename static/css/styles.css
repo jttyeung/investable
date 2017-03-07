@@ -55,6 +55,11 @@ div .row.page {
   padding-top: 5px;
 }
 
+/* Add padding around text in filters */
+.filter {
+  padding-top: 5px;
+}
+
 /* Styling for home info div */
 #home-info-div {
   height: 18vh;
@@ -217,6 +222,17 @@ span#appname {
 /* Filter header styling */
 #filter-header {
   font-size: 1.2em;
+}
+
+/* Filter button styling */
+button.bed-bath-filters {
+  width: 26px;
+  height: 26px;
+  font-weight: bold;
+  background-color: rgb(148, 121, 171);
+  color: rgb(33, 4, 58);
+  border: none;
+  border-radius: 15px;
 }
 
 /* Monthly payment amount on details page */

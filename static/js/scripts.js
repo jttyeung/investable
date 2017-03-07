@@ -225,6 +225,7 @@ function geocodeAddress(geocoder, map) {
 // For all locations for sale within the map boundaries,
 // show markers for each location
 function addListingMarkers(listings){
+  deleteMarkers();
   for (var i=0; i < listings.length; i++){
     var listing = listings[i];
     var latitude = parseFloat(listing['latitude']);
@@ -247,10 +248,79 @@ function addListingMarkers(listings){
 }
 
 
-// Adds a listener to bedroom, bathroom, and price filters
+// Adds a listener to price filter
 $('#slider-range').on('slidechange', function(){ deleteMarkers(); checkFilters();});
-$('#bedroom-filter').on('change', function(){ deleteMarkers(); checkFilters();});
-$('#bathroom-filter').on('change', function(){ deleteMarkers(); checkFilters();});
+
+
+// Filter + and - button listeners
+$('#bed-minus').on('click', decrementBeds);
+$('#bed-plus').on('click', incrementBeds);
+$('#bath-minus').on('click', decrementBaths);
+$('#bath-plus').on('click', incrementBaths);
+
+
+// Decrements beds filter
+function decrementBeds() {
+  var bedrooms = parseInt($('#bedroom-filter').html());
+
+  if (!isNaN(bedrooms) && bedrooms > 1){
+    bedrooms -= 1;
+    $('#bedroom-filter').html(bedrooms + '+ ');
+    checkFilters();
+  } else if (bedrooms === 1){
+    bedrooms = 'Any';
+    $('#bedroom-filter').html(bedrooms);
+    checkFilters();
+  }
+}
+
+
+// Decrements baths filter
+function decrementBaths() {
+  var bathrooms = parseInt($('#bathroom-filter').html());
+
+  if (!isNaN(bathrooms) && bathrooms > 1){
+    bathrooms -= 1;
+    $('#bathroom-filter').html(bathrooms + '+ ');
+    checkFilters();
+  } else if (bathrooms === 1){
+    bathrooms = 'Any';
+    $('#bathroom-filter').html(bathrooms);
+    checkFilters();
+  }
+}
+
+
+// Increments beds filter
+function incrementBeds() {
+  var bedrooms = parseInt($('#bedroom-filter').html());
+
+  if (isNaN(bedrooms)){
+    bedrooms = 1;
+    $('#bedroom-filter').html(bedrooms + '+ ');
+    checkFilters();
+  } else if (bedrooms < 5){
+    bedrooms += 1;
+    $('#bedroom-filter').html(bedrooms + '+ ');
+    checkFilters();
+  }
+}
+
+
+// Increments baths filter
+function incrementBaths() {
+  var bathrooms = parseInt($('#bathroom-filter').html());
+
+  if (isNaN(bathrooms)) {
+    bathrooms = 1;
+    $('#bathroom-filter').html(bathrooms + '+ ');
+    checkFilters();
+  } else if (bathrooms < 5){
+    bathrooms += 1;
+    $('#bathroom-filter').html(bathrooms + '+ ');
+    checkFilters();
+  }
+}
 
 
 // Gets filter values and requests the server for a database query on those values
@@ -269,8 +339,18 @@ function checkFilters(){
   var priceFilter = $("#slider-range").slider("values");
   var lowPrice = priceFilter[0];
   var highPrice = priceFilter[1];
-  var bedroomFilter = $('#bedroom-filter').val();
-  var bathroomFilter = $('#bathroom-filter').val();
+  var bedroomFilter = $('#bedroom-filter').html();
+  if (bedroomFilter === 'Any') {
+    bedroomFilter = 0;
+  } else {
+    bedroomFilter = parseInt(bedroomFilter)
+  }
+  var bathroomFilter = $('#bathroom-filter').html();
+  if (bathroomFilter === 'Any') {
+    bathroomFilter = 0;
+  } else {
+    bathroomFilter = parseInt(bathroomFilter)
+  }
   var filters = {'geoBounds': geoBounds, 'lowPrice': lowPrice, 'highPrice': highPrice, 'bedroomFilter': bedroomFilter, 'bathroomFilter': bathroomFilter}
 
   $.get('/listings.json', filters, addListingMarkers)
