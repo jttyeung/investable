@@ -1,10 +1,10 @@
 body {
-  color: #ffffff;
+  color: rgb(255, 255, 255);
 }
 
 /* Gives every partition of the page a background */
 .row {
-  background: url(/static/images/ps_neutral.png) repeat;
+  background: url(/static/images/noisy_grid_@2X.png) repeat;
 }
 
 /* Gives every page a full window height */
@@ -21,7 +21,6 @@ div .row.page {
 /* Landing page background */
 #third-page-background {
   background: url(/static/images/pexels-photo-261187.jpeg) no-repeat center center;
-  /*margin: -10px -15px -10px -15px;*/
 }
 
 /* Landing page styling */
@@ -36,8 +35,7 @@ div .row.page {
 .row.fourth.page {
   font-family: 'Roboto', serif;
   font-size: 1.2em;
-  background: rgba(33, 4, 58, .7);
-  color: #000000;
+  color: rgb(0, 0, 0);
 }
 
 /* Top of map page header bar to return to search */
@@ -49,24 +47,26 @@ div .row.page {
   padding-top: 5px;
   font-size: 1.3em;
   font-family: 'Droid Serif', serif;
-  background-color: #86A136;
-  color: #2F3F00;
+  background: rgba(134, 161, 54, 0.7);
+  color: rgb(47, 63, 0);
 }
 
 /* Styling for filters div */
 #filter-div {
   height: 18vh;
   min-height: 130px;
-  background: rgba(33, 4, 58, 1);
-  color: #ffffff;
+  background: rgba(33, 4, 58, 0.9);
+  color: rgb(255, 255, 255);
+  padding-top: 5px;
 }
 
 /* Styling for price comparison div */
 #price-comparison-div {
   height: 18vh;
   min-height: 130px;
-  background: rgba(33, 4, 58, 1);
-  color: #ffffff;
+  background: rgba(33, 4, 58, 0.9);
+  color: rgb(255, 255, 255);
+  padding-top: 5px;
 }
 
 /* Text notification on bottom of map page below map */
@@ -78,8 +78,8 @@ div .row.page {
   padding-top: 5px;
   font-size: 1.2em;
   font-family: 'Droid Serif', serif;
-  color: #ffffff;
-  background-color: #21043A;
+  color: rgb(255, 255, 255);
+  background-color: rgba(33, 4, 58, 0.6);
 }
 
 .input-box {
@@ -90,7 +90,7 @@ div .row.page {
 .input-box .currency {
   font-size: 16px;
   padding: 0 10px;
-  color: #999;
+  color: rgb(0, 0, 0);
   border: 2px solid #ccc;
   border-right: 0;
   line-height: 2;
@@ -106,7 +106,7 @@ div .row.page {
   border-left: 0;
   line-height: 2;
   border-radius: 0 7px 7px 0;
-  background: white;
+  background: : rgb(0, 0, 0);
 }
 
 form input[id=mortgage-downpayment] {
@@ -136,9 +136,10 @@ form input[id=mortgage-rate] {
 /* Amount display for price slider bar */
 #amount {
   border: 0;
-  background: #21043A;
-  color: #86A136;
+  background: rgba(33, 4, 58, 0);
+  color: rgb(134, 161, 54);
   font-weight: bold;
+  padding-bottom: 8px;
 }
 
 /* Slider bar display for price slider */
@@ -165,7 +166,7 @@ h4 {
 }
 
 span#appname {
-  color: #86A136;
+  color: rgb(134, 161, 54);
 }
 
 /* Landing page search box styling */
@@ -187,7 +188,7 @@ span#appname {
   font-weight: bold;
   width: 100px;
   height: 41px;
-  background-color: #9479AB;
+  background-color: rgb(148, 121, 171);
   border: none;
   border-radius: 4px;
 }
@@ -197,26 +198,35 @@ span#appname {
   height: 35px;
   font-size: 1.3em;
   text-align: center;
-  /*padding: 5px 0 5px 0;*/
-  background-color: #21043A;
-  color: #ffffff;
+  color: rgb(0, 0, 0);
+}
+
+/* Filter header styling */
+#filter-header {
+  font-size: 1.2em;
 }
 
 /* Monthly payment amount on details page */
-div #monthly-payment {
-  padding: 10px 0 10px;
-  height: 45px;
-}
-
 #monthly-payment {
-  font-size: 2em;
+  font-size: 2.5em;
+  height: 45px;
+  color: rgb(134, 161, 54);
+  font-weight: bold;
 }
 
 /* Avg rent amounts on details page */
 #avg-rent-by-br {
-  font-size: 2em;
+  font-size: 2.5em;
+  height: 45px;
+  color: rgb(134, 161, 54);
+  font-weight: bold;
 }
 
-div #avg-rent-by-br {
-  height: 45px;
+#avg-rent-by-sqft-div {
+  padding-top: 15px;
+  font-size: 0.75em;
+}
+
+#calculator {
+  padding: 30px 0 250px 0;
 }
