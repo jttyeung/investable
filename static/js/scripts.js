@@ -247,90 +247,79 @@ function addListingMarkers(listings){
 }
 
 
-// Adds a listener to bedroom, bathroom, and price filters
+// Adds a listener to price filter
 $('#slider-range').on('slidechange', function(){ deleteMarkers(); checkFilters();});
-$('#bedroom-filter').on('change', function(){ deleteMarkers(); checkFilters();});
-$('#bathroom-filter').on('change', function(){ deleteMarkers(); checkFilters();});
 
 
-// // Filter + and - button listeners
-// $('#bed-minus').on('click', decrementFilters);
-// $('#bed-plus').on('click', incrementFilters);
-// $('#bath-minus').on('click', decrementFilters);
-// $('#bath-plus').on('click', incrementFilters);
+// Filter + and - button listeners
+$('#bed-minus').on('click', decrementBeds);
+$('#bed-plus').on('click', incrementBeds);
+$('#bath-minus').on('click', decrementBaths);
+$('#bath-plus').on('click', incrementBaths);
 
 
-$('#bed-minus').on('click', $('#bedroom-filter').html(), decrementFilters);
-$('#bed-plus').on('click', $('#bedroom-filter').html(), incrementFilters);
-$('#bath-minus').on('click', $('#bathroom-filter').html(), decrementFilters);
-$('#bath-plus').on('click', $('#bathroom-filter').html(), incrementFilters);
-
-// Decrements bed or bath filter
-function decrementFilters() {
+// Decrements beds filter
+function decrementBeds() {
   var bedrooms = parseInt($('#bedroom-filter').html());
-  var bathrooms = parseInt($('#bathroom-filter').html());
 
   if (!isNaN(bedrooms) && bedrooms > 1){
     bedrooms -= 1;
-    $('#bedroom-filter').html(bedrooms);
+    $('#bedroom-filter').html(bedrooms + '+ ');
+    checkFilters();
   } else if (bedrooms === 1){
     bedrooms = 'Any';
     $('#bedroom-filter').html(bedrooms);
-  }
-
-  if (!isNaN(bathrooms) && bathrooms > 1){
-    bathrooms -= 1;
-    $('#bathroom-filter').html(bathrooms);
-  } else if (bathrooms === 1){
-    bathooms = 'Any';
-    $('#bathroom-filter').html(bathrooms);
+    checkFilters();
   }
 }
 
 
-// // Decrements bed or bath filter
-// function decrementFilters() {
-//   var bedrooms = parseInt($('#bedroom-filter').html());
-//   var bathrooms = parseInt($('#bathroom-filter').html());
+// Decrements baths filter
+function decrementBaths() {
+  var bathrooms = parseInt($('#bathroom-filter').html());
 
-//   if (!isNaN(bedrooms) && bedrooms > 1){
-//     bedrooms -= 1;
-//     $('#bedroom-filter').html(bedrooms);
-//   } else if (bedrooms === 1){
-//     bedrooms = 'Any';
-//     $('#bedroom-filter').html(bedrooms);
-//   }
+  if (!isNaN(bathrooms) && bathrooms > 1){
+    bathrooms -= 1;
+    $('#bathroom-filter').html(bathrooms + '+ ');
+    checkFilters();
+  } else if (bathrooms === 1){
+    bathrooms = 'Any';
+    $('#bathroom-filter').html(bathrooms);
+    checkFilters();
+  }
+}
 
-//   if (!isNaN(bathrooms) && bathrooms > 1){
-//     bathrooms -= 1;
-//     $('#bathroom-filter').html(bathrooms);
-//   } else if (bathrooms === 1){
-//     bathooms = 'Any';
-//     $('#bathroom-filter').html(bathrooms);
-//   }
-// }
 
-// // Increments bed or bath filter
-// function incrementFilters() {
-//   var bedrooms = parseInt($('#bedroom-filter').html());
-//   var bathrooms = parseInt($('#bathroom-filter').html());
+// Increments beds filter
+function incrementBeds() {
+  var bedrooms = parseInt($('#bedroom-filter').html());
 
-//   if (isNaN(bedrooms)){
-//     bedrooms = 1;
-//     $('#bedroom-filter').html(bedrooms);
-//   } else if (bedrooms < 5){
-//     bedrooms += 1;
-//     $('#bedroom-filter').html(bedrooms);
-//   }
+  if (isNaN(bedrooms)){
+    bedrooms = 1;
+    $('#bedroom-filter').html(bedrooms + '+ ');
+    checkFilters();
+  } else if (bedrooms < 5){
+    bedrooms += 1;
+    $('#bedroom-filter').html(bedrooms + '+ ');
+    checkFilters();
+  }
+}
 
-//   if (isNaN(bathrooms)) {
-//     bathrooms = 1;
-//     $('#bathroom-filter').html(bathrooms);
-//   } else if (bathrooms < 5){
-//     bathrooms += 1;
-//     $('#bathroom-filter').html(bathrooms);
-//   }
-// }
+
+// Increments baths filter
+function incrementBaths() {
+  var bathrooms = parseInt($('#bathroom-filter').html());
+
+  if (isNaN(bathrooms)) {
+    bathrooms = 1;
+    $('#bathroom-filter').html(bathrooms + '+ ');
+    checkFilters();
+  } else if (bathrooms < 5){
+    bathrooms += 1;
+    $('#bathroom-filter').html(bathrooms + '+ ');
+    checkFilters();
+  }
+}
 
 
 // Gets filter values and requests the server for a database query on those values
