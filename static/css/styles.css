@@ -237,6 +237,10 @@ span#appname {
   font-size: 0.75em;
 }
 
+#avg-rent-by-sqft {
+  color: rgb(134, 161, 54);
+}
+
 #calculator {
   padding: 25px 0 0 0;
 }
