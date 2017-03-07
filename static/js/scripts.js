@@ -283,6 +283,16 @@ function calculateTwentyPercentDownpayment(price) {
 }
 
 
+// Recalculates downpayment percentage
+function calculateDownpaymentPercentage(price, downpayment) {
+  var price = $('#list-price').html().replace(/\D/g,'');
+  var downpayment = $('#mortgage-downpayment').val();
+  var percentage = Math.round(parseInt(downpayment)/parseInt(price)*100);
+
+  $('#downpayment-percentage').html(percentage + '%');
+}
+
+
 function getUnitInfo(evt) {
   // Gets the full address entered by the user
   var fullAddress = { 'address': $('#address-search').val(),
@@ -307,7 +317,6 @@ function updatePrice(listing, marker) {
   var avgRent = listing.rent_avgs;
   var latitude = parseFloat(listing.latitude);
   var longitude = parseFloat(listing.longitude);
-
   if (listing.response === 100){
     // Resets all marker colors
     resetMarkerSelections(marker);
@@ -339,6 +348,8 @@ function updatePrice(listing, marker) {
     $('#address').html(listing.street + ', ' + listing.city + ', ' + listing.state + ' ' + listing.zipcode);
     $('#bedrooms').html(listing.bedrooms);
     $('#bathrooms').html(listing.bathrooms);
+    $('#list-price').html(displayPrice);
+    $('#mortgage-downpayment').val(twentyPercentDownpayment).trigger('change');
     // Format sqft if it exists
     if (listing.sqft){
       var sqft = listing.sqft.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -351,9 +362,6 @@ function updatePrice(listing, marker) {
     } else {
       $('#hoa').html('None');
     }
-    $('#list-price').html(displayPrice);
-    $('#mortgage-downpayment').val(twentyPercentDownpayment);
-    $('#suggested-downpayment-amt').html(formatCurrency(twentyPercentDownpayment));
 
   // If listing is found on Zillow, but it is not for sale
   } else if (listing.response === 200) {
@@ -383,11 +391,13 @@ $('#mortgage-downpayment').bind('keyup change', checkValueChanges);
 $('#mortgage-rate').bind('keyup change', checkValueChanges);
 
 
-// Check if the details have changed
+// Check if the details on page have changed
 function checkValueChanges() {
   var val = $(this).val();
+  // If changes in value, update the monthly payment and downpayment percentage
   if( $(this).data('last') != val ){
     getMonthlyPayment();
+    calculateDownpaymentPercentage();
   }
   $(this).data('last', val);
 }
@@ -426,7 +436,6 @@ function updateMonthlyPayment(rate) {
 
 // Returns nearby average rent rates by bedroom or sqft
 function updateAvgRentRate(avgRent){
-  // Get the monthly payment amount
   getMonthlyPayment();
 
   // Get the current bedroom and sqft rates
