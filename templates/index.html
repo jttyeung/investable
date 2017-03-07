@@ -60,25 +60,6 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-xs-6" id="filter-div">
-      <div class="col-xs-12">
-        <span id="filter-header">Search Filters:</span>
-        <div class="filter col-xs-12">
-            <button class="bed-bath-filters" id="bed-minus">-</button>
-            <button class="bed-bath-filters" id="bed-plus">+</button>
-             &nbsp; &nbsp; <span id="bedroom-filter">Any</span> Bedrooms
-        </div>
-        <div class="filter col-xs-12">
-            <button class="bed-bath-filters" id="bath-minus">-</button>
-            <button class="bed-bath-filters" id="bath-plus">+</button>
-             &nbsp; &nbsp; <span id="bathroom-filter">Any</span> Bathrooms
-        </div>
-        <div class="filter col-xs-12">
-          List Price: <input type="text" id="amount" readonly>
-          <div id="slider-range"></div>
-        </div>
-      </div><!-- .col-xs-12 -->
-    </div><!-- .col-xs-6 -->
     <div class="col-xs-6" id="home-info-div">
       <div id="address" class="col-xs-12"></div>
       <div id="property-details" class="col-xs-12">
@@ -89,6 +70,7 @@
         <div class="col-xs-3">HOA: <span id="hoa"></span></div>
       </div>
     </div>
+    <div class="col-xs-6" id="map-notification"></div>
   </div><!-- row -->
   <div class="row">
     <div class="col-xs-6">
@@ -96,7 +78,28 @@
         <div class="col-xs-12" id="map"></div>
       </div>
       <div class="row">
-        <div class="col-xs-12" id="map-notification"></div>
+        <div class="col-xs-12" id="filter-div">
+          <div class="col-xs-12">
+            <span id="filter-header">Search Filters:</span>
+            <div class="filter col-xs-12">
+                <button class="bed-bath-filters" id="bed-minus">-</button>
+                <button class="bed-bath-filters" id="bed-plus">+</button>
+                 &nbsp; &nbsp; <span id="bedroom-filter">Any</span> Bedrooms
+            </div>
+            <div class="filter col-xs-12">
+                <button class="bed-bath-filters" id="bath-minus">-</button>
+                <button class="bed-bath-filters" id="bath-plus">+</button>
+                 &nbsp; &nbsp; <span id="bathroom-filter">Any</span> Bathrooms
+            </div>
+            <div class="filter col-xs-12">
+              List Price: <input type="text" id="amount" readonly>
+              <div id="slider-range"></div>
+            </div>
+          </div><!-- .col-xs-12 -->
+        </div><!-- .col-xs-6 -->
+
+
+
       </div>
     </div>
     <div id="details-page" class="col-xs-6">
@@ -140,15 +143,15 @@
     <div class="row">
       <div class="col-xs-6" id="price-comparison-div">
         <div class="row">
-          <div class="col-xs-6" id="monthly-mortgage-div">Monthly Mortgage:</div>
-          <div class="col-xs-6" id="avg-rent-by-br-div">Avg Monthly Rent:</div>
+          <div class="col-xs-6 text-center" id="monthly-mortgage-div">Monthly Mortgage:</div>
+          <div class="col-xs-6 text-center" id="avg-rent-by-br-div">Avg Monthly Rent:</div>
         </div>
         <div class="row">
-          <div class="col-xs-6" id="monthly-payment"></div>
-          <div class="col-xs-6" id="avg-rent-by-br"></div>
+          <div class="col-xs-6 text-center" id="monthly-payment"></div>
+          <div class="col-xs-6 text-center" id="avg-rent-by-br"></div>
         </div>
         <div class="row">
-          <div class="col-xs-offset-6 col-xs-6" id="avg-rent-by-sqft-div">Avg by similar sqft: &nbsp;<span id="avg-rent-by-sqft"></span>
+          <div class="col-xs-offset-6 col-xs-6 text-center" id="avg-rent-by-sqft-div">Avg by similar sqft: &nbsp;<span id="avg-rent-by-sqft"></span>
           </div>
         </div>
       </div><!-- #price-comparison-div -->

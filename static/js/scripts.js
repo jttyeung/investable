@@ -43,9 +43,9 @@ $(function() {
   $("#slider-range").slider({
     range: true,
     min: 50000,
-    max: 5000000,
+    max: 20000000,
     step: 1000,
-    values: [50000, 5000000],
+    values: [50000, 20000000],
     slide: function( event, ui ) {
       $("#amount").val(formatCurrency(ui.values[0]) + " - " + formatCurrency(ui.values[1]));
     }
