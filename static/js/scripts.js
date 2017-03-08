@@ -1,12 +1,13 @@
 "use strict";
 
 // Page load defaults
-$('div .row.fourth').hide()
+$('div .row.fourth').hide();
+$('.property-info').hide();
 
 // Page scrolling down animation on search click
 $('#search-button').on('click', function() {
   // Show the property details div
-  $('div .row.fourth').show()
+  $('div .row.fourth').show();
   $('html,body').animate({
     scrollTop: $('.fourth').offset().top},
     'slow');
@@ -20,7 +21,7 @@ $('#page-up').css('cursor', 'pointer');
 // Page scrolling up animation on new search
 $('#page-up').on('click', function() {
   // Show the property details div
-  $('div .row.third').show()
+  $('div .row.third').show();
   $('html,body').animate({
     scrollTop: $('.third').offset().top},
     300);
@@ -35,7 +36,7 @@ function displayMap(){
 
 // Format currency with commas and dollar sign
 function formatCurrency(number){
-  return '$' + formatNumWithCommas(number)
+  return '$' + formatNumWithCommas(number);
 }
 
 // Format currency with commas and dollar sign
@@ -106,6 +107,9 @@ function initMap() {
       }
     }
     if (map.zoom < 13){
+      // Hide address and property info
+      $('#address').hide();
+      $('.property-info').hide();
       // If map isn't zoomed in enough, tell user to zoom in
       zoomMapInstructions();
     } else {
@@ -428,6 +432,10 @@ function updatePrice(listing, marker) {
     // Get the current rate and downpayment amount
     var rate = $('#mortgage-rate').val();
     var downpayment = $('#mortgage-downpayment').val();
+
+    // Show address and property info
+    $('#address').show();
+    $('.property-info').show();
 
     // Update the property details information on the page
     $('#address').html(listing.street + ', ' + listing.city + ', ' + listing.state + ' ' + listing.zipcode);
