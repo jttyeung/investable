@@ -483,6 +483,7 @@ $('#div-message').on('click', function() {
 // Gets user-entered mortgage details on submit
 $('#mortgage-downpayment').bind('keyup change', checkValueChanges);
 $('#mortgage-rate').bind('keyup change', checkValueChanges);
+$('#mortgage-loan-type').on('change', checkValueChanges);
 
 
 // Check if the details on page have changed

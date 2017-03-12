@@ -55,7 +55,7 @@ div .row.page {
 #home-info-div {
   height: 10vh;
   min-height: 70px;
-  background: rgba(33, 4, 58, 0.9);
+  background: rgba(82, 43, 114, 0.9);
   color: rgb(255, 255, 255);
   padding-top: 5px;
 }
@@ -78,7 +78,7 @@ div .row.page {
   height: 22vh;
   font-weight: bold;
   min-height: 130px;
-  background: rgb(148, 121, 171);
+  background: rgba(82, 43, 114, 0.9);
   color: rgb(0, 0, 0);
   padding-top: 5px;
 }
@@ -97,7 +97,7 @@ div .row.page {
   height: 55vh;
   min-height: 250px;
   color: rgb(255, 255, 255);
-  background: rgb(148, 121, 171);
+  background: rgba(33, 4, 58, 0.9);
 }
 
 #details-page {
@@ -109,31 +109,32 @@ div .row.page {
   justify-content: center;
 }
 
+/* Mortgage rate user inputs */
 .input-box {
   display: flex;
   justify-content: flex-start;
 }
 
 .input-box .currency {
-  font-size: 16px;
+  font-size: 20px;
   padding: 0 10px;
-  color: rgb(0, 0, 0);
-  border: 2px solid #ccc;
-  border-right: 0;
+  color: rgb(153, 153, 153);
+  border: none;
+  border-bottom: 2px solid #ccc;
   line-height: 2;
-  border-radius: 7px 0 0 7px;
-  background: white;
+  border-radius: 6px 0 0 6px;
+  background: rgba(255, 255, 255, 0.8);
 }
 
 .input-box .percent {
-  font-size: 16px;
+  font-size: 20px;
   padding: 0 10px;
-  color: #999;
-  border: 2px solid #ccc;
-  border-left: 0;
+  color: rgb(153, 153, 153);
+  border: none;
+  border-bottom: 2px solid #ccc;
   line-height: 2;
-  border-radius: 0 7px 7px 0;
-  background: rgb(255, 255, 255);
+  border-radius: 0 6px 6px 0;
+  background: rgba(255, 255, 255, 0.8);
 }
 
 #downpayment-percentage {
@@ -141,32 +142,34 @@ div .row.page {
 }
 
 form input[id=mortgage-downpayment] {
-  font-size: 16px;
+  font-size: 20px;
   width: 130px;
   padding: 0;
-  border: 2px solid #ccc;
-  border-left: 0;
+  border: none;
+  border-bottom: 2px solid #ccc;
   color: #666;
-  border-radius: 0 7px 7px 0;
+  border-radius: 0 6px 6px 0;
   font-family: 'Roboto', sans-serif;
   font-weight: bold;
+  background: rgba(255, 255, 255, 0.8);
 }
 
 form input[id=mortgage-rate] {
-  font-size: 16px;
+  font-size: 20px;
   width: 80px;
   padding: 0 10px;
-  border: 2px solid #ccc;
-  border-right: 0;
+  border: none;
+  border-bottom: 2px solid #ccc;
   color: #666;
-  border-radius: 7px 0 0 7px;
+  border-radius: 6px 0 0 6px;
   font-family: 'Roboto', sans-serif;
   font-weight: bold;
+  background: rgba(255, 255, 255, 0.8);
 }
 
 /* Amount display for price slider bar */
 #amount {
-  border: 0;
+  border: none;
   background: rgba(33, 4, 58, 0);
   color: rgb(255, 255, 255);
   font-weight: bold;
@@ -282,7 +285,7 @@ button.bed-bath-filters {
   padding: 25px 25px 25px 25px;
   /*border: 2px solid rgba(33, 4, 58, 0.9);*/
   border-radius: 10px;
-  width: 550px;
+  width: 560px;
   height: 280px;
   background: rgba(255, 255, 255, 0.7);
   color: rgb(0, 0, 0);
