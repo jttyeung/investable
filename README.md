@@ -4,6 +4,7 @@ Investable
 Investable is a research tool for individuals looking to purchase rental real estate. Intended for smart investors, this app compares personal mortgage rates to average rent rates within the surrounding neighborhood of the point of interest. Using the estimated rental rate on the market, it helps users instantly determine which properties might bring in rental income. Users can search by address or region or use Google Maps directly to find a home of interest, and can filter down search results by number of bedrooms, bathrooms or the home listing price.
 
 ![Investable Homepage](/static/images/investable_1.png)
+![Investable Second Page](/static/images/investable_2.png)
 
 
 Table of Contents
@@ -49,11 +50,21 @@ These instructions will get you a copy of the project up and running on your loc
     ```
     python model.py
     ```
-7. Start the Flask server.
+7. Set up a secrets.sh file using the following API key variables, and fill in the template with your own API key values.
+    ```
+    export APP_KEY =  # your app secret key
+    export ZWSID =  # zillow api key
+    GMAPS_JS =  # google maps api key
+    ```
+8. Source the secrets file.
+    ```
+    source secrets.sh
+    ```
+9. Start the Flask server.
     ```
     python server.py
     ```
-8. Go to localhost:5000 to view the application.
+10. Go to localhost:5000 to view the application.
 
 
 ## <a name="technology"></a>Technologies Used
