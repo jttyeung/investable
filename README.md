@@ -3,7 +3,12 @@ Investable
 
 Investable is a research tool for individuals looking to purchase rental real estate. Intended for smart investors, this app compares personal mortgage rates to average rent rates within the surrounding neighborhood of the point of interest. Using the estimated rental rate on the market, it helps users instantly determine which properties might bring in rental income. Users can search by address or region or use Google Maps directly to find a home of interest, and can filter down search results by number of bedrooms, bathrooms or the home listing price.
 
+Database Model (more in the <kbd>model.py</kbd> file)
+![Investable DB Model](/static/images/database_model.png)
+
+Landing Page
 ![Investable Homepage](/static/images/investable_1.png)
+
 ![Investable Second Page](/static/images/investable_2.png)
 
 
@@ -24,64 +29,66 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 
 1. Python 2.7.0
-2. Vagrant or other virtual machine
+2. PostgreSQL
 
 ### Installation Instructions
+1. Clone this repository:
+    ```python
+    $ git clone https://github.com/jttyeung/investable.git
+    ```
+2. Set up a Python virtualenv and activate it.
+    ```python
+    $ virtualenv env
+    $ source env/bin/activate
+    ```
+3. Install all app dependencies listed in requirements.txt.
+    ```python
+    $ pip install -r requirements.txt
 
-1. Set up a Python virtualenv and activate it.
-2. Install all app dependencies listed in requirements.txt.
     ```
-    pip install -r requirements.txt
+4. Make sure you have PostgreSQL running (psql).
+5. Create a database named investable.
+    ```python
+    $ CREATEDB investable
+
     ```
-3. Make sure you have PostgreSQL running (psql).
-4. Create a database named investable.
-    ```
-    CREATEDB investable
-    ```
-5. Open the database, add the PostGIS database extension, and exit out of the database.
-    ```
-    psql investable
+6. Open the database, add the PostGIS database extension, and exit out of the database.
+    ```python
+    $ psql investable
 
     CREATE EXTENSION postgis;
 
     \quit
     ```
-6. Create tables in your database.
+7. Create tables in your database.
+    ```python
+    $ python model.py
+
     ```
-    python model.py
+8. Set up a <kbd>secrets.sh</kbd> file using the following API key variables, and fill in the template with your own API key values.
+    ```python
+    export APP_KEY='your app secret key'
+    export ZWSID'your zillow api key'
+    export GMAPS_JS='your google maps api key'
     ```
-7. Set up a secrets.sh file using the following API key variables, and fill in the template with your own API key values.
+9. Source the secrets file.
+    ```python
+    $ source secrets.sh
+
     ```
-    export APP_KEY =  # your app secret key
-    export ZWSID =  # zillow api key
-    GMAPS_JS =  # google maps api key
+10. Start the Flask server.
+    ```python
+    $ python server.py
+
     ```
-8. Source the secrets file.
-    ```
-    source secrets.sh
-    ```
-9. Start the Flask server.
-    ```
-    python server.py
-    ```
-10. Go to localhost:5000 to view the application.
+11. Go to localhost:5000 to view the application.
 
 
-## <a name="technology"></a>Technologies Used
+## <a name="technology"></a>Tech Stack
 
-* Python
-* PostgreSQL, PostGIS
-* SQLAlchemy, GeoAlchemy2
-* Flask
-* Jinja2
-* JavaScript, jQuery, AJAX, JSON
-* HTML
-* CSS
-* Bootstrap
-* Scrapy
-* BeautifulSoup
-* Zillow API
-* Google Maps API
+<b>Backend:</b> Python, Flask, PostgreSQL, PostGIS, SQLAlchemy, GeoAlchemy2, BeautifulSoup, Scrapy<br/>
+<b>Frontend:</b> JavaScript, jQuery, AJAX, JSON, Jinja2, Bootstrap, HTML, CSS<br/>
+<b>APIs:</b> Zillow, Google Maps<br/>
 
 
 ## <a name="use"></a>How to Use Investable
