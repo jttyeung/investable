@@ -3,7 +3,7 @@ Investable
 
 Investable is a research tool for individuals looking to purchase rental real estate. Intended for smart investors, this app compares personal mortgage rates to average rent rates within the surrounding neighborhood of the point of interest. Using the estimated rental rate on the market, it helps users instantly determine which properties might bring in rental income. Users can search by address or region or use Google Maps directly to find a home of interest, and can filter down search results by number of bedrooms, bathrooms or the home listing price.
 
-Database Model (more in the <kbd>model.py</kbd> file)
+Database Model (See full model in the <kbd>model.py</kbd> file.)
 ![Investable DB Model](/static/images/database_model.png)
 
 Landing Page
@@ -43,20 +43,24 @@ These instructions will get you a copy of the project up and running on your loc
   ```
   $ git clone https://github.com/jttyeung/investable.git
   ```
+
 2. Set up a Python virtualenv and activate it.
   ```
   $ virtualenv env
   $ source env/bin/activate
   ```
+
 3. Install all app dependencies listed in requirements.txt.
   ```
   $ pip install -r requirements.txt
   ```
+
 4. Make sure you have PostgreSQL running (psql).
 5. Create a database named investable.
   ```
   $ CREATEDB investable
   ```
+
 6. Open the database, add the PostGIS database extension, and exit out of the database.
   ```
   $ psql investable
@@ -70,20 +74,24 @@ These instructions will get you a copy of the project up and running on your loc
   ```
   $ python model.py
   ```
+
 8. Set up a <kbd>secrets.sh</kbd> file using the following API key variables, and fill in the template with your own API key values.
   ```
   export APP_KEY='your app secret key'
   export ZWSID='your zillow api key'
   export GMAPS_JS='your google maps api key'
   ```
+
 9. Source the secrets file.
   ```
   $ source secrets.sh
   ```
+
 10. Start the Flask server.
   ```
   $ python server.py
   ```
+
 11. Go to localhost:5000 to view the application.
 
 
