@@ -42,10 +42,12 @@ These instructions will get you a copy of the project up and running on your loc
 1. Clone this repository:
     ```
     $ git clone https://github.com/jttyeung/investable.git
+
     ```
 2. Set up a Python virtualenv and activate it.
     ```
     $ virtualenv env
+
     $ source env/bin/activate
     ```
 3. Install all app dependencies listed in requirements.txt.
@@ -61,6 +63,7 @@ These instructions will get you a copy of the project up and running on your loc
     ```
     $ psql investable
     ```
+    
     ```
     CREATE EXTENSION postgis;
     \quit
