@@ -33,51 +33,53 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Installation Instructions
 1. Clone this repository:
-    ```python
+    ```
     $ git clone https://github.com/jttyeung/investable.git
     ```
 2. Set up a Python virtualenv and activate it.
-    ```python
+    ```
     $ virtualenv env
     $ source env/bin/activate
     ```
 3. Install all app dependencies listed in requirements.txt.
-    ```python
+    ```
     $ pip install -r requirements.txt
 
     ```
 4. Make sure you have PostgreSQL running (psql).
 5. Create a database named investable.
-    ```python
+    ```
     $ CREATEDB investable
 
     ```
 6. Open the database, add the PostGIS database extension, and exit out of the database.
-    ```python
+    ```
     $ psql investable
+    ```
 
+    ```python
     CREATE EXTENSION postgis;
 
     \quit
     ```
 7. Create tables in your database.
-    ```python
+    ```
     $ python model.py
 
     ```
 8. Set up a <kbd>secrets.sh</kbd> file using the following API key variables, and fill in the template with your own API key values.
     ```python
     export APP_KEY='your app secret key'
-    export ZWSID'your zillow api key'
+    export ZWSID='your zillow api key'
     export GMAPS_JS='your google maps api key'
     ```
 9. Source the secrets file.
-    ```python
+    ```
     $ source secrets.sh
 
     ```
 10. Start the Flask server.
-    ```python
+    ```
     $ python server.py
 
     ```
