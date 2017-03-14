@@ -68,6 +68,7 @@ These instructions will get you a copy of the project up and running on your loc
   CREATE EXTENSION postgis;
   \quit
     ```
+    
 7. Create tables in your database.
   ```
   $ python model.py
