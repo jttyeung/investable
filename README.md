@@ -64,11 +64,13 @@ These instructions will get you a copy of the project up and running on your loc
 6. Open the database, add the PostGIS database extension, and exit out of the database.
   ```
   $ psql investable
-
+  ```
+  
+  ```
   CREATE EXTENSION postgis;
   \quit
-    ```
-    
+  ```
+
 7. Create tables in your database.
   ```
   $ python model.py
