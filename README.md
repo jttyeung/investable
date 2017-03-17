@@ -6,7 +6,7 @@ Investable is a research tool for individuals looking to purchase rental real es
 Database Model (See full model in the <kbd>model.py</kbd> file.)
 ![Investable DB Model](/static/images/database_model.png)
 
-Landing Page
+App
 ![Investable Homepage](/static/images/investable_1.png)
 
 ![Investable Second Page](/static/images/investable_2.png)
@@ -58,7 +58,7 @@ These instructions will get you a copy of the project up and running on your loc
 4. Make sure you have PostgreSQL running (psql).
 5. Create a database named investable.
   ```
-  $ CREATEDB investable
+  $ createdb investable
   ```
 
 6. Open the database, add the PostGIS database extension, and exit out of the database.
@@ -99,16 +99,17 @@ These instructions will get you a copy of the project up and running on your loc
 ## <a name="use"></a>How to Use Investable
 1. Edit the list of `start_urls` in <kbd>/rent_scraper/rent_scraper/spiders/craigslist.py</kbd> with the Craigslist URL for the city you would like rent averages from.
 2. Edit the `CLOSESPIDER_ITEMCOUNT` in <kbd>/rent_scraper/rent_scraper/spiders/settings.py</kbd> to indicate how many rental properties to include in the average. Please scrape responsibly.
-3. Search for a listing of interest by full address. **Note**: Cannot search by city/region due to Zillow API call restrictions.
+3. Search for a listing of interest by full address. **Note**: This is a proof of concept project and therefore it is not possible to search by city/region without listing data in the database. It is still possible to search specific home addresses (which call upon Zillow's API directly).
 4. Enter your mortgage customizations to compare rent rate vs. mortgage rate, or search again.
 
 
 ## <a name="nextversion"></a>Version 2.0
 * Improve application security
+* Improve testing coverage
 * Add Airbnb rates comparison as rental income option
 * Add user login to save favorite listings
 * Using sessions, mark visited markers a different color
-* Address normalization for search
+* Use address normalization for search
 * Make price slider range dynamic to database data
 * Show graphs of rental or home prices over time
 * Build a Chrome extension for app
