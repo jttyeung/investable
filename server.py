@@ -177,6 +177,7 @@ def calculate_monthly_payment():
 #     return render_template('account.html')
 
 
+
 ##############################################################################
 # Helper functions
 
