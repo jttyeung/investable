@@ -136,7 +136,7 @@ if __name__ == "__main__":
     DebugToolbarExtension(app)
 
     # Connect DB to Flask before running app
-    connect_to_db_flask(app)
+    connect_to_db_flask(app, os.environ.get("DATABASE_URL"))
 
     PORT = int(os.environ.get('PORT', 5000))
     app.run(host="0.0.0.0", port=PORT)

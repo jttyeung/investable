@@ -192,11 +192,11 @@ def connect_to_db_scrapy():
     return session
 
 
-def connect_to_db_flask(app, db_uri='postgresql:///investable'):
+def connect_to_db_flask(app, db_uri=None):
     """Connect the database to Flask app."""
 
     # Configure to use PostgreSQL database
-    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri or 'postgres:///investable'
     app.config['SQLALCHEMY_ECHO'] = False
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
