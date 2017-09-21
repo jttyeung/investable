@@ -72,6 +72,7 @@ function resetValues(){
   $('#total-payment').html('');
   $('#avg-rent-by-br').html('');
   $('#avg-rent-by-sqft').html('');
+  $('#potential-income').html('');
 }
 
 var markers = new Set();
@@ -526,6 +527,7 @@ function updateMonthlyPayment(rate) {
     .animate({opacity: 100, left: 0});
   $('#total-payment')
     .html(rate.total_mortgage);
+  calculatePotentialIncome();
 }
 
 
@@ -544,3 +546,12 @@ function updateAvgRentRate(avgRent){
     .animate({opacity: 100, left: 0});
   $('#avg-rent-by-sqft').html(bySqft);
 }
+
+
+// If changes in monthly mortgage value, recalculates potential income
+function calculatePotentialIncome(){
+  var potentialIncome = Number($('#avg-rent-by-br').html().replace(/\D/g,''))
+                      - Number($('#monthly-payment').html().replace(/\D/g,''));
+  $('#potential-income').html(potentialIncome);
+}
+
