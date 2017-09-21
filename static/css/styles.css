@@ -260,16 +260,23 @@ button.bed-bath-filters {
 
 /* Monthly payment amount on details page */
 #monthly-payment {
-  font-size: 3.5em;
+  font-size: 2.5em;
   height: 100px;
-  color: rgb(134, 161, 54);
+  color: rgb(255, 255, 255);
 }
 
 /* Avg rent amounts on details page */
 #avg-rent-by-br {
+  font-size: 2.5em;
+  height: 100px;
+  color: rgb(255, 255, 255);
+}
+
+/* Potential Income */
+#potential-income {
   font-size: 3.5em;
   height: 100px;
-  color: rgb(134, 161, 54);
+  color: rgb(255, 255, 255);
 }
 
 #avg-rent-by-sqft-div {

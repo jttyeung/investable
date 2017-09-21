@@ -36,7 +36,11 @@ function displayMap(){
 
 // Format currency with commas and dollar sign
 function formatCurrency(number){
-  return '$' + formatNumWithCommas(number);
+  if(number >= 0){
+    return '$' + formatNumWithCommas(number);
+  } else {
+    return '-$' + formatNumWithCommas(Math.abs(number));
+  }
 }
 
 // Format currency with commas and dollar sign
@@ -552,6 +556,15 @@ function updateAvgRentRate(avgRent){
 function calculatePotentialIncome(){
   var potentialIncome = Number($('#avg-rent-by-br').html().replace(/\D/g,''))
                       - Number($('#monthly-payment').html().replace(/\D/g,''));
-  $('#potential-income').html(potentialIncome);
+
+  $('#potential-income').animate({opacity: 0, left: -5})
+                        .html(formatCurrency(potentialIncome))
+                        .animate({opacity: 100, left: 0});
+
+  if(potentialIncome < 0){
+    $('#potential-income').css('color','rgb(220,20,60)');
+  } else if (potentialIncome > 0) {
+    $('#potential-income').css('color', 'rgb(134, 161, 54)');
+  }
 }
 
